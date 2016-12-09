@@ -33,9 +33,12 @@ Task(TASK_JSON_BUILD_CONFIGURATION_IOS)
 
 // Android tasks
 const string ANDROID_MANIFEST_INPUTFILE = "AndroidManifest.xml";
+const string ANDROID_INPUTAPK_NAME = "project";
 
 const string TASK_ANDROID_SETMANIFEST = "Android-setmanifest";
 const string TASK_ANDROID_KEYSTORE = "Android-keystore";
+const string TASK_ANDROID_APKOPERATIONS = "Android-apks";
+
 Task(TASK_ANDROID_SETMANIFEST)
     .Does(() => {
         var manifest = LoadAndroidManifest(ANDROID_MANIFEST_INPUTFILE);
@@ -152,11 +155,27 @@ Task(TASK_ANDROID_KEYSTORE)
         }
     });
 
+Task(TASK_ANDROID_APKOPERATIONS)
+    .Does(() => {
+        string keystoreFile = OUTPUT_DIR + "/project.keystore";
+        string keystorePassword = "azerty";
+        string aliasKey = "alias_key";
+        string aliasPassword = "qsdfgh";
+        
+        CreateKeystore(keystoreFile, keystorePassword, aliasKey, aliasPassword, "CN=Julien");
+        
+        string signedApk = OUTPUT_DIR + "/" + ANDROID_INPUTAPK_NAME + "-signed.apk";
+        string alignedApk = OUTPUT_DIR + "/" + ANDROID_INPUTAPK_NAME + ".apk";
+        
+        SignApk(ANDROID_INPUTAPK_NAME + ".apk", signedApk, keystoreFile, keystorePassword, aliasKey, aliasPassword);
+        VerifyApk(signedApk);
+        AlignApk(signedApk, alignedApk);
+    });
+
 // General tasks
 
 const string DEFAULT_TARGET = "all";
 
-Task("Debug").Does(() => { TmpDebug(); });
 
 Task(DEFAULT_TARGET)
     // JsonBuildConfiguration
@@ -165,6 +184,7 @@ Task(DEFAULT_TARGET)
     // Android
     .IsDependentOn(TASK_ANDROID_SETMANIFEST)
     .IsDependentOn(TASK_ANDROID_KEYSTORE)
+    .IsDependentOn(TASK_ANDROID_APKOPERATIONS)
     .Does(() => { });
 
 Task("Default")

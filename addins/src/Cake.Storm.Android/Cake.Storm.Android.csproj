@@ -42,6 +42,7 @@
     <Compile Include="Keystore.cs" />
     <Compile Include="JarsignerCommand.cs" />
     <Compile Include="ZipAlignCommand.cs" />
+    <Compile Include="BaseTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

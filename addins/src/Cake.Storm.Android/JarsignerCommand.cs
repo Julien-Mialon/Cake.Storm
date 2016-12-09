@@ -7,11 +7,11 @@ using Cake.Core.Tooling;
 
 namespace Cake.Storm.Android
 {
-	internal class JarsignerCommand : Tool<ToolSettings>
+	internal class JarsignerCommand : BaseTool
 	{
 		private readonly ICakeContext _context;
 
-		internal JarsignerCommand(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
+		internal JarsignerCommand(ICakeContext context) : base(context)
 		{
 			_context = context;
 		}
@@ -22,7 +22,7 @@ namespace Cake.Storm.Android
 
 		protected override IEnumerable<FilePath> GetAlternativeToolPaths(ToolSettings settings)
 		{
-			if (_context.Environment.Platform.Family == PlatformFamily.Windows)
+			if (IsWindows)
 			{
 				//find it in jdk
 				string programFiles = _context.Environment.GetSpecialPath(SpecialPath.ProgramFiles).FullPath;
@@ -33,7 +33,7 @@ namespace Cake.Storm.Android
 				}.Concat(_context.Globber.GetFiles($"{programFiles}/Java/*/bin/jarsigner.exe"))
 				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/bin/jarsigner.exe"));
 			}
-			else if (_context.Environment.Platform.Family == PlatformFamily.OSX)
+			if (IsOSX)
 			{
 				return new[] {
 					new FilePath("jarsigner"),
@@ -41,10 +41,8 @@ namespace Cake.Storm.Android
 					new FilePath("/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/jarsigner"),
 				}.Concat(_context.Globber.GetFiles("/Library/Java/JavaVirtualMachines/*/Contents/Home/bin/jarsigner"));
 			}
-			else
-			{
-				throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
-			}
+
+			throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
 		}
 
 		public bool SignApk(FilePath inputApk, FilePath outputApk, FilePath keystore, string password, string alias, string aliasPassword)

@@ -7,12 +7,12 @@ using Cake.Core.Tooling;
 
 namespace Cake.Storm.Android
 {
-	internal class KeytoolCommand : Tool<ToolSettings>
+	internal class KeytoolCommand : BaseTool
 	{
 		private const int VALIDITY = 365 * 100;
 		private readonly ICakeContext _context;
 
-		internal KeytoolCommand(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
+		internal KeytoolCommand(ICakeContext context) : base(context)
 		{
 			_context = context;
 		}
@@ -23,7 +23,7 @@ namespace Cake.Storm.Android
 
 		protected override IEnumerable<FilePath> GetAlternativeToolPaths(ToolSettings settings)
 		{
-			if (_context.Environment.Platform.Family == PlatformFamily.Windows)
+			if (IsWindows)
 			{
 				//find it in jdk
 				string programFiles = _context.Environment.GetSpecialPath(SpecialPath.ProgramFiles).FullPath;
@@ -36,7 +36,7 @@ namespace Cake.Storm.Android
 				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/bin/keytool.exe"))
 				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/jre/bin/keytool.exe"));
 			}
-			else if (_context.Environment.Platform.Family == PlatformFamily.OSX)
+			if (IsOSX)
 			{
 				return new[] {
 					new FilePath("keytool"),
@@ -45,10 +45,8 @@ namespace Cake.Storm.Android
 				}.Concat(_context.Globber.GetFiles("/Library/Java/JavaVirtualMachines/*/Contents/Home/bin/keytool"))
 				 .Concat(_context.Globber.GetFiles("/Library/Java/JavaVirtualMachines/*/Contents/Home/jre/bin/keytool"));
 			}
-			else
-			{
-				throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
-			}
+
+			throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
 		}
 
 		public bool IsRightPassword(FilePath keystore, string password)

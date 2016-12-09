@@ -7,11 +7,11 @@ using Cake.Core.Tooling;
 
 namespace Cake.Storm.Android
 {
-	internal class ZipAlignCommand : Tool<ToolSettings>
+	internal class ZipAlignCommand : BaseTool
 	{
 		private readonly ICakeContext _context;
 
-		internal ZipAlignCommand(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
+		internal ZipAlignCommand(ICakeContext context) : base(context)
 		{
 			_context = context;
 		}
@@ -22,7 +22,7 @@ namespace Cake.Storm.Android
 
 		protected override IEnumerable<FilePath> GetAlternativeToolPaths(ToolSettings settings)
 		{
-			if (_context.Environment.Platform.Family == PlatformFamily.Windows)
+			if (IsWindows)
 			{
 				//find it in android sdk
 				string programFiles = _context.Environment.GetSpecialPath(SpecialPath.ProgramFiles).FullPath;
@@ -33,7 +33,7 @@ namespace Cake.Storm.Android
 				}.Concat(_context.Globber.GetFiles($"{programFiles}/Android/android-sdk/build-tools/*/zipalign.exe"))
 				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/android-sdk/build-tools/*/zipalign.exe"));
 			}
-			else if (_context.Environment.Platform.Family == PlatformFamily.OSX)
+			if (IsOSX)
 			{
 				string home = _context.Environment.GetEnvironmentVariable("HOME");
 				return new[] {
@@ -41,17 +41,14 @@ namespace Cake.Storm.Android
 				}.Concat(_context.Globber.GetFiles("/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign"))
 				 .Concat(_context.Globber.GetFiles($"{home}/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign"));
 			}
-			else
-			{
-				throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
-			}
+			throw new CakeException($"Environment {_context.Environment.Platform.Family} not supported, only Windows and OSX are supported");
 		}
 
 		public bool Align(FilePath inputApk, FilePath outputApk)
 		{
 			ProcessArgumentBuilder builder = new ProcessArgumentBuilder()
 				.Append("-f")
-				.Append("-v")
+				//.Append("-v")
 				.Append("4")
 				.AppendQuoted(inputApk.MakeAbsolute(_context.Environment).FullPath)
 				.AppendQuoted(outputApk.MakeAbsolute(_context.Environment).FullPath);
