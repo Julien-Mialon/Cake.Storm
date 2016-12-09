@@ -51,6 +51,10 @@
     <Compile Include="Helpers\MergeHelper.cs" />
     <Compile Include="ConfigurationEngine.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="AndroidBuildConfiguration.cs" />
+    <Compile Include="iOSBuildConfiguration.cs" />
+    <Compile Include="DotNetBuildConfiguration.cs" />
+    <Compile Include="Models\PlatformType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
