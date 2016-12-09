@@ -156,6 +156,8 @@ Task(TASK_ANDROID_KEYSTORE)
 
 const string DEFAULT_TARGET = "all";
 
+Task("Debug").Does(() => { TmpDebug(); });
+
 Task(DEFAULT_TARGET)
     // JsonBuildConfiguration
     .IsDependentOn(TASK_JSON_BUILD_CONFIGURATION_ANDROID)

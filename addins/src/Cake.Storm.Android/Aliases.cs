@@ -49,5 +49,29 @@ namespace Cake.Storm.Android
 
 			return keystore;
 		}
+
+		[CakeMethodAlias]
+		public static void SignApk(this ICakeContext context, FilePath inputApk, FilePath outputApk, FilePath keystoreFile, string keystorePassword, string alias, string aliasPassword)
+		{
+			JarsignerCommand command = new JarsignerCommand(context);
+
+			command.SignApk(inputApk, outputApk, keystoreFile, keystorePassword, alias, aliasPassword);
+		}
+
+		[CakeMethodAlias]
+		public static void VerifyApk(this ICakeContext context, FilePath apkFile)
+		{
+			JarsignerCommand command = new JarsignerCommand(context);
+
+			command.VerifyApk(apkFile);
+		}
+
+		[CakeMethodAlias]
+		public static void AlignApk(this ICakeContext context, FilePath inputApk, FilePath outputApk)
+		{
+			ZipAlignCommand command = new ZipAlignCommand(context);
+
+			command.Align(inputApk, outputApk);
+		}
 	}
 }

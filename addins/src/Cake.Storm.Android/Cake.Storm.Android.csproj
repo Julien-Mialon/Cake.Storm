@@ -40,6 +40,8 @@
     <Compile Include="AndroidManifest.cs" />
     <Compile Include="KeytoolCommand.cs" />
     <Compile Include="Keystore.cs" />
+    <Compile Include="JarsignerCommand.cs" />
+    <Compile Include="ZipAlignCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

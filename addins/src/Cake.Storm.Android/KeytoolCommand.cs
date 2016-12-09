@@ -10,7 +10,7 @@ namespace Cake.Storm.Android
 	internal class KeytoolCommand : Tool<ToolSettings>
 	{
 		private const int VALIDITY = 365 * 100;
-		private ICakeContext _context;
+		private readonly ICakeContext _context;
 
 		internal KeytoolCommand(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
 		{
@@ -26,10 +26,15 @@ namespace Cake.Storm.Android
 			if (_context.Environment.Platform.Family == PlatformFamily.Windows)
 			{
 				//find it in jdk
+				string programFiles = _context.Environment.GetSpecialPath(SpecialPath.ProgramFiles).FullPath;
+				string programFilesX86 = _context.Environment.GetSpecialPath(SpecialPath.ProgramFilesX86).FullPath;
+
 				return new[] {
-					new FilePath("keytool")
-				}.Concat(_context.Globber.GetFiles("/Program Files/Java/*/bin/keytool"))
-				 .Concat(_context.Globber.GetFiles("/Program Files/Java/*/jre/bin/keytool"));
+					new FilePath("keytool.exe")
+				}.Concat(_context.Globber.GetFiles($"{programFiles}/Java/*/bin/keytool.exe"))
+				 .Concat(_context.Globber.GetFiles($"{programFiles}/Java/*/jre/bin/keytool.exe"))
+				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/bin/keytool.exe"))
+				 .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/jre/bin/keytool.exe"));
 			}
 			else if (_context.Environment.Platform.Family == PlatformFamily.OSX)
 			{
@@ -48,13 +53,12 @@ namespace Cake.Storm.Android
 
 		public bool IsRightPassword(FilePath keystore, string password)
 		{
-			ProcessArgumentBuilder builder = new ProcessArgumentBuilder();
-
-			builder.Append("-list");
-			builder.Append("-keystore");
-			builder.AppendQuoted(keystore.MakeAbsolute(_context.Environment).FullPath);
-			builder.Append("-storepass");
-			builder.AppendQuotedSecret(password);
+			ProcessArgumentBuilder builder = new ProcessArgumentBuilder()
+				.Append("-list")
+				.Append("-keystore")
+				.AppendQuoted(keystore.MakeAbsolute(_context.Environment).FullPath)
+				.Append("-storepass")
+				.AppendQuotedSecret(password);
 
 			IProcess process = RunProcess(new ToolSettings(), builder);
 			process.WaitForExit();
