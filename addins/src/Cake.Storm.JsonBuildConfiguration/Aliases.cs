@@ -13,8 +13,7 @@ namespace Cake.Storm.JsonBuildConfiguration
 	public static class Aliases
 	{
 		[CakeMethodAlias]
-		[CakeNamespaceImport("Cake.Storm.JsonBuildConfiguration.Models")]
-		public static Configuration ReadJsonConfigurationFile(this ICakeContext context, FilePath jsonFile)
+		public static ConfigurationEngine ReadJsonConfigurationFile(this ICakeContext context, FilePath jsonFile)
 		{
 			string fileContent = null;
 			try
@@ -24,18 +23,20 @@ namespace Cake.Storm.JsonBuildConfiguration
 			catch (Exception ex)
 			{
 				context.Log.Write(Verbosity.Quiet, LogLevel.Error, $"Json file not found {jsonFile.FullPath}");
+				throw new CakeException($"Json file not found {jsonFile.FullPath}");
 			}
 
 			try
 			{
-				return JsonConvert.DeserializeObject<Configuration>();
+				RootConfiguration result = JsonConvert.DeserializeObject<RootConfiguration>(fileContent);
+				context.Log.Write(Verbosity.Normal, LogLevel.Information, $"Read json configuration file {jsonFile.FullPath} with success");
+				return new ConfigurationEngine(context, result);
 			}
 			catch (Exception ex)
 			{
-
+				context.Log.Write(Verbosity.Quiet, LogLevel.Error, $"Invalid json format {ex}");
+				throw new CakeException($"Invalid json format {ex}");
 			}
-			jsonFile.FullPath
-			        
 		}
 	}
 }

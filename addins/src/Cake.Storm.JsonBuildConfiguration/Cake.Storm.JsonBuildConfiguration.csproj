@@ -38,13 +38,26 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aliases.cs" />
-    <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\RootConfiguration.cs" />
+    <Compile Include="Models\BuildConfiguration.cs" />
+    <Compile Include="Models\BuildProperty.cs" />
+    <Compile Include="Models\PlatformConfiguration.cs" />
+    <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\AndroidConfiguration.cs" />
+    <Compile Include="Models\AndroidKeystoreConfiguration.cs" />
+    <Compile Include="Models\TargetConfiguration.cs" />
+    <Compile Include="Models\iOSConfiguration.cs" />
+    <Compile Include="Models\DotNetConfiguration.cs" />
+    <Compile Include="Helpers\MergeHelper.cs" />
+    <Compile Include="ConfigurationEngine.cs" />
+    <Compile Include="Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
