@@ -38,6 +38,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aliases.cs" />
     <Compile Include="AndroidManifest.cs" />
+    <Compile Include="KeytoolCommand.cs" />
+    <Compile Include="Keystore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -41,7 +41,7 @@
                 "manifest": "../Android/MyProject.Droid/Properties/AndroidManifest.xml",
                 "keystore": {
                     "file": "../projects.keystore",
-                    "authority": "\"CN=Julien, OU=Julien, O=Julien, L=Lille, C=FR\"",
+                    "authority": "CN=Julien, OU=Julien, O=Julien, L=Lille, C=FR",
                     "password": "julien"
                 }
             },
@@ -53,7 +53,7 @@
                 "manifest": "../Android/MyProject.Droid/Properties/AndroidManifest.xml",
                 "keystore": {
                     "file": "../projects-prod.keystore",
-                    "authority": "\"CN=Company, OU=Company, O=Company, L=Lille, C=FR\"",
+                    "authority": "CN=Company, OU=Company, O=Company, L=Lille, C=FR",
                     "password": "company"
                 }
             },
