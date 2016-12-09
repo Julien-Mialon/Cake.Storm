@@ -12,6 +12,8 @@ namespace Cake.Storm.JsonBuildConfiguration
 
 		public string VersionCode { get; internal set; }
 
+		public string ManifestFile { get; internal set; }
+
 		//from AndroidKeystoreConfiguration
 		public string KeystoreFile { get; internal set; }
 
@@ -35,6 +37,7 @@ namespace Cake.Storm.JsonBuildConfiguration
 			Package = android.Package;
 			Version = android.Version;
 			VersionCode = android.VersionCode;
+			ManifestFile = android.Manifest;
 
 			AndroidKeystoreConfiguration keystore = android.Keystore;
 

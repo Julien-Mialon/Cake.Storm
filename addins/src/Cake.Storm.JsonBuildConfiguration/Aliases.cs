@@ -51,6 +51,7 @@ namespace Cake.Storm.JsonBuildConfiguration
 			builder.AppendLine($"\tPackage: {configuration.Package}");
 			builder.AppendLine($"\tVersion: {configuration.Version}");
 			builder.AppendLine($"\tVersion Code: {configuration.VersionCode}");
+			builder.AppendLine($"\tManifest file: {configuration.ManifestFile}");
 			builder.AppendLine("\tKeystore: ");
 			builder.AppendLine($"\t\tfile: {configuration.KeystoreFile}");
 			builder.AppendLine($"\t\tpassword: {configuration.KeystorePassword}");

@@ -13,6 +13,9 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 		[JsonProperty("version_code")]
 		public string VersionCode { get; set; }
 
+		[JsonProperty("manifest")]
+		public string Manifest { get; set; }
+
 		[JsonProperty("keystore")]
 		public AndroidKeystoreConfiguration Keystore { get; set; }
 
@@ -32,6 +35,7 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 				Package = overwrite.Package ?? source.Package,
 				Version = overwrite.Version ?? source.Version,
 				VersionCode = overwrite.VersionCode ?? source.VersionCode,
+				Manifest = overwrite.Manifest ?? source.Manifest,
 				Keystore = AndroidKeystoreConfiguration.Merge(source.Keystore, overwrite.Keystore)
 			};
 		}

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.JsonBuildConfiguration", "src\Cake.Storm.JsonBuildConfiguration\Cake.Storm.JsonBuildConfiguration.csproj", "{CF69D401-E0C6-4A1D-988A-0C0A4C0E5284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Android", "Cake.Storm.Android\Cake.Storm.Android.csproj", "{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Android", "src\Cake.Storm.Android\Cake.Storm.Android.csproj", "{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
