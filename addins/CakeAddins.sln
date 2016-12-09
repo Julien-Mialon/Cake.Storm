@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.JsonBuildConfiguration", "src\Cake.Storm.JsonBuildConfiguration\Cake.Storm.JsonBuildConfiguration.csproj", "{CF69D401-E0C6-4A1D-988A-0C0A4C0E5284}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Android", "Cake.Storm.Android\Cake.Storm.Android.csproj", "{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{CF69D401-E0C6-4A1D-988A-0C0A4C0E5284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF69D401-E0C6-4A1D-988A-0C0A4C0E5284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF69D401-E0C6-4A1D-988A-0C0A4C0E5284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FDC2442-B957-44E9-BE1D-C2C54661AFF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
