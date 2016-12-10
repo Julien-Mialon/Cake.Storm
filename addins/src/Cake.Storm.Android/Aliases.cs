@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using Cake.Common.Tools;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
@@ -72,6 +74,31 @@ namespace Cake.Storm.Android
 			ZipAlignCommand command = new ZipAlignCommand(context);
 
 			command.Align(inputApk, outputApk);
+		}
+
+		[CakeMethodAlias]
+		public static FilePath PackageForAndroid(this ICakeContext context, FilePath projectFile, AndroidManifest manifest, Action<DotNetBuildSettings> configurator = null)
+		{
+			if (!context.FileSystem.Exist(projectFile))
+			{
+				throw new CakeException("Project File Not Found: " + projectFile.FullPath);
+			}
+
+			context.DotNetBuild(projectFile, configuration =>
+			{
+				configuration.Configuration = "Release";
+				configuration.Targets.Add("Build");
+				configuration.Targets.Add("PackageForAndroid");
+
+				configurator?.Invoke(configuration);
+			});
+
+			string searchPattern = projectFile.GetDirectory() + "/**/" + manifest.Package + ".apk";
+			// Use the globber to find any .apk files within the tree
+			return context.Globber
+				.GetFiles(searchPattern)
+				.OrderBy(f => new FileInfo(f.FullPath).LastWriteTimeUtc)
+				.FirstOrDefault();
 		}
 	}
 }

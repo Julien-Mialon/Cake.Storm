@@ -14,6 +14,12 @@ namespace Cake.Storm.Android
 		private readonly string _path;
 		private readonly XDocument _document;
 
+		private XName PackageAttribute { get; } = XName.Get("package");
+
+		private XName VersionNameAttribute { get; } = XName.Get("versionName", ANDROID_NAMESPACE);
+
+		private XName VersionCodeAttribute { get; } = XName.Get("versionCode", ANDROID_NAMESPACE);
+
 		internal AndroidManifest(ICakeContext context, string path)
 		{
 			_context = context;
@@ -30,47 +36,62 @@ namespace Cake.Storm.Android
 			}
 		}
 
-		public void SetPackage(string package)
+		public string Package
 		{
-			if (string.IsNullOrEmpty(package))
+			get
 			{
-				return;
+				return _document.Root.Attribute(PackageAttribute).Value;
 			}
+			set
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
 
-			XName attributeName = XName.Get("package");
-
-			_document.Root.SetAttributeValue(attributeName, package);
+				_document.Root.SetAttributeValue(PackageAttribute, value);
+			}
 		}
 
-		public void SetVersionName(string versionName)
+		public string VersionName
 		{
-			if (string.IsNullOrEmpty(versionName))
+			get
 			{
-				return;
+				return _document.Root.Attribute(VersionNameAttribute).Value;
 			}
+			set
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
 
-			XName attributeName = XName.Get("versionName", ANDROID_NAMESPACE);
-
-			_document.Root.SetAttributeValue(attributeName, versionName);
+				_document.Root.SetAttributeValue(VersionNameAttribute, value);
+			}
 		}
 
-		public void SetVersionCode(string versionCode)
+		public string VersionCode
 		{
-			if (string.IsNullOrEmpty(versionCode))
+			get
 			{
-				return;
+				return _document.Root.Attribute(VersionCodeAttribute).Value;
 			}
-
-			int intVersionCode;
-			if (!int.TryParse(versionCode, out intVersionCode))
+			set
 			{
-				_context.Log.Write(Verbosity.Quiet, LogLevel.Error, $"VersionCode for android manifest must be an integer, got {versionCode}");
-				throw new CakeException($"VersionCode for android manifest must be an integer, got {versionCode}");
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
+
+				int versionCode;
+				if (!int.TryParse(value, out versionCode))
+				{
+					_context.Log.Write(Verbosity.Quiet, LogLevel.Error, $"VersionCode for android manifest must be an integer, got {value}");
+					throw new CakeException($"VersionCode for android manifest must be an integer, got {value}");
+				}
+
+				_document.Root.SetAttributeValue(VersionCodeAttribute, versionCode);
 			}
-
-			XName attributeName = XName.Get("versionCode", ANDROID_NAMESPACE);
-
-			_document.Root.SetAttributeValue(attributeName, intVersionCode);
 		}
 
 		public void Log()
