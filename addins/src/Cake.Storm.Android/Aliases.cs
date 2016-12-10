@@ -87,7 +87,6 @@ namespace Cake.Storm.Android
 			context.DotNetBuild(projectFile, configuration =>
 			{
 				configuration.Configuration = "Release";
-				configuration.Targets.Add("Build");
 				configuration.Targets.Add("PackageForAndroid");
 
 				configurator?.Invoke(configuration);
