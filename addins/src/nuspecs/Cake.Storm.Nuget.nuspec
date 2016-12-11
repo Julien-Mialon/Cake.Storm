@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>{id}</id>
+		<version>{version}</version>
+		<title>{id}</title>
+		<authors>{author}</authors>
+		<owners>{author}</owners>
+		<licenseUrl>https://github.com/Julien-Mialon/cake/blob/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Julien-Mialon/cake</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Cake addin to help pack/publish nuget packages.</description>
+		<releaseNotes>{release_notes}</releaseNotes>
+		<copyright>Copyright 2016</copyright>
+		<tags>cake nuget json</tags>
+        <dependencies>
+            <dependency id="Cake.Common" version="0.17.0" />
+            <dependency id="Cake.Core" version="0.17.0" />
+            <dependency id="Newtonsoft.Json" version="9.0.1" />
+        </dependencies>
+	</metadata>
+</package>

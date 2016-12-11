@@ -1,0 +1,7 @@
+Initial release with basic features :
+    - read and overwrite some property of manifest file (package, versionName, versionCode)
+    - check existence of keystore and alias in it + create them if needed
+    - package android apk
+    - sign android apk
+    - check android sign apk
+    - align android apk

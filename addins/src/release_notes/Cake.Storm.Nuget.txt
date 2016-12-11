@@ -1,0 +1,5 @@
+Initial release with basic features :
+    - read a json config file
+    - use vars in nuspec {id}, {title}, {author}, {version}, {release_notes}
+    - pack with a configuration
+    - public with a configuration
