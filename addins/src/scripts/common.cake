@@ -45,6 +45,11 @@ void BuildWithConfiguration(Configuration configuration)
     DotNetBuild(configuration.Solution, c => ApplyConfiguration(c, configuration.BuildProperties));
 }
 
+void BuildProjectWithConfiguration(Configuration configuration)
+{
+    DotNetBuild(configuration.Project, c => ApplyConfiguration(c, configuration.BuildProperties));
+}
+
 string CombinePath(params string[] path)
 {
     return System.IO.Path.Combine(path);

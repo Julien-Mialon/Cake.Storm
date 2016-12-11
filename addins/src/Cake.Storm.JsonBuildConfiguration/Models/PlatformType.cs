@@ -3,9 +3,8 @@ using Newtonsoft.Json.Converters;
 
 namespace Cake.Storm.JsonBuildConfiguration.Models
 {
-
 	[JsonConverter(typeof(StringEnumConverter))]
-	public enum PlatformType
+	internal enum PlatformType
 	{
 		Undefined,
 		Android,

@@ -1,0 +1,54 @@
+{
+    "build": {
+        "solution": "TestSolution.sln",
+        "properties": [
+            {
+                "key": "Configuration",
+                "value": "Release"
+            }
+        ]
+    },
+    "platforms": [
+        {
+            "name": "android",
+            "build": {
+                "project": "TestAndroid/TestAndroid.csproj",
+                "properties": [
+                    
+                ]
+            }
+        }
+    ],
+    "targets": [
+        {
+            "name": "hockeyapp",
+            "android": {
+                "manifest": "TestAndroid/Properties/AndroidManifest.xml",
+                "keystore": {
+                    "file": "testandroid.keystore",
+                    "authority": "CN=Julien, OU=Julien, O=Julien, L=Lille, C=FR",
+                    "password": "julien"
+                }
+            }
+        }
+    ],
+    "apps": [
+        {
+            "name": "testandroid",
+            "targets": [
+                {
+                    "name": "hockeyapp",
+                    "android": {
+                        "package": "fr.julien.testandroid",
+                        "version": "1.0",
+                        "version_code": "1",
+                        "keystore": {
+                            "key_alias": "testandroid",
+                            "key_password": "azertyuiop"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

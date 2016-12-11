@@ -1,0 +1,59 @@
+{
+    "build": {
+        "solution": "../CakeAddins.sln",
+        "properties": [
+            {
+                "key": "Configuration",
+                "value": "Release"
+            }
+        ]
+    },
+    "platforms": [
+        {
+            "name": "dotnet",
+            "build": {
+                "properties": [
+                    {
+                        "key": "Platform",
+                        "value": "Any CPU"
+                    }
+                ]
+            }
+        }
+    ],
+    "targets": [
+        {
+            "name": "nuget"
+        }
+    ],
+    "apps": [
+        {
+            "name": "JsonBuildConfiguration",
+            "targets": [
+                {
+                    "name": "nuget",
+                    "dotnet": {
+                        "output": "../artifacts/nuget/Cake.Storm.JsonBuildConfiguration/lib/net45"
+                    }
+                }
+            ],
+            "build": {
+                "project": "../src/Cake.Storm.JsonBuildConfiguration/Cake.Storm.JsonBuildConfiguration.csproj"
+            }
+        },
+        {
+            "name": "Android",
+            "targets": [
+                {
+                    "name": "nuget",
+                    "dotnet": {
+                        "output": "../artifacts/nuget/Cake.Storm.Android/lib/net45"
+                    }
+                }
+            ],
+            "build": {
+                "project": "../src/Cake.Storm.Android/Cake.Storm.Android.csproj"
+            }
+        }
+    ]
+}

@@ -4,6 +4,9 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 {
 	internal class DotNetConfiguration
 	{
+		[JsonProperty("output")]
+		public string OutputPath { get; set; }
+
 		public static DotNetConfiguration Merge(DotNetConfiguration source, DotNetConfiguration overwrite)
 		{
 			if (overwrite == null)
@@ -17,7 +20,7 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 
 			return new DotNetConfiguration
 			{
-				
+				OutputPath = overwrite.OutputPath ?? source.OutputPath
 			};
 		}
 	}

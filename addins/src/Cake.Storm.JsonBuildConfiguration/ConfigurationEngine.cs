@@ -18,6 +18,21 @@ namespace Cake.Storm.JsonBuildConfiguration
 			_configuration = configuration;
 		}
 
+		public List<string> GetPlatforms()
+		{
+			return _configuration.Platforms.Select(x => x.Name.ToString().ToLower()).ToList();
+		}
+
+		public List<string> GetApps()
+		{
+			return _configuration.Apps.Select(x => x.Name).ToList();
+		}
+
+		public List<string> GetTargets(string appName)
+		{
+			return _configuration.Apps.FirstOrDefault(x => x.Name == appName)?.Targets.Select(x => x.Name).ToList();
+		}
+
 		public AndroidBuildConfiguration GetAndroid(string appName, string targetName)
 		{
 			return GetBuildConfiguration(PlatformType.Android, appName, targetName) as AndroidBuildConfiguration;
