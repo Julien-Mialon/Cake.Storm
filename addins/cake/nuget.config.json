@@ -7,7 +7,7 @@
         "releaseNoteFile": "../src/release_notes/Cake.Storm.Nuget.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.Nuget.nuspec",
         "path": "../artifacts/nuget/Cake.Storm.Nuget",
-        "packOutput": "../artifacts/nuget/Cake.Storm.Nuget.nuget"
+        "packOutput": "../artifacts/nuget/"
     },
     {
         "name": "JsonBuildConfiguration",
@@ -17,7 +17,7 @@
         "releaseNoteFile": "../src/release_notes/Cake.Storm.JsonBuildConfiguration.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.JsonBuildConfiguration.nuspec",
         "path": "../artifacts/nuget/Cake.Storm.JsonBuildConfiguration",
-        "packOutput": "../artifacts/nuget/Cake.Storm.JsonBuildConfiguration.nuget"
+        "packOutput": "../artifacts/nuget/"
     }
     ,
     {
@@ -28,6 +28,6 @@
         "releaseNoteFile": "../src/release_notes/Cake.Storm.Android.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.Android.nuspec",
         "path": "../artifacts/nuget/Cake.Storm.Android",
-        "packOutput": "../artifacts/nuget/Cake.Storm.Android.nuget"
+        "packOutput": "../artifacts/nuget/"
     }
 ]

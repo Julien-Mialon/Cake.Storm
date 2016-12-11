@@ -78,8 +78,11 @@ namespace Cake.Storm.Nuget
 
 			File.WriteAllText(output, File.ReadAllText(configuration.NuspecFile)
 							  .Replace("{id}", configuration.Id)
+			                  .Replace("{title}", configuration.Title ?? configuration.Id)
 							  .Replace("{author}", configuration.Author)
-							  .Replace("{version}", configuration.Version));
+							  .Replace("{version}", configuration.Version)
+			                  .Replace("{release_notes}", string.IsNullOrEmpty(configuration.ReleaseNoteFile) ? "" : File.ReadAllText(configuration.ReleaseNoteFile))
+			                 );
 		}
 
 		[CakeMethodAlias]
@@ -115,7 +118,22 @@ namespace Cake.Storm.Nuget
 				throw new CakeException($"NUGET_API_KEY environment variable not set");
 			}
 
-			context.NuGetPush(context.MakeAbsolute(new FilePath(configuration.PackOutput)), new NuGetPushSettings
+			string outputDirectory = context.MakeAbsolute(new DirectoryPath(configuration.PackOutput)).FullPath;
+			DirectoryInfo dir = new DirectoryInfo(outputDirectory);
+
+			string searchPattern = System.IO.Path.Combine(dir.Parent.FullName, $"{configuration.Id}.*.nupkg");
+			FilePath packageFile = context.Globber
+			                              .GetFiles(searchPattern)
+			                              .OrderBy(f => new FileInfo(f.FullPath).LastWriteTimeUtc)
+			                              .FirstOrDefault();
+
+			if (packageFile == null)
+			{
+				context.Log.Write(Verbosity.Quiet, LogLevel.Error, $"can not found package for {configuration.Name}, search pattern: {searchPattern}");
+				throw new CakeException($"can not found package for {configuration.Name}, search pattern: {searchPattern}");
+			}
+
+			context.NuGetPush(packageFile, new NuGetPushSettings
 			{
 				ApiKey = apiKey,
 				Source = configuration.PushSource ?? "https://www.nuget.org/api/v2/package"

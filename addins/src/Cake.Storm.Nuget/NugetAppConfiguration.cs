@@ -11,6 +11,9 @@ namespace Cake.Storm.Nuget
 		[JsonProperty("id")]
 		public string Id { get; set; }
 
+		[JsonProperty("title")]
+		public string Title { get; set; }
+
 		[JsonProperty("version")]
 		public string Version { get; set; }
 

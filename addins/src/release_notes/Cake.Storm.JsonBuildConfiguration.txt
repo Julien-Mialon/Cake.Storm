@@ -1,0 +1,3 @@
+Initial release with basic features :
+    - read json configuration
+    - aggregate configuration for android, ios, dotnet
