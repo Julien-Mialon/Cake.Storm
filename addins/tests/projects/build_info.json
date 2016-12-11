@@ -14,10 +14,7 @@
             "build": {
                 "project": "TestAndroid/TestAndroid.csproj",
                 "properties": [
-                    {
-                        "key": "Platform",
-                        "value": "Any CPU"
-                    }
+                    
                 ]
             }
         }
