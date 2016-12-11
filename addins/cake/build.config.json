@@ -54,6 +54,20 @@
             "build": {
                 "project": "../src/Cake.Storm.Android/Cake.Storm.Android.csproj"
             }
+        },
+        {
+            "name": "Nuget",
+            "targets": [
+                {
+                    "name": "nuget",
+                    "dotnet": {
+                        "output": "../artifacts/nuget/Cake.Storm.Nuget/lib/net45"
+                    }
+                }
+            ],
+            "build": {
+                "project": "../src/Cake.Storm.Nuget/Cake.Storm.Nuget.csproj"
+            }
         }
     ]
 }
