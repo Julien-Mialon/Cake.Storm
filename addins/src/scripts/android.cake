@@ -1,3 +1,5 @@
+#l "./common.cake"
+
 AndroidBuildConfiguration AndroidReadConfiguration(ConfigurationEngine configuration, string appName, string targetName)
 {
     if(configuration == null)

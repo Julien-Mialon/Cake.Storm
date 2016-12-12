@@ -1,3 +1,8 @@
+#l "./common.cake"
+#l "./android.cake"
+#l "./ios.cake"
+#l "./dotnet.cake"
+
 
 void OutputHelp(ConfigurationEngine configuration)
 {

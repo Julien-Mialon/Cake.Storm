@@ -1,3 +1,4 @@
+#l "./common.cake"
 
 DotNetBuildConfiguration DotNetReadConfiguration(ConfigurationEngine configuration, string appName, string targetName)
 {

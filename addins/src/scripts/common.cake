@@ -1,3 +1,6 @@
+#addin "Newtonsoft.Json"
+#addin "Cake.Storm.JsonBuildConfiguration"
+
 void ThrowError(string error)
 {
     Error(error);
