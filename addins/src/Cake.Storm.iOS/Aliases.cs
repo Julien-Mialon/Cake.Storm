@@ -50,10 +50,16 @@ namespace Cake.Storm.iOS
 				configuration.WithProperty("BuildIpa", "true")
 							 .WithProperty("IpaIncludeArtwork", "false")
 							 .WithProperty("IpaPackageDir", outputDirectory.MakeAbsolute(context.Environment).FullPath)
-							 .WithProperty("Platform", "iPhone")
-				             .WithProperty("CodesignKey", codeSignKey)
-				             .WithProperty("CodesignProvision", codeSignProvision)
-				             ;
+							 .WithProperty("Platform", "iPhone");
+
+				if (!string.IsNullOrEmpty(codeSignKey))
+				{
+					configuration.WithProperty("CodesignKey", codeSignKey);
+				}
+				if (!string.IsNullOrEmpty(codeSignProvision))
+				{
+					configuration.WithProperty("CodesignProvision", codeSignProvision);
+				}
 
 				configurator?.Invoke(configuration);
 			});
