@@ -11,6 +11,10 @@ namespace Cake.Storm.JsonBuildConfiguration
 
 		public string BuildVersion { get; internal set; }
 
+		public string CodesignKey { get; set; }
+
+		public string CodesignProvision { get; set; }
+
 		internal iOSBuildConfiguration(BuildConfiguration build, PlatformConfiguration platform, TargetConfiguration target, AppConfiguration app)
 			: base(build, platform, target, app)
 		{
@@ -24,6 +28,8 @@ namespace Cake.Storm.JsonBuildConfiguration
 			Bundle = iOS.Bundle;
 			Version = iOS.Version;
 			BuildVersion = iOS.BuildVersion;
+			CodesignKey = iOS.CodesignKey;
+			CodesignProvision = iOS.CodesignProvision;
 		}
 	}
 

@@ -14,6 +14,12 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 		[JsonProperty("build_version")]
 		public string BuildVersion { get; set; }
 
+		[JsonProperty("sign_key")]
+		public string CodesignKey { get; set; }
+
+		[JsonProperty("sign_provision")]
+		public string CodesignProvision { get; set; }
+
 		public static iOSConfiguration Merge(iOSConfiguration source, iOSConfiguration overwrite)
 		{
 			if (overwrite == null)
@@ -29,7 +35,9 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 			{
 				Bundle = overwrite.Bundle ?? source.Bundle,
 				Version = overwrite.Version ?? source.Version,
-				BuildVersion = overwrite.BuildVersion ?? source.BuildVersion
+				BuildVersion = overwrite.BuildVersion ?? source.BuildVersion,
+				CodesignKey = overwrite.CodesignKey ?? source.CodesignKey,
+				CodesignProvision = overwrite.CodesignProvision ?? source.CodesignProvision
 			};
 		}
 	}
