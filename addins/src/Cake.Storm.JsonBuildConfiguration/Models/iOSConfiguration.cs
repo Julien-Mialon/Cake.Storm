@@ -20,6 +20,9 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 		[JsonProperty("sign_provision")]
 		public string CodesignProvision { get; set; }
 
+		[JsonProperty("plist")]
+		public string PListFile { get; set; }
+
 		public static iOSConfiguration Merge(iOSConfiguration source, iOSConfiguration overwrite)
 		{
 			if (overwrite == null)
@@ -37,7 +40,8 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 				Version = overwrite.Version ?? source.Version,
 				BuildVersion = overwrite.BuildVersion ?? source.BuildVersion,
 				CodesignKey = overwrite.CodesignKey ?? source.CodesignKey,
-				CodesignProvision = overwrite.CodesignProvision ?? source.CodesignProvision
+				CodesignProvision = overwrite.CodesignProvision ?? source.CodesignProvision,
+				PListFile = overwrite.PListFile ?? source.PListFile
 			};
 		}
 	}

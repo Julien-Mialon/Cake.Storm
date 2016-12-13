@@ -11,6 +11,8 @@ namespace Cake.Storm.JsonBuildConfiguration
 
 		public string BuildVersion { get; internal set; }
 
+		public string PListFile { get; internal set; }
+
 		public string CodesignKey { get; set; }
 
 		public string CodesignProvision { get; set; }
@@ -30,6 +32,7 @@ namespace Cake.Storm.JsonBuildConfiguration
 			BuildVersion = iOS.BuildVersion;
 			CodesignKey = iOS.CodesignKey;
 			CodesignProvision = iOS.CodesignProvision;
+			PListFile = iOS.PListFile;
 		}
 	}
 
