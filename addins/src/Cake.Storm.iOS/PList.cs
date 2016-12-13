@@ -42,6 +42,11 @@ namespace Cake.Storm.iOS
 			}
 			set
 			{
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
+
 				XElement item = GetValueElementForKey(BUNDLE_KEY);
 				item.SetValue(value);
 			}
@@ -55,6 +60,11 @@ namespace Cake.Storm.iOS
 			}
 			set
 			{
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
+
 				XElement item = GetValueElementForKey(VERSION_KEY);
 				item.SetValue(value);
 			}
@@ -68,6 +78,11 @@ namespace Cake.Storm.iOS
 			}
 			set
 			{
+				if (string.IsNullOrEmpty(value))
+				{
+					return;
+				}
+
 				XElement item = GetValueElementForKey(BUILD_VERSION_KEY);
 				item.SetValue(value);
 			}

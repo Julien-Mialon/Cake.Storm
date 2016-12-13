@@ -57,6 +57,11 @@ void OutputHelp(ConfigurationEngine configuration)
                 }
                 targetReleaseTasks[target].Add(task);
                 platformAndTargetsReleaseTasks[platform][target].Add(task);
+
+                if(platform == "android")
+                {
+                    Information($"\t\t{GetCreateKeystoreTaskName(app, target)}");
+                }
             }
         }
     }
@@ -117,6 +122,11 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                             });
                         break;
                     case "ios":
+                        Task(task)
+                            .Does(() => 
+                            {
+                                ThrowError("iOS build not supported yet");
+                            });
                         break;
                     case "dotnet":
                         Task(task)
@@ -149,8 +159,18 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                             {
                                 RunAndroidRelease(configuration, app, target, intermediate, artifacts);
                             });
+                        Task(GetCreateKeystoreTaskName(app, target))
+                            .Does(() => {
+                                AndroidBuildConfiguration androidConfiguration = AndroidReadConfiguration(configuration, app, target);
+                                AndroidEnsureKeystoreExists(androidConfiguration, true);
+                            });
                         break;
                     case "ios":
+                        Task(task)
+                            .Does(() => 
+                            {
+                                ThrowError("iOS release not supported yet");
+                            });
                         break;
                     case "dotnet":
                         Task(task)
@@ -320,4 +340,9 @@ string GetReleaseTaskName(string platform, string app, string target)
             break;
     }
     return null;
+}
+
+string GetCreateKeystoreTaskName(string app, string target)
+{
+    return $"create-keystore-{app}-{target}";
 }

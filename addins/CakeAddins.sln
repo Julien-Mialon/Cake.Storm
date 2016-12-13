@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Android", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Nuget", "src\Cake.Storm.Nuget\Cake.Storm.Nuget.csproj", "{374B3E9C-8D97-4BD7-AD22-8E9CE4AA7550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.HockeyApp", "src\Cake.Storm.HockeyApp\Cake.Storm.HockeyApp.csproj", "{F655E9FF-A805-4439-8651-4F33A56EA6F4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.iOS", "src\Cake.Storm.iOS\Cake.Storm.iOS.csproj", "{3C72A9EA-59B5-4E60-A44B-5CF69ABA64D4}"
 EndProject
 Global
@@ -29,10 +27,6 @@ Global
 		{374B3E9C-8D97-4BD7-AD22-8E9CE4AA7550}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{374B3E9C-8D97-4BD7-AD22-8E9CE4AA7550}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{374B3E9C-8D97-4BD7-AD22-8E9CE4AA7550}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F655E9FF-A805-4439-8651-4F33A56EA6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F655E9FF-A805-4439-8651-4F33A56EA6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F655E9FF-A805-4439-8651-4F33A56EA6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F655E9FF-A805-4439-8651-4F33A56EA6F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C72A9EA-59B5-4E60-A44B-5CF69ABA64D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C72A9EA-59B5-4E60-A44B-5CF69ABA64D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C72A9EA-59B5-4E60-A44B-5CF69ABA64D4}.Release|Any CPU.ActiveCfg = Release|Any CPU

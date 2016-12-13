@@ -38,5 +38,25 @@ namespace Cake.Storm.iOS
 				configurator?.Invoke(configuration);
 			});
 		}
+
+		[CakeMethodAlias]
+		public static void CreateIpaFileWithSignature(this ICakeContext context, FilePath projectFile, DirectoryPath outputDirectory, string codeSignKey, string codeSignProvision, Action<DotNetBuildSettings> configurator = null)
+		{
+			context.DotNetBuild(projectFile.MakeAbsolute(context.Environment), configuration =>
+			{
+				configuration.Configuration = "Release";
+				configuration.Targets.Add("Build");
+
+				configuration.WithProperty("BuildIpa", "true")
+							 .WithProperty("IpaIncludeArtwork", "false")
+							 .WithProperty("IpaPackageDir", outputDirectory.MakeAbsolute(context.Environment).FullPath)
+							 .WithProperty("Platform", "iPhone")
+				             .WithProperty("CodesignKey", codeSignKey)
+				             .WithProperty("CodesignProvision", codeSignProvision)
+				             ;
+
+				configurator?.Invoke(configuration);
+			});
+		}
 	}
 }

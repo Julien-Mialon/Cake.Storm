@@ -56,6 +56,20 @@
             }
         },
         {
+            "name": "iOS",
+            "targets": [
+                {
+                    "name": "nuget",
+                    "dotnet": {
+                        "output": "../artifacts/nuget/Cake.Storm.iOS/lib/net45"
+                    }
+                }
+            ],
+            "build": {
+                "project": "../src/Cake.Storm.iOS/Cake.Storm.iOS.csproj"
+            }
+        },
+        {
             "name": "Nuget",
             "targets": [
                 {

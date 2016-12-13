@@ -1,0 +1,6 @@
+Version 0.1.1:
+    - fix missing null checking on set property of PList file
+
+Version 0.1: Initial release with basic features
+    - read and overwrite some property of plist file (Bundle, Version, BuildVersion)
+    - create ipa
