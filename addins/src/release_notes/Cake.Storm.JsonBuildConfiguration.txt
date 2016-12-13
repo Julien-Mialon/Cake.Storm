@@ -1,3 +1,9 @@
-Initial release with basic features :
+Version 0.1.2:
+    - add plist file path on ios configuration
+
+Version 0.1.1:
+    - add code signing info on ios configuration
+
+Version 0.1: Initial release with basic features
     - read json configuration
     - aggregate configuration for android, ios, dotnet

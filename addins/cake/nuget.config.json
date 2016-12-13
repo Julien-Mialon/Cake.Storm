@@ -12,7 +12,7 @@
     {
         "name": "JsonBuildConfiguration",
         "id": "Cake.Storm.JsonBuildConfiguration",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "author": "Julien Mialon",
         "releaseNoteFile": "../src/release_notes/Cake.Storm.JsonBuildConfiguration.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.JsonBuildConfiguration.nuspec",
