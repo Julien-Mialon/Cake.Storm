@@ -75,6 +75,8 @@ namespace Cake.Storm.Nuget
 			}
 
 			string output = System.IO.Path.Combine(configuration.Path, $"{configuration.Id}.nuspec");
+			FilePath filePath = new FilePath(output);
+			context.EnsureDirectoryExists(filePath.GetDirectory());
 
 			File.WriteAllText(output, File.ReadAllText(configuration.NuspecFile)
 							  .Replace("{id}", configuration.Id)
