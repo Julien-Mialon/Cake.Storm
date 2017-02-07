@@ -17,6 +17,8 @@ namespace Cake.Storm.JsonBuildConfiguration
 
 		public string CodesignProvision { get; set; }
 
+		public FastlaneSighBuildConfiguration Fastlane {get;set;}
+
 		internal iOSBuildConfiguration(BuildConfiguration build, PlatformConfiguration platform, TargetConfiguration target, AppConfiguration app)
 			: base(build, platform, target, app)
 		{
@@ -33,7 +35,41 @@ namespace Cake.Storm.JsonBuildConfiguration
 			CodesignKey = iOS.CodesignKey;
 			CodesignProvision = iOS.CodesignProvision;
 			PListFile = iOS.PListFile;
+			Fastlane = new FastlaneSighBuildConfiguration(iOS.Fastlane);
 		}
 	}
 
+	public class FastlaneSighBuildConfiguration
+	{
+		public bool IsEnabled { get; set; }
+
+		public string UserName { get; set; }
+		
+		public string TeamName { get; set; }
+
+		public string ProvisioningName { get; set; }
+
+		public bool AdHoc { get; set; }
+
+		public bool AppStore { get; set; }
+
+		public bool Development { get; set; }
+
+
+		public FastlaneSighBuildConfiguration(FastlaneSighConfiguration fastlane)
+		{
+			IsEnabled = fastlane != null;
+			if(!IsEnabled)
+			{
+				return;
+			}
+
+			UserName = fastlane.UserName;
+			TeamName = fastlane.TeamName;
+			ProvisioningName = fastlane.ProvisioningName;
+			AdHoc = fastlane?.AdHoc ?? false;
+			AppStore = fastlane?.AppStore ?? false;
+			Development = fastlane?.Development ?? false;
+		}
+	}
 }

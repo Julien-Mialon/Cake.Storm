@@ -5,6 +5,8 @@ using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
 using Cake.Core.IO;
 using Cake.Common.Tools;
+using System.Linq;
+using Cake.Common.IO;
 
 namespace Cake.Storm.iOS
 {
@@ -24,12 +26,14 @@ namespace Cake.Storm.iOS
 			string provisioningContent = File.ReadAllText(certificateFile);
 
 			int keyIndex = provisioningContent.IndexOf("<key>UUID</key>");
-			int valueStartIndex = provisioningContent.IndexOf("<string>", keyIndex);
-			int valueEndIndex = provisioningContent.IndexOf("</string>", keyIndex) + "</string>".Length;
+			int valueStartIndex = provisioningContent.IndexOf("<string>", keyIndex) + "<string>".Length;
+			int valueEndIndex = provisioningContent.IndexOf("</string>", keyIndex);
 
 			string uuid = provisioningContent.Substring(valueStartIndex, valueEndIndex - valueStartIndex);
 
 			context.Log.Information($"Got certificate uuid {uuid} for bundle {bundleId}");
+			File.Delete(certificateFile);
+
 			return uuid;
 		}
 
@@ -86,6 +90,24 @@ namespace Cake.Storm.iOS
 
 				configurator?.Invoke(configuration);
 			});
+		}
+
+		[CakeMethodAlias]
+		public static void CopyDSymToOutputDirectory(this ICakeContext context, FilePath solutionFile, DirectoryPath outputDirectory)
+		{
+			string searchPattern = solutionFile.GetDirectory() + "/**/*.dSYM";
+			// Use the globber to find any dSYM directory within the tree
+			string symDirectory = context.Globber
+				.GetDirectories(searchPattern)
+				.OrderBy(d => new DirectoryInfo(d.FullPath).LastWriteTimeUtc)
+				.FirstOrDefault()?.FullPath;
+
+			if(string.IsNullOrEmpty(symDirectory))
+			{
+				throw new CakeException("Can not find dSYM");
+			}
+
+			context.Zip(symDirectory, $"{outputDirectory}/{System.IO.Path.GetFileName(symDirectory)}.zip");
 		}
 	}
 }

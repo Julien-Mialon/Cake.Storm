@@ -1,3 +1,6 @@
+Version 0.1.4:
+    - Add support to copy zipped dSYM file to output folder 
+
 Version 0.1.3:
     - Add support for fastlane sigh to get provisioning profile and find uuid of certificates
 

@@ -41,6 +41,7 @@ namespace Cake.Storm.iOS
 		public bool GetCertificate(string userName, string teamName, string bundleId, CertificateType type, string outputFile)
 		{
 			ProcessArgumentBuilder builder = new ProcessArgumentBuilder()
+				.Append("sigh")
 				.Append("-u").Append(userName)
 				.Append("--team_name").Append(teamName)
 				.Append("--app_identifier").Append(bundleId)

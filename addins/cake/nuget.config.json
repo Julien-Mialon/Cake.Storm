@@ -12,7 +12,7 @@
     {
         "name": "JsonBuildConfiguration",
         "id": "Cake.Storm.JsonBuildConfiguration",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "author": "Julien Mialon",
         "releaseNoteFile": "../src/release_notes/Cake.Storm.JsonBuildConfiguration.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.JsonBuildConfiguration.nuspec",
@@ -32,7 +32,7 @@
     {
         "name": "iOS",
         "id": "Cake.Storm.iOS",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "author": "Julien Mialon",
         "releaseNoteFile": "../src/release_notes/Cake.Storm.iOS.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.iOS.nuspec",
