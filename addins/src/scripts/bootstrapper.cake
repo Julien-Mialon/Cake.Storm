@@ -5,10 +5,10 @@
 
 #load "./configuration.cake"
 
-void UseBootstrapper(string rootDirectory, string intermediateDirectory, string artifactsDirectory, string defaultTarget = "default")
+void UseBootstrapper(string jsonFile, string rootDirectory, string intermediateDirectory, string artifactsDirectory, string defaultTarget = "default")
 {
     //generate tasks based on configuration
-    ConfigurationEngine conf = ReadJsonConfiguration(Argument("build-configuration", "build.config.json"));
+    ConfigurationEngine conf = ReadJsonConfiguration(jsonFile);
     GenerateTasksWithConfiguration(conf, intermediateDirectory, artifactsDirectory);
 
     // === task names ===
