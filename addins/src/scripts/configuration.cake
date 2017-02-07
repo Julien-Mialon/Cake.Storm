@@ -1,3 +1,8 @@
+#l "./common.cake"
+#l "./android.cake"
+#l "./ios.cake"
+#l "./dotnet.cake"
+
 
 void OutputHelp(ConfigurationEngine configuration)
 {
@@ -52,6 +57,11 @@ void OutputHelp(ConfigurationEngine configuration)
                 }
                 targetReleaseTasks[target].Add(task);
                 platformAndTargetsReleaseTasks[platform][target].Add(task);
+
+                if(platform == "android")
+                {
+                    Information($"\t\t{GetCreateKeystoreTaskName(app, target)}");
+                }
             }
         }
     }
@@ -112,6 +122,11 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                             });
                         break;
                     case "ios":
+                        Task(task)
+                            .Does(() => 
+                            {
+                                RuniOSBuild(configuration, app, target);
+                            });
                         break;
                     case "dotnet":
                         Task(task)
@@ -144,11 +159,23 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                             {
                                 RunAndroidRelease(configuration, app, target, intermediate, artifacts);
                             });
+                        Task(GetCreateKeystoreTaskName(app, target))
+                            .Does(() => {
+                                AndroidBuildConfiguration androidConfiguration = AndroidReadConfiguration(configuration, app, target);
+                                AndroidEnsureKeystoreExists(androidConfiguration, true);
+                            });
                         break;
                     case "ios":
+                        Task(task)
+                            .IsDependentOn("clean")
+                            .Does(() => 
+                            {
+                                RuniOSRelease(configuration, app, target, intermediate, artifacts);
+                            });
                         break;
                     case "dotnet":
                         Task(task)
+                            .IsDependentOn("clean")
                             .Does(() =>
                             {
                                 RunDotNetRelease(configuration, app, target, intermediate, artifacts);
@@ -315,4 +342,9 @@ string GetReleaseTaskName(string platform, string app, string target)
             break;
     }
     return null;
+}
+
+string GetCreateKeystoreTaskName(string app, string target)
+{
+    return $"create-keystore-{app}-{target}";
 }

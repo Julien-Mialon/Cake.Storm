@@ -1,0 +1,3 @@
+Initial release with basic features :
+    - read a json config file
+    - publish to hockey app based on configuration

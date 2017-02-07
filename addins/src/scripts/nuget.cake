@@ -1,3 +1,10 @@
+#addin "Cake.Storm.Nuget"
+
+void UseNugetBootstrapper()
+{
+    List<NugetAppConfiguration> nugetConfigurations = ReadNugetConfigurations(Argument("nuget-configuration", "nuget.config.json"));
+    GenerateTasksForNuget(nugetConfigurations);
+}
 
 void GenerateTasksForNuget(List<NugetAppConfiguration> configurations)
 {

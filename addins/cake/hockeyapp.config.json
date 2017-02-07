@@ -1,0 +1,11 @@
+[
+    {
+        "name": "sample",
+        "app_id": "1234567890",
+        "type": "android",
+        "apk": "path/to/apk/file",
+        "ipa": "path/to/ipa/file",
+        "dsym": "path/to/dsym/file",
+        "release_note": "path/to/release_note/file"
+    }
+]

@@ -1,3 +1,5 @@
+#l "./common.cake"
+
 AndroidBuildConfiguration AndroidReadConfiguration(ConfigurationEngine configuration, string appName, string targetName)
 {
     if(configuration == null)
@@ -32,6 +34,12 @@ void AndroidTransformManifest(AndroidBuildConfiguration configuration)
 
 void AndroidEnsureKeystoreExists(AndroidBuildConfiguration configuration)
 {
+    bool allowCreate = Argument("allow-create-keystore", "false") == "true";
+    AndroidEnsureKeystoreExists(configuration, allowCreate);
+}
+
+void AndroidEnsureKeystoreExists(AndroidBuildConfiguration configuration, bool allowCreate)
+{
     Keystore keystore = null;
     if(FileExists(configuration.KeystoreFile))
     {
@@ -44,12 +52,23 @@ void AndroidEnsureKeystoreExists(AndroidBuildConfiguration configuration)
 
         if(!keystore.HasAlias(configuration.KeystorePassword, configuration.KeystoreKeyAlias))
         {
-            keystore.CreateAlias(configuration.KeystorePassword, configuration.KeystoreKeyAlias, configuration.KeystoreKeyPassword, configuration.KeystoreAuthority);
+            if(allowCreate)
+            {
+                keystore.CreateAlias(configuration.KeystorePassword, configuration.KeystoreKeyAlias, configuration.KeystoreKeyPassword, configuration.KeystoreAuthority);
+            }
+            else
+            {
+                ThrowError($"Keystore alias {configuration.KeystoreKeyAlias} does not exists and no --allow-create-keystore=true in arguments");
+            }
         }
+    }
+    else if(allowCreate)
+    {
+        keystore = CreateKeystore(configuration.KeystoreFile, configuration.KeystorePassword, configuration.KeystoreKeyAlias, configuration.KeystoreKeyPassword, configuration.KeystoreAuthority);
     }
     else
     {
-        keystore = CreateKeystore(configuration.KeystoreFile, configuration.KeystorePassword, configuration.KeystoreKeyAlias, configuration.KeystoreKeyPassword, configuration.KeystoreAuthority);
+        ThrowError($"Keystore {configuration.KeystoreFile} does not exists and no --allow-create-keystore=true in arguments");
     }
 }
 
