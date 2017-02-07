@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
@@ -10,6 +11,28 @@ namespace Cake.Storm.iOS
 	[CakeAliasCategory("Cake.Storm.iOS")]
 	public static class Aliases
 	{
+		[CakeMethodAlias]
+		public static string FastlaneGetCertificate(this ICakeContext context, string bundleId, string userName, string teamName, CertificateType certificateType)
+		{
+			FastlaneSighCommand command = new FastlaneSighCommand(context);
+			string certificateFile = $"{Guid.NewGuid()}.mobileprovision";
+			if(!command.GetCertificate(userName, teamName, bundleId, certificateType, certificateFile))
+			{
+				throw new CakeException("Unable to retrieve provisioning profile using fastlane sigh");
+			}
+
+			string provisioningContent = File.ReadAllText(certificateFile);
+
+			int keyIndex = provisioningContent.IndexOf("<key>UUID</key>");
+			int valueStartIndex = provisioningContent.IndexOf("<string>", keyIndex);
+			int valueEndIndex = provisioningContent.IndexOf("</string>", keyIndex) + "</string>".Length;
+
+			string uuid = provisioningContent.Substring(valueStartIndex, valueEndIndex - valueStartIndex);
+
+			context.Log.Information($"Got certificate uuid {uuid} for bundle {bundleId}");
+			return uuid;
+		}
+
 		[CakeMethodAlias]
 		public static PList LoadPListFile(this ICakeContext context, FilePath file)
 		{

@@ -55,3 +55,12 @@ string CombinePath(params string[] path)
 {
     return System.IO.Path.Combine(path);
 }
+
+void NuGetRestoreAll()
+{
+    var solutions = GetFiles("../**/*.sln");
+    NuGetRestore(solutions, new NuGetRestoreSettings 
+    { 
+        MSBuildVersion = NuGetMSBuildVersion.MSBuild12
+    });
+}

@@ -125,7 +125,7 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                         Task(task)
                             .Does(() => 
                             {
-                                ThrowError("iOS build not supported yet");
+                                RuniOSBuild(configuration, app, target);
                             });
                         break;
                     case "dotnet":
@@ -167,13 +167,15 @@ void GenerateTasksWithConfiguration(ConfigurationEngine configuration, string in
                         break;
                     case "ios":
                         Task(task)
+                            .IsDependentOn("clean")
                             .Does(() => 
                             {
-                                ThrowError("iOS release not supported yet");
+                                RuniOSRelease(configuration, app, target, intermediate, artifacts);
                             });
                         break;
                     case "dotnet":
                         Task(task)
+                            .IsDependentOn("clean")
                             .Does(() =>
                             {
                                 RunDotNetRelease(configuration, app, target, intermediate, artifacts);

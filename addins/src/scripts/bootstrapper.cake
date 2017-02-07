@@ -1,6 +1,7 @@
 #addin "Newtonsoft.Json"
 #addin "Cake.Storm.JsonBuildConfiguration"
 #addin "Cake.Storm.Android"
+#addin "Cake.Storm.iOS"
 
 #load "./configuration.cake"
 

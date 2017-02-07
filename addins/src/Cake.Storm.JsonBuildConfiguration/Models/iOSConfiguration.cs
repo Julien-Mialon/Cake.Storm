@@ -23,6 +23,9 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 		[JsonProperty("plist")]
 		public string PListFile { get; set; }
 
+		[JsonProperty("fastlane_sigh")]
+		public FastlaneSighConfiguration Fastlane { get; set; }
+
 		public static iOSConfiguration Merge(iOSConfiguration source, iOSConfiguration overwrite)
 		{
 			if (overwrite == null)
@@ -41,9 +44,10 @@ namespace Cake.Storm.JsonBuildConfiguration.Models
 				BuildVersion = overwrite.BuildVersion ?? source.BuildVersion,
 				CodesignKey = overwrite.CodesignKey ?? source.CodesignKey,
 				CodesignProvision = overwrite.CodesignProvision ?? source.CodesignProvision,
-				PListFile = overwrite.PListFile ?? source.PListFile
+				PListFile = overwrite.PListFile ?? source.PListFile,
+				Fastlane = FastlaneSighConfiguration.Merge(source.Fastlane, overwrite.Fastlane)
 			};
 		}
 	}
-	
+
 }
