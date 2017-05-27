@@ -22,7 +22,7 @@
     {
         "name": "Android",
         "id": "Cake.Storm.Android",
-        "version": "0.1",
+        "version": "0.2.0",
         "author": "Julien Mialon",
         "releaseNoteFile": "../src/release_notes/Cake.Storm.Android.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.Android.nuspec",
@@ -32,7 +32,7 @@
     {
         "name": "iOS",
         "id": "Cake.Storm.iOS",
-        "version": "0.1.4",
+        "version": "0.2.0",
         "author": "Julien Mialon",
         "releaseNoteFile": "../src/release_notes/Cake.Storm.iOS.txt",
         "nuspecFile": "../src/nuspecs/Cake.Storm.iOS.nuspec",

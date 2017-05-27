@@ -5,6 +5,7 @@ using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
 using Cake.Core.IO;
 using Cake.Common.Tools;
+using Cake.Common.Tools.MSBuild;
 using System.Linq;
 using Cake.Common.IO;
 
@@ -50,9 +51,9 @@ namespace Cake.Storm.iOS
 		}
 
 		[CakeMethodAlias]
-		public static void CreateIpaFile(this ICakeContext context, FilePath projectFile, DirectoryPath outputDirectory, Action<DotNetBuildSettings> configurator = null)
+		public static void CreateIpaFile(this ICakeContext context, FilePath projectFile, DirectoryPath outputDirectory, Action<MSBuildSettings> configurator = null)
 		{
-			context.DotNetBuild(projectFile.MakeAbsolute(context.Environment), configuration =>
+			context.MSBuild(projectFile.MakeAbsolute(context.Environment), configuration =>
 			{
 				configuration.Configuration = "Release";
 				configuration.Targets.Add("Build");
@@ -67,9 +68,9 @@ namespace Cake.Storm.iOS
 		}
 
 		[CakeMethodAlias]
-		public static void CreateIpaFileWithSignature(this ICakeContext context, FilePath projectFile, DirectoryPath outputDirectory, string codeSignKey, string codeSignProvision, Action<DotNetBuildSettings> configurator = null)
+		public static void CreateIpaFileWithSignature(this ICakeContext context, FilePath projectFile, DirectoryPath outputDirectory, string codeSignKey, string codeSignProvision, Action<MSBuildSettings> configurator = null)
 		{
-			context.DotNetBuild(projectFile.MakeAbsolute(context.Environment), configuration =>
+			context.MSBuild(projectFile.MakeAbsolute(context.Environment), configuration =>
 			{
 				configuration.Configuration = "Release";
 				configuration.Targets.Add("Build");

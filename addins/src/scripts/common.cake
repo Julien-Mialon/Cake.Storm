@@ -11,6 +11,21 @@ void ThrowError(string error, Exception ex)
     throw new CakeException(error, ex);
 }
 
+void ApplyConfiguration(MSBuildSettings settings, Dictionary<string, string> buildProperties)
+{
+    foreach(KeyValuePair<string, string> property in buildProperties)
+    {
+        if("configuration" == property.Key.ToLower())
+        {
+            settings.SetConfiguration(property.Value);
+        }
+        else
+        {
+            settings.WithProperty(property.Key, property.Value);
+        }
+    }
+}
+
 void ApplyConfiguration(DotNetBuildSettings settings, Dictionary<string, string> buildProperties)
 {
     foreach(KeyValuePair<string, string> property in buildProperties)
@@ -43,12 +58,12 @@ void DeleteAndCreateDirectory(string directory)
 
 void BuildWithConfiguration(Configuration configuration)
 {
-    DotNetBuild(configuration.Solution, c => ApplyConfiguration(c, configuration.BuildProperties));
+    MSBuild(configuration.Solution, c => ApplyConfiguration(c, configuration.BuildProperties));
 }
 
 void BuildProjectWithConfiguration(Configuration configuration)
 {
-    DotNetBuild(configuration.Project, c => ApplyConfiguration(c, configuration.BuildProperties));
+    MSBuild(configuration.Project, c => ApplyConfiguration(c, configuration.BuildProperties));
 }
 
 string CombinePath(params string[] path)

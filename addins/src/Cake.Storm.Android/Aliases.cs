@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Cake.Common.Tools;
+using Cake.Common.Tools.MSBuild;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
@@ -77,14 +78,14 @@ namespace Cake.Storm.Android
 		}
 
 		[CakeMethodAlias]
-		public static FilePath PackageForAndroid(this ICakeContext context, FilePath projectFile, AndroidManifest manifest, Action<DotNetBuildSettings> configurator = null)
+		public static FilePath PackageForAndroid(this ICakeContext context, FilePath projectFile, AndroidManifest manifest, Action<MSBuildSettings> configurator = null)
 		{
 			if (!context.FileSystem.Exist(projectFile))
 			{
 				throw new CakeException("Project File Not Found: " + projectFile.FullPath);
 			}
 
-			context.DotNetBuild(projectFile, configuration =>
+			context.MSBuild(projectFile, configuration =>
 			{
 				configuration.Configuration = "Release";
 				configuration.Targets.Add("PackageForAndroid");

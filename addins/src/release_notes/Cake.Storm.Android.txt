@@ -1,4 +1,7 @@
-Initial release with basic features :
+Version 0.2.0: 
+    - BREAKING CHANGE: use msbuild instead of xbuild on OSX
+
+Version 0.1.0:
     - read and overwrite some property of manifest file (package, versionName, versionCode)
     - check existence of keystore and alias in it + create them if needed
     - package android apk
