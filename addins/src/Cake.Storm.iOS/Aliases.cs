@@ -82,7 +82,7 @@ namespace Cake.Storm.iOS
 
 				if (!string.IsNullOrEmpty(codeSignKey))
 				{
-					configuration.WithProperty("CodesignKey", codeSignKey);
+					configuration.WithProperty("CodesignKey", codeSignKey.Replace(",", "%2c"));
 				}
 				if (!string.IsNullOrEmpty(codeSignProvision))
 				{

@@ -1,3 +1,6 @@
+Version 0.2.1:
+    - Fix build when your team name on developer portal contains a comma
+
 Version 0.2.0: 
     - BREAKING CHANGE: use msbuild instead of xbuild on OSX
 
