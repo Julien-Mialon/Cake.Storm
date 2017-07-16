@@ -11,13 +11,13 @@ namespace Cake.Storm.Xamarin.Android.Models
 		private const string ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android";
 
 		private readonly ICakeContext _context;
-		private readonly string _path;
+		private readonly FilePath _path;
 		private readonly XDocument _document;
 		private readonly XAttribute _packageAttribute;
 		private readonly XAttribute _versionNameAttribute;
 		private readonly XAttribute _versionCodeAttribute;
 		
-		internal AndroidManifest(ICakeContext context, string path)
+		internal AndroidManifest(ICakeContext context, FilePath path)
 		{
 			_context = context;
 			_path = path;
@@ -106,17 +106,11 @@ namespace Cake.Storm.Xamarin.Android.Models
 			}
 		}
 
-		public void Save()
+		public void Save() => Save(_path);
+		
+		public void Save(FilePath outputPath)
 		{
-			using (Stream outputStream = _context.FileSystem.GetFile(_path).OpenWrite())
-			{
-				_document.Save(outputStream);
-			}
-		}
-
-		public void Save(FilePath newPath)
-		{
-			using (Stream outputStream = _context.FileSystem.GetFile(newPath).OpenWrite())
+			using (Stream outputStream = _context.FileSystem.GetFile(outputPath).OpenWrite())
 			{
 				_document.Save(outputStream);
 			}

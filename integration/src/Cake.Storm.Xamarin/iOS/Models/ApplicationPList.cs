@@ -15,17 +15,17 @@ namespace Cake.Storm.Xamarin.iOS.Models
 		private const string BUILD_VERSION_KEY = "CFBundleVersion";
 
 		private readonly ICakeContext _context;
-		private readonly string _path;
+		private readonly FilePath _path;
 		private readonly XDocument _document;
 
-		public ApplicationPList(ICakeContext context, string path)
+		public ApplicationPList(ICakeContext context, FilePath path)
 		{
 			_context = context;
 			_path = path;
 
 			try
 			{
-				_document = XDocument.Load(path);
+				_document = XDocument.Load(path.FullPath);
 			}
 			catch (Exception ex)
 			{
@@ -74,18 +74,12 @@ namespace Cake.Storm.Xamarin.iOS.Models
 				GetValueElementForKey(BUILD_VERSION_KEY).SetValue(value);
 			}
 		}
-		
-		public void Save()
-		{
-			using (Stream outputStream = _context.FileSystem.GetFile(_path).OpenWrite())
-			{
-				_document.Save(outputStream);	
-			}
-		}
 
-		public void Save(FilePath newPath)
+		public void Save() => Save(_path);
+		
+		public void Save(FilePath outputPath)
 		{
-			using (Stream outputStream = _context.FileSystem.GetFile(newPath).OpenWrite())
+			using (Stream outputStream = _context.FileSystem.GetFile(outputPath).OpenWrite())
 			{
 				_document.Save(outputStream);
 			}
