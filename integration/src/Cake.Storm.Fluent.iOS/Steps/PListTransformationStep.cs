@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cake.Common.IO;
+using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.Steps;
 using Cake.Storm.Fluent.iOS.Interfaces;
@@ -19,7 +20,12 @@ namespace Cake.Storm.Fluent.iOS.Steps
 
 		public void Execute(IConfiguration configuration)
 		{
-			throw new NotImplementedException();
+			if (!configuration.Context.CakeContext.FileExists(_sourceFile))
+			{
+				configuration.Context.CakeContext.LogAndThrow($"PList file {_sourceFile} does not exists");
+			}
+
+			_transformation.Execute(_sourceFile, configuration);
 		}
 	}
 }

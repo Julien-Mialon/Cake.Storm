@@ -55,7 +55,7 @@ namespace Cake.Storm.Fluent.iOS.Commands
 			{
 				builder.Append("--development");
 			}
-			//appstore provisioning profile type are default
+			//appstore provisioning profile type is default
 
 			return ExecuteProcess(builder);
 		}

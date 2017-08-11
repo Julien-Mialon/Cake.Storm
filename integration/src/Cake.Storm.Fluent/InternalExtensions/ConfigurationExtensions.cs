@@ -33,7 +33,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 	    {
 			return configuration.AddRootDirectory(configuration.GetSimple<string>(ConfigurationConstants.PROJECT_KEY));
 		}
-
+		
 		public static string GetApplicationName(this IConfiguration configuration) => configuration.GetSimple<string>(ConfigurationConstants.APPLICATION_NAME_KEY);
 
 	    public static string GetTargetName(this IConfiguration configuration) => configuration.GetSimple<string>(ConfigurationConstants.TARGET_NAME_KEY);
@@ -48,6 +48,14 @@ namespace Cake.Storm.Fluent.InternalExtensions
 
 			configuration.Context.CakeContext.EnsureDirectoryExists(result);
 		    return result;
+	    }
+
+	    public static void FileExistsOrThrow(this IConfiguration configuration, string filePath)
+	    {
+		    if (!configuration.Context.CakeContext.FileExists(filePath))
+		    {
+			    configuration.Context.CakeContext.LogAndThrow($"File {filePath} does not exists");
+		    }
 	    }
     }
 }
