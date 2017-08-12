@@ -11,8 +11,9 @@ using Cake.Storm.Fluent.Models;
 
 namespace Cake.Storm.Fluent.iOS.Models
 {
-	internal class FastlaneCertificate : IFastlaneCertificate
+	internal class FastlaneCertificate : IFastlaneCertificateAction
 	{
+		//TODO: convert to fields if not needed as property
 		public string UserName { get; private set; }
 		public string TeamName { get; private set; }
 		public string ProvisioningProfileName { get; private set; }

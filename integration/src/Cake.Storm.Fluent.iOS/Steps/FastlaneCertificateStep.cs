@@ -7,9 +7,9 @@ namespace Cake.Storm.Fluent.iOS.Steps
 	[PreReleaseStep]
 	internal class FastlaneCertificateStep : IStep
 	{
-		private readonly IFastlaneCertificate _fastlaneCertificate;
+		private readonly IFastlaneCertificateAction _fastlaneCertificate;
 
-		public FastlaneCertificateStep(IFastlaneCertificate fastlaneCertificate)
+		public FastlaneCertificateStep(IFastlaneCertificateAction fastlaneCertificate)
 		{
 			_fastlaneCertificate = fastlaneCertificate;
 		}

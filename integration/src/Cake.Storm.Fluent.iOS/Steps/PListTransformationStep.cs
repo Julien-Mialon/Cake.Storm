@@ -10,9 +10,9 @@ namespace Cake.Storm.Fluent.iOS.Steps
     internal class PListTransformationStep : IStep
 	{
 		private readonly string _sourceFile;
-		private readonly IPListTransformation _transformation;
+		private readonly IPListTransformationAction _transformation;
 
-		public PListTransformationStep(string sourceFile, IPListTransformation transformation)
+		public PListTransformationStep(string sourceFile, IPListTransformationAction transformation)
 		{
 			_sourceFile = sourceFile;
 			_transformation = transformation;

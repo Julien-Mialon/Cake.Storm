@@ -6,7 +6,6 @@ using Cake.Storm.Fluent.iOS.Interfaces;
 using Cake.Storm.Fluent.iOS.Models;
 using Cake.Storm.Fluent.iOS.Steps;
 using Cake.Storm.Fluent.Models;
-using Cake.Storm.Fluent.Steps;
 
 namespace Cake.Storm.Fluent.iOS.Extensions
 {
@@ -15,7 +14,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 	    public static TConfiguration UsePListTransformation<TConfiguration>(this TConfiguration configuration, string sourceFile, Action<IPListTransformation> transformerAction = null)
 			where TConfiguration : IConfiguration
 	    {
-		    IPListTransformation transformation = new PListTransformation();
+		    IPListTransformationAction transformation = new PListTransformation();
 		    transformerAction?.Invoke(transformation);
 			configuration.AddStep(new PListTransformationStep(sourceFile, transformation));
 		    return configuration;
@@ -24,7 +23,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 	    public static TConfiguration UseFastlane<TConfiguration>(this TConfiguration configuration, Action<IFastlaneCertificate> configurator)
 			where TConfiguration : IConfiguration
 	    {
-			IFastlaneCertificate fastlaneCertificate = new FastlaneCertificate();
+			IFastlaneCertificateAction fastlaneCertificate = new FastlaneCertificate();
 			configurator.Invoke(fastlaneCertificate);
 
 		    configuration.AddStep(new FastlaneCertificateStep(fastlaneCertificate));

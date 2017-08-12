@@ -3,16 +3,19 @@ using Cake.Storm.Fluent.Interfaces;
 
 namespace Cake.Storm.Fluent.iOS.Interfaces
 {
-    public interface IPListTransformation
-    {
-	    IPListTransformation UseVersion(string version);
+	public interface IPListTransformation
+	{
+		IPListTransformation WithVersion(string version);
 
-	    IPListTransformation UseVersionFromParameter();
+		IPListTransformation WithVersionFromParameter();
 
-	    IPListTransformation UseBundleId(string bundleId);
+		IPListTransformation WithBundleId(string bundleId);
 
-	    IPListTransformation UseBundleIdFromParameter();
+		IPListTransformation WithBundleIdFromParameter();
+	}
 
-	    void Execute(FilePath filePath, IConfiguration configuration);
-    }
+	internal interface IPListTransformationAction : IPListTransformation
+	{
+		void Execute(FilePath filePath, IConfiguration configuration);
+	}
 }

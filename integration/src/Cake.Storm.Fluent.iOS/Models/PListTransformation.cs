@@ -12,7 +12,7 @@ using Cake.Storm.Fluent.InternalExtensions;
 
 namespace Cake.Storm.Fluent.iOS.Models
 {
-	internal class PListTransformation : IPListTransformation
+	internal class PListTransformation : IPListTransformationAction
 	{
 		private const string PARAMETER_KEY = "$PARAMETER$";
 
@@ -24,25 +24,25 @@ namespace Cake.Storm.Fluent.iOS.Models
 		private string _version = PARAMETER_KEY;
 		private string _bundleId = PARAMETER_KEY;
 
-		public IPListTransformation UseVersion(string version)
+		public IPListTransformation WithVersion(string version)
 		{
 			_version = version;
 			return this;
 		}
 
-		public IPListTransformation UseVersionFromParameter()
+		public IPListTransformation WithVersionFromParameter()
 		{
 			_version = PARAMETER_KEY;
 			return this;
 		}
 
-		public IPListTransformation UseBundleId(string bundleId)
+		public IPListTransformation WithBundleId(string bundleId)
 		{
 			_bundleId = bundleId;
 			return this;
 		}
 
-		public IPListTransformation UseBundleIdFromParameter()
+		public IPListTransformation WithBundleIdFromParameter()
 		{
 			_bundleId = PARAMETER_KEY;
 			return this;

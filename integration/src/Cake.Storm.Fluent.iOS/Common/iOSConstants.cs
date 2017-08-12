@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cake.Storm.Fluent.iOS.Common
+﻿namespace Cake.Storm.Fluent.iOS.Common
 {
 	// ReSharper disable once InconsistentNaming
     public static class iOSConstants

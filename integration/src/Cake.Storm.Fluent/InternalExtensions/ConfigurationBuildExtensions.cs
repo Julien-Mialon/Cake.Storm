@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cake.Common.Tools.MSBuild;
 using Cake.Storm.Fluent.Common;
 using Cake.Storm.Fluent.Interfaces;
