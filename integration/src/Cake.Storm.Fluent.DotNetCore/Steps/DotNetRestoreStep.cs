@@ -8,7 +8,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.DotNetCore.Steps
 {
 	[PreBuildStep]
-	public class DotNetRestoreStep : IStep
+	internal class DotNetRestoreStep : IStep
 	{
 		public void Execute(IConfiguration configuration)
 		{

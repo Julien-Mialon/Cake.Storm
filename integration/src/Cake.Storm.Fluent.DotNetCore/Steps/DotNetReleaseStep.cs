@@ -9,7 +9,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.DotNetCore.Steps
 {
 	[ReleaseStep]
-	public class DotNetReleaseStep : IStep
+	internal class DotNetReleaseStep : IStep
 	{
 		public void Execute(IConfiguration configuration)
 		{
