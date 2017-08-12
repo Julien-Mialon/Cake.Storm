@@ -12,12 +12,12 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
 	[PreBuildStep]
-    public class CodeTransformationStep : IStep
+    internal class CodeTransformationStep : IStep
 	{
 		private readonly string _filePath;
-		private readonly ICodeTransformation _transformation;
+		private readonly ICodeTransformationAction _transformation;
 
-		public CodeTransformationStep(string filePath, ICodeTransformation transformation)
+		public CodeTransformationStep(string filePath, ICodeTransformationAction transformation)
 		{
 			_filePath = filePath;
 			_transformation = transformation;

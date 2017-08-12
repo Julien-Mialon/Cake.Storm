@@ -11,7 +11,7 @@ namespace Cake.Storm.Fluent.Transformations.Extensions
 	    public static TConfiguration UseCodeTransformation<TConfiguration>(this TConfiguration configuration, string sourceFile, Action<ICodeTransformation> transformerAction)
 			where TConfiguration : IConfiguration
 	    {
-			ICodeTransformation transformation = new CodeTransformation();
+		    ICodeTransformationAction transformation = new CodeTransformation();
 		    transformerAction(transformation);
 		    configuration.AddStep(new CodeTransformationStep(sourceFile, transformation));
 		    return configuration;

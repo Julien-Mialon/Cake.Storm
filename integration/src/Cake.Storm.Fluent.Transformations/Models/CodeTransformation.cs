@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Cake.Storm.Fluent.Transformations.Models
 {
-    internal class CodeTransformation : ICodeTransformation
+    internal class CodeTransformation : ICodeTransformationAction
     {
 	    private readonly List<CSharpSyntaxRewriter> _transformations = new List<CSharpSyntaxRewriter>();
 
