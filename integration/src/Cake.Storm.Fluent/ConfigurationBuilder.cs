@@ -50,26 +50,26 @@ namespace Cake.Storm.Fluent
 			return this;
 		}
 
-		public ConfigurationBuilder AddPlatform(string name, Action<IPlatformConfiguration> action)
+		public ConfigurationBuilder AddPlatform(string name, Action<IPlatformConfiguration> action = null)
 		{
 			IPlatformConfiguration platformConfiguration = new PlatformConfiguration(_context);
-			action(platformConfiguration);
+			action?.Invoke(platformConfiguration);
 			_platforms.Add(name, platformConfiguration);
 			return this;
 		}
 
-		public ConfigurationBuilder AddTarget(string name, Action<ITargetConfiguration> action)
+		public ConfigurationBuilder AddTarget(string name, Action<ITargetConfiguration> action = null)
 		{
 			ITargetConfiguration targetConfiguration = new TargetConfiguration(_context);
-			action(targetConfiguration);
+			action?.Invoke(targetConfiguration);
 			_targets.Add(name, targetConfiguration);
 			return this;
 		}
 
-		public ConfigurationBuilder AddApplication(string name, Action<IApplicationConfiguration> action)
+		public ConfigurationBuilder AddApplication(string name, Action<IApplicationConfiguration> action = null)
 		{
 			IApplicationConfiguration applicationConfiguration = new ApplicationConfiguration(_context);
-			action(applicationConfiguration);
+			action?.Invoke(applicationConfiguration);
 			_applications.Add(name, applicationConfiguration);
 			return this;
 		}

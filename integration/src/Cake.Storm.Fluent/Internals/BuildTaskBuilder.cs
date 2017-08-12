@@ -54,17 +54,17 @@ namespace Cake.Storm.Fluent.Internals
 				//generate application-target-platform
 				_parameters.Context.Task(target.BuildTaskName).Does(() =>
 				{
-					foreach (var preBuild in target.Configuration.StepsOf<PreBuildStepAttribute>())
+					foreach (IStep preBuild in target.Configuration.StepsOf<PreBuildStepAttribute>())
 					{
 						preBuild.Execute(target.Configuration);
 					}
 
-					foreach (var build in target.Configuration.StepsOf<BuildStepAttribute>())
+					foreach (IStep build in target.Configuration.StepsOf<BuildStepAttribute>())
 					{
 						build.Execute(target.Configuration);
 					}
 
-					foreach (var postBuild in target.Configuration.StepsOf<PostBuildStepAttribute>())
+					foreach (IStep postBuild in target.Configuration.StepsOf<PostBuildStepAttribute>())
 					{
 						postBuild.Execute(target.Configuration);
 					}
@@ -75,17 +75,17 @@ namespace Cake.Storm.Fluent.Internals
 					.IsDependentOn(target.BuildTaskName)
 					.Does(() =>
 					{
-						foreach (var preRelease in target.Configuration.StepsOf<PreReleaseStepAttribute>())
+						foreach (IStep preRelease in target.Configuration.StepsOf<PreReleaseStepAttribute>())
 						{
 							preRelease.Execute(target.Configuration);
 						}
 
-						foreach (var release in target.Configuration.StepsOf<ReleaseStepAttribute>())
+						foreach (IStep release in target.Configuration.StepsOf<ReleaseStepAttribute>())
 						{
 							release.Execute(target.Configuration);
 						}
 
-						foreach (var postRelease in target.Configuration.StepsOf<PostReleaseStepAttribute>())
+						foreach (IStep postRelease in target.Configuration.StepsOf<PostReleaseStepAttribute>())
 						{
 							postRelease.Execute(target.Configuration);
 						}
@@ -134,8 +134,8 @@ namespace Cake.Storm.Fluent.Internals
 				GenerateTasks($"{sample.PlatformName}", grouping);
 			}
 
-			var buildTask = _parameters.Context.Task($"build");
-			var releaseTask = _parameters.Context.Task($"release");
+			CakeTaskBuilder<ActionTask> buildTask = _parameters.Context.Task($"build");
+			CakeTaskBuilder<ActionTask> releaseTask = _parameters.Context.Task($"release");
 
 			foreach (Target target in targets)
 			{
@@ -188,8 +188,8 @@ namespace Cake.Storm.Fluent.Internals
 
 		private void GenerateTasks(string taskName, IEnumerable<Target> targets)
 		{
-			var buildTask = _parameters.Context.Task($"build-{taskName}");
-			var releaseTask = _parameters.Context.Task($"release-{taskName}");
+			CakeTaskBuilder<ActionTask> buildTask = _parameters.Context.Task($"build-{taskName}");
+			CakeTaskBuilder<ActionTask> releaseTask = _parameters.Context.Task($"release-{taskName}");
 
 			foreach (Target target in targets)
 			{
@@ -204,30 +204,44 @@ namespace Cake.Storm.Fluent.Internals
 		private List<Target> MergeTargets()
 		{
 			List<Target> targets = new List<Target>();
-			foreach (var applicationItem in _parameters.ApplicationsConfiguration)
+			foreach (KeyValuePair<string, IApplicationConfiguration> applicationItem in _parameters.ApplicationsConfiguration)
 			{
-				if (applicationItem.Value.Targets.Any())
+				IReadOnlyDictionary<string, ITargetConfiguration> targetsForApplication;
+				if (applicationItem.Value.Targets.Count > 0)
 				{
-					foreach (var targetItem in applicationItem.Value.Targets)
-					{
-						if (targetItem.Value.Platforms.Any())
-						{
-							foreach (var platformItem in targetItem.Value.Platforms)
-							{
-								IConfiguration rootLevel = _parameters.RootConfiguration;
-								IConfiguration platformLevel = _parameters.PlatformsConfiguration[platformItem.Key];
-								IConfiguration targetLevel = _parameters.TargetsConfiguration[targetItem.Key]
-									.Merge(_parameters.TargetsConfiguration[targetItem.Key].Platforms[platformItem.Key]);
-								IConfiguration applicationLevel = applicationItem.Value.Merge(
-									targetItem.Value.Merge(
-										platformItem.Value
-									)
-								);
+					targetsForApplication = applicationItem.Value.Targets;
+				}
+				else //use all targets if none has been specified
+				{
+					targetsForApplication = _parameters.TargetsConfiguration;
+				}
 
-								IConfiguration configuration = rootLevel.Merge(platformLevel.Merge(targetLevel.Merge(applicationLevel)));
-								targets.Add(new Target(applicationItem.Key, targetItem.Key, platformItem.Key, configuration));
-							}
-						}
+				foreach (KeyValuePair<string, ITargetConfiguration> targetItem in targetsForApplication)
+				{
+					IReadOnlyDictionary<string, IPlatformConfiguration> platformsForTarget;
+					if (targetItem.Value.Platforms.Count > 0)
+					{
+						platformsForTarget = targetItem.Value.Platforms;
+					}
+					else
+					{
+						platformsForTarget = _parameters.PlatformsConfiguration;
+					}
+
+					foreach (KeyValuePair<string, IPlatformConfiguration> platformItem in platformsForTarget)
+					{
+						IConfiguration rootLevel = _parameters.RootConfiguration;
+						IConfiguration platformLevel = _parameters.PlatformsConfiguration[platformItem.Key];
+						IConfiguration targetLevel = _parameters.TargetsConfiguration[targetItem.Key]
+							.Merge(_parameters.TargetsConfiguration[targetItem.Key].Platforms[platformItem.Key]);
+						IConfiguration applicationLevel = applicationItem.Value.Merge(
+							targetItem.Value.Merge(
+								platformItem.Value
+							)
+						);
+
+						IConfiguration configuration = rootLevel.Merge(platformLevel.Merge(targetLevel.Merge(applicationLevel)));
+						targets.Add(new Target(applicationItem.Key, targetItem.Key, platformItem.Key, configuration));
 					}
 				}
 			}
