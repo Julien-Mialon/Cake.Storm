@@ -1,4 +1,5 @@
 ﻿using System;
+using Cake.Storm.Fluent.Common.Steps;
 using Cake.Storm.Fluent.iOS.Common;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.iOS.Interfaces;
@@ -55,7 +56,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 			where TConfiguration : IConfiguration
 	    {
 			configuration.AddStep(new NugetRestoreAllStep());
-			configuration.AddStep(new iOSBuildStep());
+			configuration.AddStep(new MSBuildSolutionStep());
 			configuration.AddStep(new iOSReleaseStep());
 
 		    return configuration;

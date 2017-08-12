@@ -6,8 +6,9 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
+using Cake.Storm.Fluent.Steps;
 
-namespace Cake.Storm.Fluent.Steps
+namespace Cake.Storm.Fluent.Common.Steps
 {
 	[PreBuildStep]
 	public class NugetRestoreAllStep : IStep

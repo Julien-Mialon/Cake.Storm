@@ -3,11 +3,10 @@ using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
 
-namespace Cake.Storm.Fluent.iOS.Steps
+namespace Cake.Storm.Fluent.Common.Steps
 {
 	[BuildStep]
-	// ReSharper disable once InconsistentNaming
-	internal class iOSBuildStep : IStep
+	public class MSBuildSolutionStep : IStep
 	{
 		public void Execute(IConfiguration configuration)
 		{

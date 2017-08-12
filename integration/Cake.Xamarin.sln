@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Storm.Fluent.Transform
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.iOS", "src\Cake.Storm.Fluent.iOS\Cake.Storm.Fluent.iOS.csproj", "{9393462F-0727-4203-B1F8-6BBB1A92ED22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.Android", "src\Cake.Storm.Fluent.Android\Cake.Storm.Fluent.Android.csproj", "{C89E2AF3-A418-4008-8353-E75C687C3E8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89E2AF3-A418-4008-8353-E75C687C3E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89E2AF3-A418-4008-8353-E75C687C3E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89E2AF3-A418-4008-8353-E75C687C3E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89E2AF3-A418-4008-8353-E75C687C3E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{91F8E298-5504-44C2-AC3B-FC9776D1810F} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{B2A62DE2-04B2-4B72-AE8F-89E3D98A5FED} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
+		{C89E2AF3-A418-4008-8353-E75C687C3E8D} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 	EndGlobalSection
 EndGlobal

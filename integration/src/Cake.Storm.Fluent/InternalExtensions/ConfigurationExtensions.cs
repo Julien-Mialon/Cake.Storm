@@ -40,6 +40,16 @@ namespace Cake.Storm.Fluent.InternalExtensions
 
 	    public static string GetPlatformName(this IConfiguration configuration) => configuration.GetSimple<string>(ConfigurationConstants.PLATFORM_NAME_KEY);
 
+	    public static DirectoryPath GetBuildPath(this IConfiguration configuration)
+	    {
+		    DirectoryPath buildRoot = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.BUILD_PATH_KEY);
+		    DirectoryPath result = buildRoot.Combine(configuration.GetApplicationName())
+			    .Combine(configuration.GetTargetName()).Combine(configuration.GetPlatformName());
+
+		    configuration.Context.CakeContext.EnsureDirectoryExists(result);
+		    return result;
+	    }
+	    
 		public static DirectoryPath GetArtifactsPath(this IConfiguration configuration)
 	    {
 		    DirectoryPath artifactsRoot = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ARTIFACTS_PATH_KEY);
@@ -50,7 +60,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    return result;
 	    }
 
-	    public static void FileExistsOrThrow(this IConfiguration configuration, string filePath)
+	    public static void FileExistsOrThrow(this IConfiguration configuration, FilePath filePath)
 	    {
 		    if (!configuration.Context.CakeContext.FileExists(filePath))
 		    {

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-using Cake.Common.IO;
+﻿using Cake.Common.IO;
 using Cake.Common.Tools.NuGet;
-using Cake.Common.Tools.NuGet.Restore;
 using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
+using Cake.Storm.Fluent.Steps;
 
-namespace Cake.Storm.Fluent.Steps
+namespace Cake.Storm.Fluent.Common.Steps
 {
 	[PreBuildStep]
 	public class NugetRestoreStep : IStep
