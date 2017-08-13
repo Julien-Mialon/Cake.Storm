@@ -30,16 +30,24 @@ namespace Cake.Storm.Fluent.Android.Commands
 
 				return new[] {
 						new FilePath("zipalign.exe")
-					}.Concat(_context.Globber.GetFiles($"{programFiles}/Android/android-sdk/build-tools/*/zipalign.exe"))
-					.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/android-sdk/build-tools/*/zipalign.exe"));
+					}.Concat(
+						_context.Globber.GetFiles($"{programFiles}/Android/android-sdk/build-tools/*/zipalign.exe")
+							.Concat(_context.Globber.GetFiles($"{programFiles}/Android/build-tools/*/zipalign.exe"))
+							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/android-sdk/build-tools/*/zipalign.exe"))
+							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/build-tools/*/zipalign.exe"))
+							.Reverse() //Reverse to take the most recent version of build-tools if more than one is installed
+					);
 			}
 			if (IsOSX)
 			{
 				string home = _context.Environment.GetEnvironmentVariable("HOME");
 				return new[] {
 						new FilePath("zipalign"),
-					}.Concat(_context.Globber.GetFiles("/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign"))
-					.Concat(_context.Globber.GetFiles($"{home}/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign"));
+					}.Concat(
+						_context.Globber.GetFiles("/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign")
+							.Concat(_context.Globber.GetFiles($"{home}/Library/Developer/Xamarin/android-sdk-macosx/build-tools/*/zipalign"))
+							.Reverse() //Reverse to take the most recent version of build-tools if more than one is installed
+					);
 			}
 			throw new CakeException($"Environment {_context.Environment.Platform.Family} not supported, only Windows and OSX are supported");
 		}

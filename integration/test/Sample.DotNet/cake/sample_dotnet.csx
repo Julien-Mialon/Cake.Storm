@@ -29,6 +29,14 @@ Configure() //this must be embedded in a script to pass needed parameters (like 
 			.UpdateVariable("TEXT", "Hello world from (dev) build")
 			.UpdateVariable("NUMBER", 73)
 		)
+		.UsePlatform("android", platformConfiguration => platformConfiguration
+			.UseKeystore("../sample.keystore", keystore => keystore
+				.WithAuthority("CN=JULIEN, OU=JULIEN, O=JULIEN, L=ROUBAIX, C=FR")
+				.WithPassword("sample_password")
+				.WithKey("sample", "password")
+				.WithAllowCreate(true)
+			)
+		)
 	)
 	.AddApplication("sample")
 	.Build();
