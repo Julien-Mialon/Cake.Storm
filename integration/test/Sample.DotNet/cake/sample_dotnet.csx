@@ -18,6 +18,10 @@ Configure() //this must be embedded in a script to pass needed parameters (like 
 		.WithProject("Sample.DotNet/Sample.DotNet.csproj")
 		.UseiOSTooling()
 	)
+	.AddPlatform("android", configuration => configuration
+		.WithProject("Sample.Android/Sample.Android.csproj")
+		.UseAndroidTooling()
+	)
 	//targets configuration
 	.AddTarget("dev", configuration => configuration
 		.WithBuildParameter("Platform", "Any CPU")
@@ -25,14 +29,8 @@ Configure() //this must be embedded in a script to pass needed parameters (like 
 			.UpdateVariable("TEXT", "Hello world from (dev) build")
 			.UpdateVariable("NUMBER", 73)
 		)
-		.UsePlatform("dotnet")
-		.UsePlatform("iOS")
 	)
-	.AddApplication("sample"/*, application => application
-		.UseTarget("dev", target => target
-			.UsePlatform("dotnet")
-		)
-	*/)
+	.AddApplication("sample")
 	.Build();
 
 RunTarget(Argument("target", "help"));

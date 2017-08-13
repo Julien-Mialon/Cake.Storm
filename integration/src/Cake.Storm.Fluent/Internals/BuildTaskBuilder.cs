@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Cake.Common.Tools.DotNetCore.MSBuild;
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Storm.Fluent.Common;
@@ -207,38 +208,56 @@ namespace Cake.Storm.Fluent.Internals
 			foreach (KeyValuePair<string, IApplicationConfiguration> applicationItem in _parameters.ApplicationsConfiguration)
 			{
 				IReadOnlyDictionary<string, ITargetConfiguration> targetsForApplication;
+				bool mergeTargetItem;
 				if (applicationItem.Value.Targets.Count > 0)
 				{
 					targetsForApplication = applicationItem.Value.Targets;
+					mergeTargetItem = true;
 				}
 				else //use all targets if none has been specified
 				{
 					targetsForApplication = _parameters.TargetsConfiguration;
+					mergeTargetItem = false;
 				}
 
 				foreach (KeyValuePair<string, ITargetConfiguration> targetItem in targetsForApplication)
 				{
 					IReadOnlyDictionary<string, IPlatformConfiguration> platformsForTarget;
+					bool mergePlatformItem;
 					if (targetItem.Value.Platforms.Count > 0)
 					{
 						platformsForTarget = targetItem.Value.Platforms;
+						mergePlatformItem = true;
 					}
 					else
 					{
 						platformsForTarget = _parameters.PlatformsConfiguration;
+						mergePlatformItem = false;
 					}
 
 					foreach (KeyValuePair<string, IPlatformConfiguration> platformItem in platformsForTarget)
 					{
 						IConfiguration rootLevel = _parameters.RootConfiguration;
 						IConfiguration platformLevel = _parameters.PlatformsConfiguration[platformItem.Key];
-						IConfiguration targetLevel = _parameters.TargetsConfiguration[targetItem.Key]
-							.Merge(_parameters.TargetsConfiguration[targetItem.Key].Platforms[platformItem.Key]);
-						IConfiguration applicationLevel = applicationItem.Value.Merge(
-							targetItem.Value.Merge(
-								platformItem.Value
-							)
-						);
+						ITargetConfiguration targetConfiguration = _parameters.TargetsConfiguration[targetItem.Key];
+						IConfiguration targetLevel = targetConfiguration;
+						if (targetConfiguration.Platforms.TryGetValue(platformItem.Key, out IPlatformConfiguration targetPlatformConfiguration))
+						{
+							targetLevel = targetConfiguration.Merge(targetPlatformConfiguration);
+						}
+						//merge application sub configuration if needed (not from list of all)
+						IConfiguration applicationLevel = null;
+						if (mergeTargetItem)
+						{
+							if (mergePlatformItem)
+							{
+								applicationLevel = platformItem.Value;
+							}
+							applicationLevel = applicationLevel == null ? targetItem.Value : targetItem.Value.Merge(applicationLevel);
+						}
+
+						applicationLevel = applicationLevel == null ? applicationItem.Value : applicationItem.Value.Merge(applicationLevel);
+
 
 						IConfiguration configuration = rootLevel.Merge(platformLevel.Merge(targetLevel.Merge(applicationLevel)));
 						targets.Add(new Target(applicationItem.Key, targetItem.Key, platformItem.Key, configuration));

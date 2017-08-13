@@ -10,7 +10,7 @@ namespace Cake.Storm.Fluent.Helpers
 			value = value.Replace(",", "%2c");
 		    if (value.Any(char.IsWhiteSpace))
 		    {
-			    value = $"'{value}'";
+			    value = $"\"{value}\"";
 		    }
 		    return value;
 		}
