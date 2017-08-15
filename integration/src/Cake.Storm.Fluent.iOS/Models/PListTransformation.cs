@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Cake.Core;
@@ -22,6 +23,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 		//default to be used from parameter informations
 		private string _version = PARAMETER_KEY;
+
 		private string _bundleId = PARAMETER_KEY;
 
 		public IPListTransformation WithVersion(string version)
@@ -50,7 +52,11 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 		public void Execute(FilePath filePath, IConfiguration configuration)
 		{
-			XDocument document = XDocument.Load(filePath.FullPath);
+			XDocument document;
+			using (Stream inputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenRead())
+			{
+				document = XDocument.Load(inputStream);
+			}
 
 			string bundleId = _bundleId == PARAMETER_KEY ? configuration.GetSimple<string>(iOSConstants.BUNDLE_ID_KEY) : _bundleId;
 			if (string.IsNullOrEmpty(bundleId))
@@ -67,9 +73,14 @@ namespace Cake.Storm.Fluent.iOS.Models
 				configuration.Context.CakeContext.LogAndThrow($"Invalid version for iOS {versionString}");
 				throw new Exception();
 			}
-			
+
 			GetValueElementForKey(document, VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}");
 			GetValueElementForKey(document, BUILD_VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}.{(version.Build > 0 ? version.Build : 0)}");
+
+			using (Stream outputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenWrite())
+			{
+				document.Save(outputStream);
+			}
 		}
 
 		private XElement GetValueElementForKey(XDocument document, string key)

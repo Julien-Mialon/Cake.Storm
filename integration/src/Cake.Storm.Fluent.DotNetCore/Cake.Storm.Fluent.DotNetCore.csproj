@@ -2,12 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
-		<AssemblyName>Cake.Storm.Fluent.DotNetCore</AssemblyName>
-		<RootNamespace>Cake.Storm.Fluent.DotNetCore</RootNamespace>
 		<NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
-		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
 	</PropertyGroup>
 
 	<PropertyGroup>
