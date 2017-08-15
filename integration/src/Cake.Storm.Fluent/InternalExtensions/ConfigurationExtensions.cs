@@ -21,7 +21,14 @@ namespace Cake.Storm.Fluent.InternalExtensions
 
 	    public static string AddRootDirectory(this IConfiguration configuration, string path)
 	    {
-		    return configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY).Combine(path).FullPath;
+		    if (!configuration.Has(ConfigurationConstants.ROOT_PATH_KEY))
+		    {
+			    return path;
+		    }
+
+		    DirectoryPath rootDirectory = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY);
+		    
+		    return rootDirectory.Combine(path).FullPath;
 	    }
 
 	    public static string GetSolutionPath(this IConfiguration configuration)

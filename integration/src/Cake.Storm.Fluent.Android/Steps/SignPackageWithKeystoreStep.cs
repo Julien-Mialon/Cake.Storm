@@ -37,7 +37,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			configuration.Context.CakeContext.CopyFile(apkPath, sourceApkPath);
 
 			string signedApkPath = Path.Combine(buildPath, $"{apkNameWithoutExtension}-Signed{apkExtension}");
-			_keyStore.Sign(_keyStoreFile, configuration, sourceApkPath, signedApkPath);
+			_keyStore.Sign(configuration.AddRootDirectory(_keyStoreFile), configuration, sourceApkPath, signedApkPath);
 			JarsignerCommand jarSignerCommand = new JarsignerCommand(configuration.Context.CakeContext);
 			jarSignerCommand.VerifyApk(signedApkPath);
 

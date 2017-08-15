@@ -3,6 +3,7 @@ using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.Steps;
 using Cake.Storm.Fluent.iOS.Interfaces;
+using Cake.Storm.Fluent.InternalExtensions;
 
 namespace Cake.Storm.Fluent.iOS.Steps
 {
@@ -20,12 +21,10 @@ namespace Cake.Storm.Fluent.iOS.Steps
 
 		public void Execute(IConfiguration configuration)
 		{
-			if (!configuration.Context.CakeContext.FileExists(_sourceFile))
-			{
-				configuration.Context.CakeContext.LogAndThrow($"PList file {_sourceFile} does not exists");
-			}
-
-			_transformation.Execute(_sourceFile, configuration);
+			string plistFile = configuration.AddRootDirectory(_sourceFile);
+			configuration.FileExistsOrThrow(plistFile);
+			
+			_transformation.Execute(plistFile, configuration);
 		}
 	}
 }

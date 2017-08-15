@@ -1,5 +1,6 @@
 ﻿using Cake.Storm.Fluent.Android.Interfaces;
 using Cake.Storm.Fluent.Interfaces;
+using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
 
 namespace Cake.Storm.Fluent.Android.Steps
@@ -18,7 +19,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 
 		public void Execute(IConfiguration configuration)
 		{
-			_keyStore.Execute(_keyStoreFile, configuration);
+			_keyStore.Execute(configuration.AddRootDirectory(_keyStoreFile), configuration);
 		}
 	}
 }

@@ -26,11 +26,8 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 		public void Execute(IConfiguration configuration)
 		{
 			string path = configuration.AddRootDirectory(_filePath);
-			if (!configuration.Context.CakeContext.FileExists(path))
-			{
-				configuration.Context.CakeContext.LogAndThrow($"File {path} does not exists");
-			}
-
+			configuration.FileExistsOrThrow(path);
+			
 			string fileContent;
 			using (Stream inputStream = configuration.Context.CakeContext.FileSystem.GetFile(path).OpenRead())
 			{

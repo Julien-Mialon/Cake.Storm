@@ -20,7 +20,16 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 
 		public void Execute(IConfiguration configuration)
 		{
-			string projectFile = _projectFile ?? configuration.GetSimple<string>(ConfigurationConstants.PROJECT_KEY);
+			string projectFile;
+			if (_projectFile == null)
+			{
+				projectFile = configuration.GetProjectPath();
+			}
+			else
+			{
+				projectFile = configuration.AddRootDirectory(_projectFile);
+			}
+			
 			
 			configuration.FileExistsOrThrow(projectFile);
 			
