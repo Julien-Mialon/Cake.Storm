@@ -108,8 +108,6 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 					outputPathForFramework = projectOutputPath.Combine(framework);
 				}
 				
-				
-				
 				configuration.Context.CakeContext.CopyFiles(
 					configuration.Context.CakeContext.FileSystem
 						.GetDirectory(outputPathForFramework)
