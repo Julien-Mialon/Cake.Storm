@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
@@ -6,7 +7,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.Storm.Fluent.Android</PackageId>
-    <PackageVersion>0.0.1</PackageVersion>
+    <PackageVersion>0.9.0</PackageVersion>
     <Authors>Julien Mialon</Authors>
     <Company>Julien Mialon</Company>
     <Description>A set of aliases for Cake to help configure Android build with fluent syntax</Description>

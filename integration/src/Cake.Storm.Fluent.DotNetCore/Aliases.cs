@@ -3,6 +3,7 @@ using Cake.Core.Annotations;
 using Cake.Core.Diagnostics;
 
 [assembly: CakeNamespaceImport("Cake.Storm.Fluent.DotNetCore.Extensions")]
+[assembly: CakeNamespaceImport("Cake.Storm.Fluent.DotNetCore.Models")]
 
 namespace Cake.Storm.Fluent.DotNetCore
 {

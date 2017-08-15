@@ -6,16 +6,18 @@ Configure()
 	.UseArtifactsDirectory("artifacts")
 	.AddConfiguration(configuration => configuration
 		.WithSolution("Cake.Storm.Fluent.sln")
+        .WithTargetFrameworks("net46", "netstandard1.6")
 		.WithBuildParameter("Configuration", "Release")
+		.WithBuildParameter("Platform", "Any CPU")
 		.UseDefaultTooling()
 	)
 	//platforms configuration
 	.AddPlatform("dotnet", configuration => configuration
 		.UseDotNetCoreTooling()
+        .WithDotNetCoreOutputType(OutputType.Copy)
 	)
 	//targets configuration
 	.AddTarget("nuget", configuration => configuration
-		.WithBuildParameter("Platform", "Any CPU")
         .UseCsprojTransformation(transformations => transformations
             .UpdatePackageVersionFromParameter()
         )

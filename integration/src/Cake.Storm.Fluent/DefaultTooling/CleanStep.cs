@@ -45,8 +45,11 @@ namespace Cake.Storm.Fluent.DefaultTooling
 						case "artifacts":
 							cleanLevel &= ~CleanLevel.Artifacts;
 							break;
+						case "all":
+							cleanLevel &= ~CleanLevel.All;
+							break;
 						default:
-							configuration.Context.CakeContext.LogAndThrow($"no-clean option {s} is not supported, only binobj, build and artifacts are valid arguments");
+							configuration.Context.CakeContext.LogAndThrow($"no-clean option {s} is not supported, only binobj, build, artifacts and all are valid arguments");
 							break;
 				    }
 			    }
