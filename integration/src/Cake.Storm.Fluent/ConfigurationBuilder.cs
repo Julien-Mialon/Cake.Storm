@@ -82,6 +82,7 @@ namespace Cake.Storm.Fluent
 			 *	- build
 			 *	- rebuild
 			 *	- release
+			 *  - deploy
 			 *	- help/default
 			 *	
 			 *	every task with prefix build/rebuild/release

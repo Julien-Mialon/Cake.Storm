@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3A7166A7-561
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F0FDF455-FCA0-4EA4-AA30-DF8A7AF557A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Storm.Xamarin", "src\Cake.Storm.Xamarin\Cake.Storm.Xamarin.csproj", "{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Storm.Fluent", "src\Cake.Storm.Fluent\Cake.Storm.Fluent.csproj", "{A9BF2E94-2E5E-4EA3-8D9C-46295AD74A4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Storm.Fluent.DotNetCore", "src\Cake.Storm.Fluent.DotNetCore\Cake.Storm.Fluent.DotNetCore.csproj", "{91F8E298-5504-44C2-AC3B-FC9776D1810F}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9BF2E94-2E5E-4EA3-8D9C-46295AD74A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9BF2E94-2E5E-4EA3-8D9C-46295AD74A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9BF2E94-2E5E-4EA3-8D9C-46295AD74A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,7 +48,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AD1DA118-E926-4E5E-9BD6-A6FFA29F1113} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{A9BF2E94-2E5E-4EA3-8D9C-46295AD74A4C} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{91F8E298-5504-44C2-AC3B-FC9776D1810F} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{B2A62DE2-04B2-4B72-AE8F-89E3D98A5FED} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}

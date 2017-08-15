@@ -38,6 +38,8 @@ namespace Cake.Storm.Fluent.Internals
 			public string BuildTaskName => $"build-{ApplicationName}-{TargetName}-{PlatformName}";
 
 			public string ReleaseTaskName => $"release-{ApplicationName}-{TargetName}-{PlatformName}";
+
+			public string DeployTaskName => $"deploy-{ApplicationName}-{TargetName}-{PlatformName}";
 		}
 
 		public BuildTaskBuilder(BuilderParameters parameters)
@@ -91,6 +93,27 @@ namespace Cake.Storm.Fluent.Internals
 							postRelease.Execute(target.Configuration);
 						}
 					});
+				
+				_parameters.Context.Task(target.DeployTaskName)
+					.IsDependentOn(CleanTaskBuilder.TASK_NAME)
+					.IsDependentOn(target.ReleaseTaskName)
+					.Does(() =>
+					{
+						foreach (IStep preRelease in target.Configuration.StepsOf<PreDeployStepAttribute>())
+						{
+							preRelease.Execute(target.Configuration);
+						}
+
+						foreach (IStep release in target.Configuration.StepsOf<DeployStepAttribute>())
+						{
+							release.Execute(target.Configuration);
+						}
+
+						foreach (IStep postRelease in target.Configuration.StepsOf<PostDeployStepAttribute>())
+						{
+							postRelease.Execute(target.Configuration);
+						}
+					});
 			}
 
 			//generate application-target
@@ -135,17 +158,20 @@ namespace Cake.Storm.Fluent.Internals
 				GenerateTasks($"{sample.PlatformName}", grouping);
 			}
 
-			CakeTaskBuilder<ActionTask> buildTask = _parameters.Context.Task($"build");
-			CakeTaskBuilder<ActionTask> releaseTask = _parameters.Context.Task($"release");
+			CakeTaskBuilder<ActionTask> buildTask = _parameters.Context.Task("build");
+			CakeTaskBuilder<ActionTask> releaseTask = _parameters.Context.Task("release");
+			CakeTaskBuilder<ActionTask> deployTask = _parameters.Context.Task("deploy");
 
 			foreach (Target target in targets)
 			{
 				buildTask.IsDependentOn(target.BuildTaskName);
 				releaseTask.IsDependentOn(target.ReleaseTaskName);
+				deployTask.IsDependentOn(target.DeployTaskName);
 			}
 
 			buildTask.Does(() => { });
 			releaseTask.Does(() => { });
+			deployTask.Does(() => { });
 		}
 
 		public void Help()
@@ -185,21 +211,39 @@ namespace Cake.Storm.Fluent.Internals
 			logger.Information("");
 			targets.GroupBy(x => x.PlatformName).Select(y => y.First()).ForEach(t => logger.Information($"\trelease-{t.PlatformName}"));
 			logger.Information("");
+			logger.Information("deploy: deploy all, see below for more restrictive versions");
+			targets.ForEach(t => logger.Information($"\t{t.ReleaseTaskName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.ApplicationName).SelectMany(x => x.GroupBy(y => y.TargetName).Select(y => y.First())).ForEach(t => logger.Information($"\tdeploy-{t.ApplicationName}-{t.TargetName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.ApplicationName).SelectMany(x => x.GroupBy(y => y.PlatformName).Select(y => y.First())).ForEach(t => logger.Information($"\tdeploy-{t.ApplicationName}-{t.PlatformName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.TargetName).SelectMany(x => x.GroupBy(y => y.PlatformName).Select(y => y.First())).ForEach(t => logger.Information($"\tdeploy-{t.TargetName}-{t.PlatformName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.ApplicationName).Select(y => y.First()).ForEach(t => logger.Information($"\tdeploy-{t.ApplicationName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.TargetName).Select(y => y.First()).ForEach(t => logger.Information($"\tdeploy-{t.TargetName}"));
+			logger.Information("");
+			targets.GroupBy(x => x.PlatformName).Select(y => y.First()).ForEach(t => logger.Information($"\tdeploy-{t.PlatformName}"));
+			logger.Information("");
 		}
 
 		private void GenerateTasks(string taskName, IEnumerable<Target> targets)
 		{
 			CakeTaskBuilder<ActionTask> buildTask = _parameters.Context.Task($"build-{taskName}");
 			CakeTaskBuilder<ActionTask> releaseTask = _parameters.Context.Task($"release-{taskName}");
+			CakeTaskBuilder<ActionTask> deployTask = _parameters.Context.Task($"deploy-{taskName}");
 
 			foreach (Target target in targets)
 			{
 				buildTask.IsDependentOn(target.BuildTaskName);
 				releaseTask.IsDependentOn(target.ReleaseTaskName);
+				deployTask.IsDependentOn(target.DeployTaskName);
 			}
 
 			buildTask.Does(() => { });
 			releaseTask.Does(() => { });
+			deployTask.Does(() => { });
 		}
 
 		private List<Target> MergeTargets()
