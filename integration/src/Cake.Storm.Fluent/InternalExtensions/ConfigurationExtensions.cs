@@ -9,6 +9,11 @@ namespace Cake.Storm.Fluent.InternalExtensions
 {
     public static class ConfigurationExtensions
     {
+	    public static void AddSimple<TValue>(this IConfiguration configuration, string key, TValue value)
+	    {
+		    configuration.Add(key, new SimpleConfigurationItem<TValue>(value));
+	    }
+	    
 	    public static TValue GetSimple<TValue>(this IConfiguration configuration, string key)
 	    {
 		    if(configuration.TryGet<SimpleConfigurationItem<TValue>>(key, out var configurationItem))
@@ -17,6 +22,17 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    }
 		    configuration.Context.CakeContext.LogAndThrow($"Key {key} does not exists");
 		    return default(TValue);
+	    }
+
+	    public static bool TryGetSimple<TValue>(this IConfiguration configuration, string key, out TValue value)
+	    {
+		    if(configuration.TryGet<SimpleConfigurationItem<TValue>>(key, out var configurationItem))
+		    {
+			    value = configurationItem.Value;
+			    return true;
+		    }
+		    value = default(TValue);
+		    return false;
 	    }
 
 	    public static string AddRootDirectory(this IConfiguration configuration, string path)
