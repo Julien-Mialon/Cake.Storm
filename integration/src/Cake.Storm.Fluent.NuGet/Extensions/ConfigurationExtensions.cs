@@ -2,6 +2,7 @@
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
+using Cake.Storm.Fluent.NuGet.Steps;
 
 namespace Cake.Storm.Fluent.NuGet.Extensions
 {
@@ -10,6 +11,7 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 		public static TConfiguration UseNuGetTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
+			configuration.AddStep(new NuGetPackStep());
 			return configuration;
 		}
 
@@ -48,7 +50,7 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 			return configuration;
 		}
 
-		public static TConfiguration WithFileInNuget<TConfiguration>(this TConfiguration configuration, string filePath, string nugetRelativePath)
+		public static TConfiguration WithFileInNuget<TConfiguration>(this TConfiguration configuration, string filePath, string nugetRelativePath = null)
 			where TConfiguration : IConfiguration
 		{
 			if (configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<(string filePath, string nugetRelativePath)> list))

@@ -10,12 +10,12 @@ Configure()
 		.WithBuildParameter("Configuration", "Release")
 		.WithBuildParameter("Platform", "Any CPU")
 		.UseDefaultTooling()
-	)
-	//platforms configuration
-	.AddPlatform("dotnet", configuration => configuration
 		.UseDotNetCoreTooling()
         .WithDotNetCoreOutputType(OutputType.Copy)
+        .UseNuGetTooling()
 	)
+	//platforms configuration
+	.AddPlatform("dotnet")
 	//targets configuration
 	.AddTarget("nuget", configuration => configuration
         .UseCsprojTransformation(transformations => transformations
@@ -25,7 +25,11 @@ Configure()
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent/Cake.Storm.Fluent.csproj")
-        .WithVersion("0.9.0")
+        .WithVersion("0.1.0")
+        .WithNuspec("nuspecs/Cake.Storm.Fluent.nuspec")
+            .WithNugetPackageId("Cake.Storm.Fluent")
+            .WithNugetPackageAuthor("Julien Mialon")
+            .WithNugetPackageReleaseNotes("release_notes/Cake.Storm.Fluent.md")
     )
     .AddApplication("fluent-android", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Android/Cake.Storm.Fluent.Android.csproj")

@@ -8,6 +8,7 @@ namespace Cake.Storm.Fluent.NuGet
 {
 	public static class Aliases
 	{
+		[CakeMethodAlias]
 		public static void ImportNuGet(this ICakeContext context)
 		{
 			context.Log.Information("Fluent: import NuGet tooling...");
