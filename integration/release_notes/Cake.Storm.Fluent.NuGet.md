@@ -1,0 +1,6 @@
+Version 0.1.0
+    Initial release with tasks to pack and push nuget packages
+        - Pack the result of tasks into a nuget package
+        - Change version, author, id and others in nuspec file
+        - Add more files than just libs
+        - Push your package to nuget

@@ -3,20 +3,21 @@
 	<metadata>
 		<id>{id}</id>
 		<version>{version}</version>
-		<title>Cake Fluent - Core</title>
+		<title>Cake Fluent - Android</title>
 		<authors>{author}</authors>
 		<owners>Storm</owners>
 		<licenseUrl>https://github.com/Julien-Mialon/cake/blob/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/Julien-Mialon/cake</projectUrl>
 		<iconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Cake addin for fluent description of build tasks.</description>
+		<description>Cake addin for fluent description for android relative tasks.</description>
 		<releaseNotes>{release_notes}</releaseNotes>
 		<copyright>Copyright 2017</copyright>
-		<tags>cake cake-build cake-contrib fluent</tags>
+		<tags>cake cake-build cake-contrib fluent android</tags>
         <dependencies>
             <dependency id="Cake.Common" version="0.21.1" />
             <dependency id="Cake.Core" version="0.21.1" />
+			<dependency id="Cake.Storm.Fluent" version="0.1.0" />
         </dependencies>
 	</metadata>
 </package>
