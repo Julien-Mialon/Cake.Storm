@@ -1,66 +1,33 @@
-﻿using Cake.Storm.Fluent.Interfaces;
+﻿using System;
+using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
+using Cake.Storm.Fluent.NuGet.Interfaces;
+using Cake.Storm.Fluent.NuGet.Models;
 using Cake.Storm.Fluent.NuGet.Steps;
 
 namespace Cake.Storm.Fluent.NuGet.Extensions
 {
 	public static class ConfigurationExtensions
 	{
-		public static TConfiguration UseNuGetTooling<TConfiguration>(this TConfiguration configuration)
-			where TConfiguration : IConfiguration
+		public static TConfiguration UseNugetPack<TConfiguration>(this TConfiguration configuration, Action<INugetPackConfiguration> configurator)
+			where TConfiguration : class, IConfiguration
 		{
-			configuration.AddStep(new NuGetPackStep());
-			return configuration;
-		}
-
-		public static TConfiguration WithNuspec<TConfiguration>(this TConfiguration configuration, string nuspecFile)
-			where TConfiguration : IConfiguration
-		{
-			configuration.AddSimple(NuGetConstants.NUSPEC_FILE_KEY, nuspecFile);
-			return configuration;
-		}
-
-		public static TConfiguration WithNugetPackageId<TConfiguration>(this TConfiguration configuration, string packageId)
-			where TConfiguration : IConfiguration
-		{
-			configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_ID_KEY, packageId);
+			INugetPackConfiguration packConfiguration = new NugetPackConfiguration(configuration);
+			configurator.Invoke(packConfiguration);
+			
+			configuration.AddStep(new NugetPackStep());
 			return configuration;
 		}
 		
-		public static TConfiguration WithNugetPackageAuthor<TConfiguration>(this TConfiguration configuration, string author)
+		public static TConfiguration UseNugetPush<TConfiguration>(this TConfiguration configuration, Action<INugetPushConfiguration> configurator = null)
 			where TConfiguration : IConfiguration
 		{
-			configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_AUTHOR_KEY, author);
-			return configuration;
-		}
-		
-		public static TConfiguration WithNugetPackageReleaseNotes<TConfiguration>(this TConfiguration configuration, string releaseNoteFile)
-			where TConfiguration : IConfiguration
-		{
-			configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_RELEASE_NOTES_FILE_KEY, releaseNoteFile);
-			return configuration;
-		}
-		
-		public static TConfiguration WithNugetPackageVersion<TConfiguration>(this TConfiguration configuration, string version)
-			where TConfiguration : IConfiguration
-		{
-			configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_VERSION_KEY, version);
-			return configuration;
-		}
-
-		public static TConfiguration WithFileInNuget<TConfiguration>(this TConfiguration configuration, string filePath, string nugetRelativePath = null)
-			where TConfiguration : IConfiguration
-		{
-			if (configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<(string filePath, string nugetRelativePath)> list))
-			{
-				list.Values.Add((filePath, nugetRelativePath));
-			}
-			else
-			{
-				configuration.Add(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, new ListConfigurationItem<(string filePath, string nugetRelativePath)>((filePath, nugetRelativePath)));
-			}
+			INugetPushConfiguration pushConfiguration = new NugetPushConfiguration(configuration);
+			configurator?.Invoke(pushConfiguration);
+			
+			configuration.AddStep(new NugetPushStep());
 			return configuration;
 		}
 	}

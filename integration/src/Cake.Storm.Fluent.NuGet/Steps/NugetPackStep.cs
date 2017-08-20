@@ -18,14 +18,14 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.NuGet.Steps
 {
 	[PreDeployStep]
-	public class NuGetPackStep : IStep
+	public class NugetPackStep : IStep
 	{
 		public void Execute(IConfiguration configuration)
 		{
 			//get artifacts output directory
 			DirectoryPath artifactsPath = configuration.GetArtifactsPath();
 
-			if (!configuration.TryGetSimple(NuGetConstants.NUSPEC_FILE_KEY, out string nuspecPath))
+			if (!configuration.TryGetSimple(NuGetConstants.NUGET_NUSPEC_FILE_KEY, out string nuspecPath))
 			{
 				configuration.Context.CakeContext.LogAndThrow("Can not determine nuget package id using either the PackageId configuration or the id in the Nuspec file");
 			}
@@ -92,6 +92,9 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 			{
 				OutputDirectory = artifactsPath,
 			});
+
+			string nugetPackagePath = artifactsPath.CombineWithFilePath($"{packageId}.{packageVersion}.nupkg").FullPath;
+			configuration.AddSimple(NuGetConstants.NUGET_PACK_OUTPUT_FILE_KEY, nugetPackagePath);
 		}
 
 		private string ReadPackageIdFromNuspec(IConfiguration configuration, string nuspecPath)
@@ -170,7 +173,7 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 
 		private string Nuspec(IConfiguration configuration, DirectoryPath nugetContentPath)
 		{
-			if (!configuration.TryGetSimple(NuGetConstants.NUSPEC_FILE_KEY, out string nuspecPath))
+			if (!configuration.TryGetSimple(NuGetConstants.NUGET_NUSPEC_FILE_KEY, out string nuspecPath))
 			{
 				configuration.Context.CakeContext.LogAndThrow("Missing nuspec file path");
 			}
