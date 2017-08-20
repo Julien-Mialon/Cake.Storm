@@ -21,14 +21,24 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			return configuration;
 		}
 
-		public static TConfiguration UseKeystore<TConfiguration>(this TConfiguration configuration, string keyStoreFile, Action<IKeystore> configurator)
+		public static TConfiguration UseKeystore<TConfiguration>(this TConfiguration configuration, string keyStoreFile, Action<IKeystoreConfiguration> configurator)
 			where TConfiguration : IConfiguration
 		{
-			IKeystoreAction keystore = new Keystore();
-			configurator(keystore);
-
-			configuration.AddStep(new KeystoreValidationStep(keyStoreFile, keystore));
-			configuration.AddStep(new SignPackageWithKeystoreStep(keyStoreFile, keystore));
+			return configuration.UseKeystore(keystoreConfiguration =>
+			{
+				keystoreConfiguration.WithFile(keyStoreFile);
+				configurator?.Invoke(keystoreConfiguration);
+			});
+		}
+		
+		public static TConfiguration UseKeystore<TConfiguration>(this TConfiguration configuration, Action<IKeystoreConfiguration> configurator)
+			where TConfiguration : IConfiguration
+		{
+			IKeystoreConfiguration keystoreConfiguration = new KeystoreConfiguration(configuration);
+			configurator(keystoreConfiguration);
+			
+			configuration.AddStep(new KeystoreValidationStep());
+			configuration.AddStep(new SignPackageWithKeystoreStep());
 
 			return configuration;
 		}

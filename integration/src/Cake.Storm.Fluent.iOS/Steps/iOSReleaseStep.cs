@@ -32,13 +32,13 @@ namespace Cake.Storm.Fluent.iOS.Steps
 					.WithProperty("IpaPackageDir", MSBuildHelper.PropertyValue(outputDirectory.MakeAbsolute(configuration.Context.CakeContext.Environment).FullPath))
 					.WithProperty("Platform", "iPhone");
 
-				string codeSignKey = configuration.Has(iOSConstants.IOS_SIGN_KEY) ? configuration.GetSimple<string>(iOSConstants.IOS_SIGN_KEY) : null;
+				string codeSignKey = configuration.Has(iOSConstants.IOS_CODESIGN_KEY) ? configuration.GetSimple<string>(iOSConstants.IOS_CODESIGN_KEY) : null;
 				if (string.IsNullOrEmpty(codeSignKey))
 				{
 					configuration.Context.CakeContext.LogAndThrow("No codesignkey for iOS Release");
 				}
 
-				string codeSignProvision = configuration.Has(iOSConstants.IOS_SIGN_PROVISION) ? configuration.GetSimple<string>(iOSConstants.IOS_SIGN_PROVISION) : null;
+				string codeSignProvision = configuration.Has(iOSConstants.IOS_CODESIGN_PROVISION) ? configuration.GetSimple<string>(iOSConstants.IOS_CODESIGN_PROVISION) : null;
 				if (string.IsNullOrEmpty(codeSignProvision))
 				{
 					configuration.Context.CakeContext.LogAndThrow("No codesignprovision for iOS Release");

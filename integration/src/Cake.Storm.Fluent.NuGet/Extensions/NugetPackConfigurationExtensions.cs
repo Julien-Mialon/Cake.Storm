@@ -1,4 +1,9 @@
-﻿namespace Cake.Storm.Fluent.NuGet.Extensions
+﻿using Cake.Storm.Fluent.InternalExtensions;
+using Cake.Storm.Fluent.Models;
+using Cake.Storm.Fluent.NuGet.Common;
+using Cake.Storm.Fluent.NuGet.Interfaces;
+
+namespace Cake.Storm.Fluent.NuGet.Extensions
 {
 	public static class NugetPackConfigurationExtensions
 	{

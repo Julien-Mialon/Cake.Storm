@@ -58,7 +58,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 				document = XDocument.Load(inputStream);
 			}
 
-			string bundleId = _bundleId == PARAMETER_KEY ? configuration.GetSimple<string>(iOSConstants.BUNDLE_ID_KEY) : _bundleId;
+			string bundleId = _bundleId == PARAMETER_KEY ? configuration.GetSimple<string>(iOSConstants.IOS_BUNDLE_ID_KEY) : _bundleId;
 			if (string.IsNullOrEmpty(bundleId))
 			{
 				configuration.Context.CakeContext.LogAndThrow("Missing bundleId for iOS PlistTransformation");

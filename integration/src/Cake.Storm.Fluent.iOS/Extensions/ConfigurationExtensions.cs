@@ -20,34 +20,34 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 		    return configuration;
 	    }
 
-	    public static TConfiguration UseFastlane<TConfiguration>(this TConfiguration configuration, Action<IFastlaneCertificate> configurator)
+	    public static TConfiguration UseFastlane<TConfiguration>(this TConfiguration configuration, Action<IFastlaneCertificateConfiguration> configurator)
 			where TConfiguration : IConfiguration
 	    {
-			IFastlaneCertificateAction fastlaneCertificate = new FastlaneCertificate();
-			configurator.Invoke(fastlaneCertificate);
+			IFastlaneCertificateConfiguration fastlaneConfiguration = new FastlaneCertificateConfiguration(configuration);
+			configurator.Invoke(fastlaneConfiguration);
 
-		    configuration.AddStep(new FastlaneCertificateStep(fastlaneCertificate));
+		    configuration.AddStep(new FastlaneCertificateStep());
 			return configuration;
 	    }
 
 	    public static TConfiguration WithBundleId<TConfiguration>(this TConfiguration configuration, string bundleId)
 		    where TConfiguration : IConfiguration
 	    {
-			configuration.Add(iOSConstants.BUNDLE_ID_KEY, new SimpleConfigurationItem<string>(bundleId));
+			configuration.Add(iOSConstants.IOS_BUNDLE_ID_KEY, new SimpleConfigurationItem<string>(bundleId));
 		    return configuration;
 	    }
 
 	    public static TConfiguration WithSignKey<TConfiguration>(this TConfiguration configuration, string signKey)
 		    where TConfiguration : IConfiguration
 	    {
-		    configuration.Add(iOSConstants.IOS_SIGN_KEY, new SimpleConfigurationItem<string>(signKey));
+		    configuration.Add(iOSConstants.IOS_CODESIGN_KEY, new SimpleConfigurationItem<string>(signKey));
 		    return configuration;
 	    }
 
 	    public static TConfiguration WithSignProvision<TConfiguration>(this TConfiguration configuration, string signProvision)
 		    where TConfiguration : IConfiguration
 	    {
-		    configuration.Add(iOSConstants.IOS_SIGN_PROVISION, new SimpleConfigurationItem<string>(signProvision));
+		    configuration.Add(iOSConstants.IOS_CODESIGN_PROVISION, new SimpleConfigurationItem<string>(signProvision));
 		    return configuration;
 	    }
 

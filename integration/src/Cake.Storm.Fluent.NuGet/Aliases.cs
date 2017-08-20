@@ -9,6 +9,7 @@ namespace Cake.Storm.Fluent.NuGet
 {
 	public static class Aliases
 	{
+		//This method is only for namespace import in cake script
 		[CakeMethodAlias]
 		public static void ImportNuget(this ICakeContext context)
 		{

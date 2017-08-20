@@ -13,15 +13,6 @@ namespace Cake.Storm.Fluent.Android.Steps
 	[PostReleaseStep]
 	internal class SignPackageWithKeystoreStep : IStep
 	{
-		private readonly string _keyStoreFile;
-		private readonly IKeystoreAction _keyStore;
-
-		public SignPackageWithKeystoreStep(string keyStoreFile, IKeystoreAction keyStore)
-		{
-			_keyStoreFile = keyStoreFile;
-			_keyStore = keyStore;
-		}
-
 		public void Execute(IConfiguration configuration)
 		{
 			FilePath apkPath = configuration.GetSimple<string>(AndroidConstants.GENERATED_ANDROID_PACKAGE_PATH_KEY);
@@ -37,8 +28,9 @@ namespace Cake.Storm.Fluent.Android.Steps
 			configuration.Context.CakeContext.CopyFile(apkPath, sourceApkPath);
 
 			string signedApkPath = Path.Combine(buildPath, $"{apkNameWithoutExtension}-Signed{apkExtension}");
-			_keyStore.Sign(configuration.AddRootDirectory(_keyStoreFile), configuration, sourceApkPath, signedApkPath);
+			
 			JarsignerCommand jarSignerCommand = new JarsignerCommand(configuration.Context.CakeContext);
+			Sign(jarSignerCommand, configuration, sourceApkPath, signedApkPath);
 			jarSignerCommand.VerifyApk(signedApkPath);
 
 			string alignedApkPath = Path.Combine(buildPath, $"{apkNameWithoutExtension}-Aligned{apkExtension}");
@@ -52,6 +44,16 @@ namespace Cake.Storm.Fluent.Android.Steps
 			}
 			
 			configuration.Context.CakeContext.CopyFile(alignedApkPath, resultApkPath);
+		}
+
+		private void Sign(JarsignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
+		{
+			string keyStoreFile = configuration.AddRootDirectory(configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_FILE));
+			string password = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_PASSWORD);
+			string keyAlias = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYALIAS);
+			string keyPassword = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYPASSWORD);
+			
+			command.SignApk(sourceApk, destinationApk, keyStoreFile, password, keyAlias, keyPassword);
 		}
 	}
 }

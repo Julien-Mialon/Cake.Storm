@@ -22,10 +22,6 @@ namespace Cake.Storm.Fluent.iOS.Commands
 
 		protected override IEnumerable<FilePath> GetAlternativeToolPaths(ToolSettings settings)
 		{
-			if (IsWindows)
-			{
-				throw new CakeException("Fastlane tool is not supported on windows");
-			}
 			if (IsOSX)
 			{
 				string home = _context.Environment.GetEnvironmentVariable("HOME");
@@ -36,7 +32,7 @@ namespace Cake.Storm.Fluent.iOS.Commands
 				};
 			}
 
-			throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");
+			throw new CakeException($"Environment {_context.Environment.Platform} not supported, only OSX is supported");
 		}
 
 		public bool SynchronizeProvisionningProfile(string userName, string teamName, string bundleId, CertificateType type, string outputFile)

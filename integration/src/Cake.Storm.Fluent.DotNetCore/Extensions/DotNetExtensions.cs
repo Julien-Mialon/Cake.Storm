@@ -17,6 +17,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Extensions
 		    return configuration;
 	    }
 
+	    //TODO: add a custom output type where user can specify which file he wants to copy from output directory
 	    public static TConfiguration WithDotNetCoreOutputType<TConfiguration>(this TConfiguration configuration, OutputType outputType)
 	    	where TConfiguration : IConfiguration
 	    {
