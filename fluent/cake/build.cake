@@ -76,6 +76,16 @@ Configure()
             .AddFile("misc/scripts/Cake.Storm.Fluent.Transformations.cake", "scripts")
         )
     )
+    .AddApplication("fluent-nuget", configuration => configuration
+        .WithProject("src/Cake.Storm.Fluent.NuGet/Cake.Storm.Fluent.NuGet.csproj")
+        .WithVersion("0.1.0")
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
+            .WithPackageId("Cake.Storm.Fluent.NuGet")
+            .WithReleaseNotesFile("misc/release_notes/Cake.Storm.Fluent.NuGet.md")
+            .AddFile("misc/scripts/Cake.Storm.Fluent.NuGet.cake", "scripts")
+        )
+    )
 	.Build();
 
 RunTarget(Argument("target", "help"));
