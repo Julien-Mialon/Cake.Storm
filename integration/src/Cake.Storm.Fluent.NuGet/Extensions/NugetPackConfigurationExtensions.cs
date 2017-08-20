@@ -2,6 +2,7 @@
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
 using Cake.Storm.Fluent.NuGet.Interfaces;
+using Cake.Storm.Fluent.NuGet.Models;
 
 namespace Cake.Storm.Fluent.NuGet.Extensions
 {
@@ -39,13 +40,13 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 
 		public static INugetPackConfiguration AddFile(this INugetPackConfiguration configuration, string filePath, string nugetRelativePath = null)
 		{
-			if (configuration.Configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<(string filePath, string nugetRelativePath)> list))
+			if (configuration.Configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<NugetFile> list))
 			{
-				list.Values.Add((filePath, nugetRelativePath));
+				list.Values.Add(new NugetFile(filePath, nugetRelativePath));
 			}
 			else
 			{
-				configuration.Configuration.Add(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, new ListConfigurationItem<(string filePath, string nugetRelativePath)>((filePath, nugetRelativePath)));
+				configuration.Configuration.Add(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, new ListConfigurationItem<NugetFile>(new NugetFile(filePath, nugetRelativePath)));
 			}
 			return configuration;
 		}

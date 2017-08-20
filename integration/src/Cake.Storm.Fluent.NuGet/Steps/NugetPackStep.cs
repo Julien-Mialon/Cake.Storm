@@ -13,6 +13,7 @@ using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
+using Cake.Storm.Fluent.NuGet.Models;
 using Cake.Storm.Fluent.Steps;
 
 namespace Cake.Storm.Fluent.NuGet.Steps
@@ -72,16 +73,16 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 			//copy nuspec with parameters
 			string nuspecOutputPath = Nuspec(configuration, nugetContentPath);
 
-			if (configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<(string filePath, string nugetRelativePath)> list))
+			if (configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<NugetFile> list))
 			{
-				foreach ((string filePath, string relativePath) in list.Values)
+				foreach (NugetFile nugetFile in list.Values)
 				{
-					string file = configuration.AddRootDirectory(filePath);
+					string file = configuration.AddRootDirectory(nugetFile.FilePath);
 					configuration.FileExistsOrThrow(file);
 					DirectoryPath destinationPath = nugetContentPath;
-					if (!string.IsNullOrEmpty(relativePath))
+					if (!string.IsNullOrEmpty(nugetFile.NugetRelativePath))
 					{
-						destinationPath = destinationPath.Combine(relativePath);
+						destinationPath = destinationPath.Combine(nugetFile.NugetRelativePath);
 					}
 					configuration.Context.CakeContext.EnsureDirectoryExists(destinationPath);
 					configuration.Context.CakeContext.CopyFileToDirectory(file, destinationPath);
