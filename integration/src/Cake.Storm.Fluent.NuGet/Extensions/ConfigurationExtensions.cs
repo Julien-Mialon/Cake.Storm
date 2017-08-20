@@ -1,8 +1,5 @@
 ﻿using System;
 using Cake.Storm.Fluent.Interfaces;
-using Cake.Storm.Fluent.InternalExtensions;
-using Cake.Storm.Fluent.Models;
-using Cake.Storm.Fluent.NuGet.Common;
 using Cake.Storm.Fluent.NuGet.Interfaces;
 using Cake.Storm.Fluent.NuGet.Models;
 using Cake.Storm.Fluent.NuGet.Steps;

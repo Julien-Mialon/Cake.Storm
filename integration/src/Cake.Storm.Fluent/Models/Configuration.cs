@@ -98,10 +98,41 @@ namespace Cake.Storm.Fluent.Models
 						result.Add(item.Key, item.Value);
 					}
 				}
-				return new Configuration(Context, result, Steps.Concat(otherConfiguration.Steps));
+				return new Configuration(Context, result, MergeSteps(Steps, otherConfiguration.Steps));
 			}
 
 			throw new CakeException($"IConfiguration.Merge {other.GetType().FullName} into {GetType().Name} is not possible");
+		}
+
+		protected IEnumerable<IStep> MergeSteps(IEnumerable<IStep> current, IEnumerable<IStep> other)
+		{
+			List<IStep> steps = new List<IStep>();
+			HashSet<Type> encounteredTypes = new HashSet<Type>();
+			HashSet<Type> multiTypes = new HashSet<Type>();
+
+			foreach (IStep step in current.Concat(other))
+			{
+				Type stepType = step.GetType();
+				if (encounteredTypes.Contains(stepType))
+				{
+					if (multiTypes.Contains(stepType))
+					{
+						steps.Add(step);
+					}
+				}
+				else
+				{
+					steps.Add(step);
+
+					encounteredTypes.Add(stepType);
+					if (stepType.GetTypeInfo().GetCustomAttribute<MultiStepAttribute>(true) != null)
+					{
+						multiTypes.Add(stepType);
+					}
+				}
+			}
+			
+			return steps;
 		}
 
 		public override string ToString()

@@ -1,5 +1,4 @@
-﻿using Cake.Storm.Fluent.Common;
-using Cake.Storm.Fluent.Interfaces;
+﻿using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
 using Cake.Storm.Fluent.Transformations.Interfaces;
@@ -7,6 +6,7 @@ using Cake.Storm.Fluent.Transformations.Interfaces;
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
 	[PreBuildStep]
+	[MultiStep]
 	internal class CsprojTransformationStep : IStep
 	{
 		private readonly string _projectFile;

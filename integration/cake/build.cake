@@ -20,6 +20,9 @@ Configure()
         .UseCsprojTransformation(transformations => transformations
             .UpdatePackageVersionFromParameter()
         )
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithAuthor("Julien Mialon")
+        )
 	)
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
@@ -28,7 +31,6 @@ Configure()
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("nuspecs/Cake.Storm.Fluent.nuspec")
             .WithPackageId("Cake.Storm.Fluent")
-            .WithAuthor("Julien Mialon")
             .WithReleaseNotesFile("release_notes/Cake.Storm.Fluent.md")
             .AddFile("scripts/Cake.Storm.Fluent.cake", "scripts")
         )

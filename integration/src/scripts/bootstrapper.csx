@@ -11,7 +11,7 @@ public ConfigurationBuilder Configure()
     ImportTransformations();
     ImportiOS();
     ImportAndroid();
-    ImportNuGet();
+    ImportNuget();
 
     return CreateConfigurationBuilder(Task, Setup, Teardown, TaskSetup, TaskTeardown);
 }

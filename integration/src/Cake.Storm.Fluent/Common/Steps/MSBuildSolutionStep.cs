@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Cake.Common.Tools.MSBuild;
-using Cake.Core;
-using Cake.Core.IO;
-using Cake.Core.Tooling;
+﻿using Cake.Common.Tools.MSBuild;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;

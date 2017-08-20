@@ -6,6 +6,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.Android.Steps
 {
 	[PreBuildStep]
+	[MultiStep]
 	internal class AndroidManifestTransformationStep : IStep
 	{
 		private readonly string _manifestFile;

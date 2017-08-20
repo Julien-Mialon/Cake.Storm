@@ -1,6 +1,4 @@
-﻿using Cake.Common.IO;
-using Cake.Core;
-using Cake.Storm.Fluent.Interfaces;
+﻿using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.Steps;
 using Cake.Storm.Fluent.iOS.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
@@ -8,6 +6,7 @@ using Cake.Storm.Fluent.InternalExtensions;
 namespace Cake.Storm.Fluent.iOS.Steps
 {
 	[PreBuildStep]
+	[MultiStep]
     internal class PListTransformationStep : IStep
 	{
 		private readonly string _sourceFile;

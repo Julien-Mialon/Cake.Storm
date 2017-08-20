@@ -2,7 +2,6 @@
 using Cake.Core.IO;
 using Cake.Storm.Fluent.Android.Commands;
 using Cake.Storm.Fluent.Android.Common;
-using Cake.Storm.Fluent.Android.Interfaces;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;

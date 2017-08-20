@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using Cake.Common.IO;
-using Cake.Core;
 using Cake.Core.IO;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
@@ -12,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
 	[PreBuildStep]
+	[MultiStep]
     internal class CodeTransformationStep : IStep
 	{
 		private readonly string _filePath;
