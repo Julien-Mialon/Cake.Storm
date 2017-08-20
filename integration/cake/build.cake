@@ -50,7 +50,7 @@ Configure()
         .WithProject("src/Cake.Storm.Fluent.DotNetCore/Cake.Storm.Fluent.DotNetCore.csproj")
         .WithVersion("0.1.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
-            .WithNuspec("nuspecs/Cake.Storm.Fluent.AnDotNetCoredroid.nuspec")
+            .WithNuspec("nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .WithPackageId("Cake.Storm.Fluent.DotNetCore")
             .WithReleaseNotesFile("release_notes/Cake.Storm.Fluent.DotNetCore.md")
             .AddFile("scripts/Cake.Storm.Fluent.DotNetCore.cake", "scripts")
