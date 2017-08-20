@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net45;net46;netstandard1.6</TargetFrameworks>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Cake.Storm.Fluent.DotNetCore</PackageId>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Julien Mialon</Authors>
+    <Company>Julien Mialon</Company>
+    <Description>A set of aliases for Cake to help create build configuration with fluent syntax for dotnetcore</Description>
+    <PackageIconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Julien-Mialon/cake</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Julien-Mialon/cake/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>cake cake-build cake-contrib fluent dotnetcore</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Cake.Core" Version="0.21.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cake.Storm.Fluent\Cake.Storm.Fluent.csproj" />
+  </ItemGroup>
+</Project>
