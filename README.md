@@ -14,7 +14,7 @@ Fluent addins :
 
 ## Remarks
 
-All addins must be loaded using a load instruction instead of adding because they add a small scripts to load necessary tooling and import namespaces in cake.
+All addins must be loaded using a load instruction instead of addin because they add a small scripts to load necessary tooling and import namespaces in cake.
 ```
 #load "nuget:?package=Cake.Storm.Fluent.XYZ"
 ```
