@@ -68,7 +68,7 @@ Configure()
     )
     .AddApplication("fluent-transformations", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Transformations/Cake.Storm.Fluent.Transformations.csproj")
-        .WithVersion("0.1.0")
+        .WithVersion("0.1.1")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Transformations")
