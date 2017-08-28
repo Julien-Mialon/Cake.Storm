@@ -54,7 +54,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			
 			if (allowCreate)
 			{
-				if (configuration.TryGetSimple(AndroidConstants.ANDROID_KEYSTORE_AUTHORITY, out string authority))
+				if (!configuration.TryGetSimple(AndroidConstants.ANDROID_KEYSTORE_AUTHORITY, out string authority))
 				{
 					configuration.Context.CakeContext.LogAndThrow($"Missing authority to create alias {keyAlias} in keystore {keyStoreFile}");
 				}

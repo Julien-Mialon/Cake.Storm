@@ -38,7 +38,7 @@ Configure()
     )
     .AddApplication("fluent-android", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Android/Cake.Storm.Fluent.Android.csproj")
-        .WithVersion("0.1.0")
+        .WithVersion("0.1.1")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Android")
