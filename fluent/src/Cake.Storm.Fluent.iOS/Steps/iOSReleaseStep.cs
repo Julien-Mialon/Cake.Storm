@@ -20,11 +20,12 @@ namespace Cake.Storm.Fluent.iOS.Steps
 		{
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
 
+			string solutionFile = configuration.GetSolutionPath();
 			string projectFile = configuration.GetProjectPath();
-			configuration.FileExistsOrThrow(projectFile);
+			configuration.FileExistsOrThrow(solutionFile);
 
 			//Create iPA package
-			configuration.Context.CakeContext.MSBuild(projectFile, settings =>
+			configuration.Context.CakeContext.MSBuild(solutionFile, settings =>
 			{
 				settings.SetConfiguration("Release");
 				settings.WithProperty("BuildIpa", "true")
