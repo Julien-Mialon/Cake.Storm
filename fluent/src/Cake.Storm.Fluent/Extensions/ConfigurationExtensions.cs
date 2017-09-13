@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Cake.Common;
+using Cake.Core;
 using Cake.Storm.Fluent.Common;
 using Cake.Storm.Fluent.DefaultTooling;
 using Cake.Storm.Fluent.Interfaces;
@@ -52,6 +54,17 @@ namespace Cake.Storm.Fluent.Extensions
 		    configuration.Add(ConfigurationConstants.VERSION_KEY, new SimpleConfigurationItem<string>(version));
 		    return configuration;
 	    }
+
+		public static TConfiguration WithVersionFromArguments<TConfiguration>(this TConfiguration configuration, string argumentName = "args.version")
+			where TConfiguration : IConfiguration
+		{
+			if (configuration.Context.CakeContext.HasArgument(argumentName))
+			{
+				return configuration.WithVersion(configuration.Context.CakeContext.Argument<string>(argumentName));
+			}
+			configuration.LogAndThrow($"Missing parameter {argumentName} to get version from arguments");
+			return configuration;
+		}
 
 		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration) where TConfiguration : IConfiguration
 	    {
