@@ -15,8 +15,8 @@
 		<copyright>Copyright 2017</copyright>
 		<tags>cake cake-build cake-contrib fluent</tags>
         <dependencies>
-            <dependency id="Cake.Common" version="0.21.1" />
-            <dependency id="Cake.Core" version="0.21.1" />
+            <dependency id="Cake.Common" version="0.22.0" />
+            <dependency id="Cake.Core" version="0.22.0" />
         </dependencies>
 	</metadata>
 </package>
