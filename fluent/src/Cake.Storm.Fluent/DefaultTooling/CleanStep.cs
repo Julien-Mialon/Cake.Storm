@@ -79,8 +79,16 @@ namespace Cake.Storm.Fluent.DefaultTooling
 		    {
 				DirectoryPath rootPath = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY);
 			    cake.Log.Information($"Clean bin and obj in {rootPath.FullPath}");
-				cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/bin")), true);
-			    cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/obj")), true);
+				cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/bin")), new DeleteDirectorySettings
+				{
+					Force = true,
+					Recursive = true
+				});
+			    cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/obj")), new DeleteDirectorySettings
+				{
+					Force = true,
+					Recursive = true
+				});
 			}
 	    }
     }
