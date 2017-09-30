@@ -40,7 +40,7 @@ namespace Cake.Storm.Fluent.iOS.Commands
 			ProcessArgumentBuilder builder = new ProcessArgumentBuilder()
 				.Append("sigh")
 				.Append("-u").Append(userName)
-				.Append("--team_name").Append(teamName)
+				.Append("--team_name").AppendQuoted(teamName)
 				.Append("--app_identifier").Append(bundleId)
 				.Append("--filename").Append(outputFile);
 			if (type == CertificateType.AdHoc)
