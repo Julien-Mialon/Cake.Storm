@@ -1,3 +1,6 @@
+Version 0.3.0 :
+    - Fix fastlane command missing quote around team name
+
 Version 0.2.0 : 
     - Update to Cake 0.22.0 dependencies
     - Remove net45 framework support

@@ -1,3 +1,6 @@
+Version 0.3.0
+    - Add tasks to copy files before build
+
 Version 0.2.0 : 
     - Update to Cake 0.22.0 dependencies
     - Remove net45 framework support
