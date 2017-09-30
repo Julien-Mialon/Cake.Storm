@@ -10,7 +10,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 	[PreBuildStep]
 	internal class DotNetRestoreStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			string solutionPath = configuration.GetSolutionPath();
 			if (!configuration.Context.CakeContext.FileExists(solutionPath))

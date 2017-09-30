@@ -11,7 +11,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 	[PreReleaseStep]
 	internal class KeystoreValidationStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			if (!configuration.TryGetSimple(AndroidConstants.ANDROID_KEYSTORE_FILE, out string keyStoreFile))
 			{

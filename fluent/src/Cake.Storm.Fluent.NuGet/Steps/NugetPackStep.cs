@@ -21,7 +21,7 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 	[PreDeployStep]
 	public class NugetPackStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			//get artifacts output directory
 			DirectoryPath artifactsPath = configuration.GetArtifactsPath();

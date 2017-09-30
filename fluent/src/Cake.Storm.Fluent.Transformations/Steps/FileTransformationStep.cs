@@ -6,20 +6,18 @@ using Cake.Storm.Fluent.Transformations.Interfaces;
 
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
-	[PreBuildStep]
-	[MultiStep]
-	internal class FileTransformationStep : IStep
+	internal class FileTransformationStep : BaseMultipleStep
 	{
 		private readonly string _file;
 		private readonly IFileTransformationAction _transformation;
 
-		public FileTransformationStep(string file, IFileTransformationAction transformation)
+		public FileTransformationStep(string file, IFileTransformationAction transformation, StepType onStep) : base(onStep)
 		{
 			_file = file;
 			_transformation = transformation;
 		}
 
-		public void Execute(IConfiguration configuration)
+		protected override void Execute(IConfiguration configuration)
 		{
 			string file = configuration.AddRootDirectory(_file);
 			configuration.FileExistsOrThrow(file);

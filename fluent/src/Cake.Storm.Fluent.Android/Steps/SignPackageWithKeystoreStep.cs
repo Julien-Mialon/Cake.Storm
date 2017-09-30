@@ -12,7 +12,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 	[PostReleaseStep]
 	internal class SignPackageWithKeystoreStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			FilePath apkPath = configuration.GetSimple<string>(AndroidConstants.GENERATED_ANDROID_PACKAGE_PATH_KEY);
 

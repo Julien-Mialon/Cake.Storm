@@ -16,7 +16,7 @@ namespace Cake.Storm.Fluent.iOS.Steps
 	// ReSharper disable once InconsistentNaming
 	internal class iOSReleaseStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
 

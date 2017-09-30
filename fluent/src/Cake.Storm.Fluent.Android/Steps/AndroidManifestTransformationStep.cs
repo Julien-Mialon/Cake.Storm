@@ -18,7 +18,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			_transformation = transformation;
 		}
 
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			_transformation.Execute(configuration.AddRootDirectory(_manifestFile), configuration);
 		}

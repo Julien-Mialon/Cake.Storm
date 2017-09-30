@@ -20,7 +20,7 @@ namespace Cake.Storm.Fluent.Common.Steps
 			_directoryPath = directoryPath;
 		}
 
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			string directory = _directoryPath ?? configuration.AddRootDirectory(".");
 

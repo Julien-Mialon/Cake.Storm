@@ -59,17 +59,17 @@ namespace Cake.Storm.Fluent.Internals
 				{
 					foreach (IStep preBuild in target.Configuration.StepsOf<PreBuildStepAttribute>())
 					{
-						preBuild.Execute(target.Configuration);
+						preBuild.Execute(target.Configuration, StepType.PreBuild);
 					}
 
 					foreach (IStep build in target.Configuration.StepsOf<BuildStepAttribute>())
 					{
-						build.Execute(target.Configuration);
+						build.Execute(target.Configuration, StepType.Build);
 					}
 
 					foreach (IStep postBuild in target.Configuration.StepsOf<PostBuildStepAttribute>())
 					{
-						postBuild.Execute(target.Configuration);
+						postBuild.Execute(target.Configuration, StepType.PostBuild);
 					}
 				});
 
@@ -80,17 +80,17 @@ namespace Cake.Storm.Fluent.Internals
 					{
 						foreach (IStep preRelease in target.Configuration.StepsOf<PreReleaseStepAttribute>())
 						{
-							preRelease.Execute(target.Configuration);
+							preRelease.Execute(target.Configuration, StepType.PreRelease);
 						}
 
 						foreach (IStep release in target.Configuration.StepsOf<ReleaseStepAttribute>())
 						{
-							release.Execute(target.Configuration);
+							release.Execute(target.Configuration, StepType.Release);
 						}
 
 						foreach (IStep postRelease in target.Configuration.StepsOf<PostReleaseStepAttribute>())
 						{
-							postRelease.Execute(target.Configuration);
+							postRelease.Execute(target.Configuration, StepType.PostRelease);
 						}
 					});
 				
@@ -99,19 +99,19 @@ namespace Cake.Storm.Fluent.Internals
 					.IsDependentOn(target.ReleaseTaskName)
 					.Does(() =>
 					{
-						foreach (IStep preRelease in target.Configuration.StepsOf<PreDeployStepAttribute>())
+						foreach (IStep preDeploy in target.Configuration.StepsOf<PreDeployStepAttribute>())
 						{
-							preRelease.Execute(target.Configuration);
+							preDeploy.Execute(target.Configuration, StepType.PreDeploy);
 						}
 
-						foreach (IStep release in target.Configuration.StepsOf<DeployStepAttribute>())
+						foreach (IStep deploy in target.Configuration.StepsOf<DeployStepAttribute>())
 						{
-							release.Execute(target.Configuration);
+							deploy.Execute(target.Configuration, StepType.Deploy);
 						}
 
-						foreach (IStep postRelease in target.Configuration.StepsOf<PostDeployStepAttribute>())
+						foreach (IStep postDeploy in target.Configuration.StepsOf<PostDeployStepAttribute>())
 						{
-							postRelease.Execute(target.Configuration);
+							postDeploy.Execute(target.Configuration, StepType.PostDeploy);
 						}
 					});
 			}

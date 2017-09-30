@@ -26,17 +26,17 @@ namespace Cake.Storm.Fluent.Internals
 			{
 				foreach (IStep preCleanStep in preCleanSteps)
 				{
-					preCleanStep.Execute(_parameters.RootConfiguration);
+					preCleanStep.Execute(_parameters.RootConfiguration, StepType.PreClean);
 				}
 
 				foreach (IStep cleanStep in cleanSteps)
 				{
-					cleanStep.Execute(_parameters.RootConfiguration);
+					cleanStep.Execute(_parameters.RootConfiguration, StepType.Clean);
 				}
 
 				foreach (IStep postCleanStep in postCleanSteps)
 				{
-					postCleanStep.Execute(_parameters.RootConfiguration);
+					postCleanStep.Execute(_parameters.RootConfiguration, StepType.PostClean);
 				}
 			});
 		}

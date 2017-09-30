@@ -4,6 +4,6 @@ namespace Cake.Storm.Fluent.Steps
 {
     public interface IStep
     {
-	    void Execute(IConfiguration configuration);
+	    void Execute(IConfiguration configuration, StepType currentStep);
     }
 }

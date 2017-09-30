@@ -20,7 +20,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 	[ReleaseStep]
 	internal class DotNetReleaseStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			//default to Copy
 			OutputType outputType = OutputType.Copy;

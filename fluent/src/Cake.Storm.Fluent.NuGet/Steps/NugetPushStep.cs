@@ -11,7 +11,7 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 	[DeployStep]
 	public class NugetPushStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			if (!configuration.TryGetSimple(NuGetConstants.NUGET_PACK_OUTPUT_FILE_KEY, out string nugetPackageFile))
 			{

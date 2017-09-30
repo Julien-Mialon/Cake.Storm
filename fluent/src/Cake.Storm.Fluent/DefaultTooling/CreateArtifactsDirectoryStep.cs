@@ -10,7 +10,7 @@ namespace Cake.Storm.Fluent.DefaultTooling
 	[PreReleaseStep]
     public class CreateArtifactsDirectoryStep : IStep
     {
-	    public void Execute(IConfiguration configuration)
+	    public void Execute(IConfiguration configuration, StepType currentStep)
 	    {
 		    DirectoryPath directory = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ARTIFACTS_PATH_KEY);
 		    configuration.Context.CakeContext.EnsureDirectoryExists(directory);
