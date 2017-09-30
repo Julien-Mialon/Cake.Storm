@@ -10,16 +10,14 @@ using Cake.Storm.Fluent.Transformations.Models;
 
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
-	[PreBuildStep]
-	[MultiStep]
-	internal class CopyFilesStep : IStep
+	internal class CopyFilesStep : BaseMultipleStep
 	{
 		private string _source;
 		private readonly PathItemType _sourceType;
 		private string _target;
 		private readonly PathItemType _targetType;
 
-		public CopyFilesStep(string source, PathItemType sourceType, string target, PathItemType targetType)
+		public CopyFilesStep(string source, PathItemType sourceType, string target, PathItemType targetType, StepType onStep) : base(onStep)
 		{
 			_source = source;
 			_sourceType = sourceType;
@@ -27,7 +25,7 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 			_targetType = targetType;
 		}
 
-		public void Execute(IConfiguration configuration)
+		protected override void Execute(IConfiguration configuration)
 		{
 			_source = configuration.AddRootDirectory(_source);
 			_target = configuration.AddRootDirectory(_target);

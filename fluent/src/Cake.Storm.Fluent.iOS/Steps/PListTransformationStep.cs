@@ -18,7 +18,7 @@ namespace Cake.Storm.Fluent.iOS.Steps
 			_transformation = transformation;
 		}
 
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			string plistFile = configuration.AddRootDirectory(_sourceFile);
 			configuration.FileExistsOrThrow(plistFile);

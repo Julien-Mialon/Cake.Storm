@@ -17,7 +17,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 	[ReleaseStep]
 	internal class AndroidReleaseStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
 

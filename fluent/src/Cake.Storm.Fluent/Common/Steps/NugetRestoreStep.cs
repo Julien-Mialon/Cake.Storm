@@ -16,7 +16,7 @@ namespace Cake.Storm.Fluent.Common.Steps
 			_solutionOrProjectPath = solutionOrProjectPath;
 		}
 
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			if (!configuration.Context.CakeContext.FileExists(_solutionOrProjectPath))
 			{

@@ -18,7 +18,7 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 			_transformation = transformation;
 		}
 
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			string projectFile;
 			if (_projectFile == null)

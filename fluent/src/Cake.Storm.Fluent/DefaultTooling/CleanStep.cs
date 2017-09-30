@@ -24,7 +24,7 @@ namespace Cake.Storm.Fluent.DefaultTooling
 			All = 7
 	    }
 
-	    public void Execute(IConfiguration configuration)
+	    public void Execute(IConfiguration configuration, StepType currentStep)
 	    {
 		    ICakeContext cake = configuration.Context.CakeContext;
 			CleanLevel cleanLevel = CleanLevel.All;

@@ -12,7 +12,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 	[BuildStep]
     internal class DotNetBuildStep : IStep
     {
-	    public void Execute(IConfiguration configuration)
+	    public void Execute(IConfiguration configuration, StepType currentStep)
 	    {
 		    string solutionPath = configuration.GetSolutionPath();
 		    if (!configuration.Context.CakeContext.FileExists(solutionPath))

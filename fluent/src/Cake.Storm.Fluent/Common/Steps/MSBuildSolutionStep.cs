@@ -8,7 +8,7 @@ namespace Cake.Storm.Fluent.Common.Steps
 	[BuildStep]
 	public class MSBuildSolutionStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			string solutionPath = configuration.GetSolutionPath();
 			configuration.FileExistsOrThrow(solutionPath);

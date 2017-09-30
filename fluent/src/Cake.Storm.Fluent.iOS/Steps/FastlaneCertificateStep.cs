@@ -15,7 +15,7 @@ namespace Cake.Storm.Fluent.iOS.Steps
 	[PreReleaseStep]
 	internal class FastlaneCertificateStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			FastlaneCommand command = new FastlaneCommand(configuration.Context.CakeContext);
 

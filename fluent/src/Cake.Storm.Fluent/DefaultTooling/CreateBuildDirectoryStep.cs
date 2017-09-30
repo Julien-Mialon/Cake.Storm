@@ -10,7 +10,7 @@ namespace Cake.Storm.Fluent.DefaultTooling
 	[PreBuildStep]
 	public class CreateBuildDirectoryStep : IStep
 	{
-		public void Execute(IConfiguration configuration)
+		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			DirectoryPath directory = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.BUILD_PATH_KEY);
 			configuration.Context.CakeContext.EnsureDirectoryExists(directory);

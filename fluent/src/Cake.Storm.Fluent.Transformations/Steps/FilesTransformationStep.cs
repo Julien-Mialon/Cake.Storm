@@ -4,18 +4,16 @@ using Cake.Storm.Fluent.Transformations.Interfaces;
 
 namespace Cake.Storm.Fluent.Transformations.Steps
 {
-	[PreBuildStep]
-	[MultiStep]
-	internal class FilesTransformationStep : IStep
+	internal class FilesTransformationStep : BaseMultipleStep
 	{
 		private readonly IFilesTransformationAction _transformation;
 
-		public FilesTransformationStep(IFilesTransformationAction transformation)
+		public FilesTransformationStep(IFilesTransformationAction transformation, StepType onStep) : base(onStep)
 		{
 			_transformation = transformation;
 		}
 
-		public void Execute(IConfiguration configuration)
+		protected override void Execute(IConfiguration configuration)
 		{
 			_transformation.Execute(configuration);
 		}
