@@ -12,6 +12,17 @@ Configure()
 		.UseDefaultTooling()
 		.UseDotNetCoreTooling()
         .WithDotNetCoreOutputType(OutputType.Copy)
+        .UseFilesTransformation(transformation => transformation
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
+
+            .Replace("{cake}", "0.22.0")
+            .Replace("{cake.storm.fluent}", "0.3.0")
+        )
 	)
 	//platforms configuration
 	.AddPlatform("dotnet")
