@@ -391,6 +391,7 @@ namespace Cake.Storm.Fluent.Internals
 						IPlatformConfiguration applicationTargetPlatformConfiguration = applicationTargetPlatforms?[platformName];
 						
 						IConfiguration rootLevel = parameters.RootConfiguration;
+						IConfiguration switchLevel = parameters.SwitchConfiguration;
 						IConfiguration platformLevel = platformConfiguration;
 						IConfiguration targetLevel = targetConfiguration;
 						IConfiguration applicationLevel = applicationConfiguration;
@@ -412,7 +413,7 @@ namespace Cake.Storm.Fluent.Internals
 							applicationLevel = applicationLevel.Merge(applicationTargetLevel);
 						}
 
-						IConfiguration configuration = rootLevel.Merge(platformLevel.Merge(targetLevel.Merge(applicationLevel)));
+						IConfiguration configuration = rootLevel.Merge(switchLevel.Merge(platformLevel.Merge(targetLevel.Merge(applicationLevel))));
 						result.Add(new Target(applicationItem.Key, targetItem.Key, platformItem.Key, configuration));
 					}
 				}
