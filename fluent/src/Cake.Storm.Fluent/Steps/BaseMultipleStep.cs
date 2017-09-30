@@ -9,16 +9,16 @@ namespace Cake.Storm.Fluent.Steps
 	[PreDeployStep] [DeployStep] [PostDeployStep]
 	public abstract class BaseMultipleStep : IStep
 	{
-		private readonly StepType _executeOn;
+		private readonly StepType _onStep;
 
-		protected BaseMultipleStep(StepType executeOn)
+		protected BaseMultipleStep(StepType onStep)
 		{
-			_executeOn = executeOn;
+			_onStep = onStep;
 		}
 
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
-			if (currentStep == _executeOn)
+			if (currentStep == _onStep)
 			{
 				Execute(configuration);
 			}

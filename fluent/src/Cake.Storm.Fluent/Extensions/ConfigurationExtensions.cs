@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cake.Common;
 using Cake.Core;
 using Cake.Storm.Fluent.Common;
+using Cake.Storm.Fluent.Common.Steps;
 using Cake.Storm.Fluent.DefaultTooling;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.Models;
@@ -66,11 +68,26 @@ namespace Cake.Storm.Fluent.Extensions
 			return configuration;
 		}
 
-		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration) where TConfiguration : IConfiguration
+		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration) 
+			where TConfiguration : IConfiguration
 	    {
 		    configuration.AddStep(new CleanStep());
 			configuration.AddStep(new CreateBuildDirectoryStep());
 			configuration.AddStep(new CreateArtifactsDirectoryStep());
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action<IConfiguration> code, StepType onStep = StepType.PreBuild) 
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CodeStep(code, onStep));
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action code, StepType onStep = StepType.PreBuild) 
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CodeStep(_ => code(), onStep));
 		    return configuration;
 	    }
     }
