@@ -32,5 +32,33 @@ namespace Cake.Storm.Fluent.Transformations.Extensions
 		    configuration.AddStep(new CsprojTransformationStep(projectFile, transformation));
 		    return configuration;
 	    }
+
+	    public static TConfiguration UseCopyFile<TConfiguration>(this TConfiguration configuration, string sourceFile, string targetFile)
+	    	where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CopyFilesStep(sourceFile, PathItemType.File, targetFile, PathItemType.File));
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration UseCopyFileToDirectory<TConfiguration>(this TConfiguration configuration, string sourceFile, string targetDirectory)
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CopyFilesStep(sourceFile, PathItemType.File, targetDirectory, PathItemType.Directory));
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration UseCopyFilesToDirectory<TConfiguration>(this TConfiguration configuration, string sourceDirectory, string targetDirectory)
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CopyFilesStep(sourceDirectory, PathItemType.Directory, targetDirectory, PathItemType.Directory));
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration UseCopyFilesWithPatternToDirectory<TConfiguration>(this TConfiguration configuration, string filePattern, string targetDirectory)
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.AddStep(new CopyFilesStep(filePattern, PathItemType.Pattern, targetDirectory, PathItemType.Directory));
+		    return configuration;
+	    }
     }
 }
