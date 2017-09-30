@@ -16,9 +16,9 @@
 		<tags>cake cake-build cake-contrib fluent transformation edition csproj cs source</tags>
 		<dependencies>
 			<group>
-				<dependency id="Cake.Common" version="0.22.0" />
-				<dependency id="Cake.Core" version="0.22.0" />
-				<dependency id="Cake.Storm.Fluent" version="0.2.0" />
+				<dependency id="Cake.Common" version="{cake}" />
+				<dependency id="Cake.Core" version="{cake}" />
+				<dependency id="Cake.Storm.Fluent" version="{cake.storm.fluent}" />
 				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.3.1" />
 			</group>
 		</dependencies>

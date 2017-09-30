@@ -33,6 +33,24 @@ namespace Cake.Storm.Fluent.Transformations.Extensions
 		    return configuration;
 	    }
 
+	    public static TConfiguration UseFileTransformation<TConfiguration>(this TConfiguration configuration, string file, Action<IFileTransformation> transformerAction)
+		    where TConfiguration : IConfiguration
+	    {
+			IFileTransformationAction transformation = new FileTransformation();
+		    transformerAction(transformation);
+		    configuration.AddStep(new FileTransformationStep(file, transformation));
+		    return configuration;
+	    }
+	    
+	    public static TConfiguration UseFilesTransformation<TConfiguration>(this TConfiguration configuration, Action<IFilesTransformation> transformerAction)
+		    where TConfiguration : IConfiguration
+	    {
+		    IFilesTransformationAction transformation = new FilesTransformation();
+		    transformerAction(transformation);
+		    configuration.AddStep(new FilesTransformationStep(transformation));
+		    return configuration;
+	    }
+
 	    public static TConfiguration UseCopyFile<TConfiguration>(this TConfiguration configuration, string sourceFile, string targetFile)
 	    	where TConfiguration : IConfiguration
 	    {
