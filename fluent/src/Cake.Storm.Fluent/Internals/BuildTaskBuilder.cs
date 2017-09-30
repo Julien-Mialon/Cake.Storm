@@ -211,7 +211,7 @@ namespace Cake.Storm.Fluent.Internals
 			targets.GroupBy(x => x.PlatformName).Select(y => y.First()).ForEach(t => logger.Information($"\trelease-{t.PlatformName}"));
 			logger.Information("");
 			logger.Information("deploy: deploy all, see below for more restrictive versions");
-			targets.ForEach(t => logger.Information($"\t{t.ReleaseTaskName}"));
+			targets.ForEach(t => logger.Information($"\t{t.DeployTaskName}"));
 			logger.Information("");
 			targets.GroupBy(x => x.ApplicationName).SelectMany(x => x.GroupBy(y => y.TargetName).Select(y => y.First())).ForEach(t => logger.Information($"\tdeploy-{t.ApplicationName}-{t.TargetName}"));
 			logger.Information("");
