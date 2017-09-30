@@ -18,6 +18,9 @@ namespace Cake.Storm.Fluent
 		private readonly Dictionary<string, IPlatformConfiguration> _platforms = new Dictionary<string, IPlatformConfiguration>();
 		private readonly Dictionary<string, ITargetConfiguration> _targets = new Dictionary<string, ITargetConfiguration>();
 		private readonly Dictionary<string, IApplicationConfiguration> _applications = new Dictionary<string, IApplicationConfiguration>();
+		private readonly Dictionary<string, SwitchBuilder> _switches = new Dictionary<string, SwitchBuilder>();
+
+		private bool _rootConfigurationDefined;
 
 		public ConfigurationBuilder(IFluentContext context)
 		{
@@ -44,14 +47,25 @@ namespace Cake.Storm.Fluent
 			return this;
 		}
 
-		public ConfigurationBuilder AddConfiguration(Action<IConfiguration> action)
+		public ConfigurationBuilder AddConfiguration(Action<IConfiguration> action = null)
 		{
-			action(_rootConfiguration);
+			if (_rootConfigurationDefined)
+			{
+				_context.CakeContext.LogAndThrow("Root configuration has already been defined");
+			}
+			
+			action?.Invoke(_rootConfiguration);
+			_rootConfigurationDefined = true;
 			return this;
 		}
 
 		public ConfigurationBuilder AddPlatform(string name, Action<IPlatformConfiguration> action = null)
 		{
+			if (_platforms.ContainsKey(name))
+			{
+				_context.CakeContext.LogAndThrow($"Platform {name} already exists");
+			}
+			
 			IPlatformConfiguration platformConfiguration = new PlatformConfiguration(_context);
 			action?.Invoke(platformConfiguration);
 			_platforms.Add(name, platformConfiguration);
@@ -60,6 +74,11 @@ namespace Cake.Storm.Fluent
 
 		public ConfigurationBuilder AddTarget(string name, Action<ITargetConfiguration> action = null)
 		{
+			if (_targets.ContainsKey(name))
+			{
+				_context.CakeContext.LogAndThrow($"Target {name} already exists");
+			}
+			
 			ITargetConfiguration targetConfiguration = new TargetConfiguration(_context);
 			action?.Invoke(targetConfiguration);
 			_targets.Add(name, targetConfiguration);
@@ -68,9 +87,27 @@ namespace Cake.Storm.Fluent
 
 		public ConfigurationBuilder AddApplication(string name, Action<IApplicationConfiguration> action = null)
 		{
+			if (_applications.ContainsKey(name))
+			{
+				_context.CakeContext.LogAndThrow($"Application {name} already exists");
+			}
+			
 			IApplicationConfiguration applicationConfiguration = new ApplicationConfiguration(_context);
 			action?.Invoke(applicationConfiguration);
 			_applications.Add(name, applicationConfiguration);
+			return this;
+		}
+
+		public ConfigurationBuilder AddConfigurationSwitch(string name, Action<ISwitchBuilder> action = null)
+		{
+			if (_switches.ContainsKey(name))
+			{
+				_context.CakeContext.LogAndThrow($"Switch {name} already exists");
+			}
+
+			SwitchBuilder switchBuilder = new SwitchBuilder(_context, name);
+			action?.Invoke(switchBuilder);
+			_switches.Add(name, switchBuilder);
 			return this;
 		}
 
@@ -104,8 +141,20 @@ namespace Cake.Storm.Fluent
 			DirectoryPath buildPath = rootPath.Combine(_pathContainer.Build);
 			DirectoryPath artifactsPath = rootPath.Combine(_pathContainer.Artifacts);
 
-			BuilderParameters parameters = new BuilderParameters(rootPath, buildPath, artifactsPath, _context, _rootConfiguration, _platforms, _targets, _applications);
+			IConfiguration switchConfiguration = MergeSwitches();
+			
+			BuilderParameters parameters = new BuilderParameters(rootPath, buildPath, artifactsPath, _context, _rootConfiguration, switchConfiguration, _platforms, _targets, _applications);
 			new Builder(parameters).Build();
+		}
+
+		private IConfiguration MergeSwitches()
+		{
+			IConfiguration configuration = new Configuration(_context);
+			foreach (SwitchBuilder switchBuilder in _switches.Values)
+			{
+				configuration = configuration.Merge(switchBuilder.GetSelectedConfiguration());
+			}
+			return configuration;
 		}
 
 		private class PathContainer
