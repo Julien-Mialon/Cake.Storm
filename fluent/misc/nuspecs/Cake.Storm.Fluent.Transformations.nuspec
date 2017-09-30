@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>{id}</id>
+		<version>{version}</version>
+		<title>Cake Fluent - Transformations</title>
+		<authors>{author}</authors>
+		<owners>Storm</owners>
+		<licenseUrl>https://github.com/Julien-Mialon/cake/blob/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Julien-Mialon/cake</projectUrl>
+		<iconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Cake addin for fluent description to update file content before build (csproj &amp; cs source file).</description>
+		<releaseNotes>{release_notes}</releaseNotes>
+		<copyright>Copyright 2017</copyright>
+		<tags>cake cake-build cake-contrib fluent transformation edition csproj cs source</tags>
+		<dependencies>
+			<group>
+				<dependency id="Cake.Common" version="{cake}" />
+				<dependency id="Cake.Core" version="{cake}" />
+				<dependency id="Cake.Storm.Fluent" version="{cake.storm.fluent}" />
+				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.3.1" />
+			</group>
+		</dependencies>
+	</metadata>
+</package>

@@ -1,0 +1,2 @@
+Create a SubConfiguration which implement IConfiguration & IConfigurationItem to be used as a child of IConfiguration and 
+still be able to add subconfiguration "per domain" (for instanse : to be able to specify nuget packing configuration)
