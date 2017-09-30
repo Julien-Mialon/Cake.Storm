@@ -39,7 +39,7 @@ Configure()
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent/Cake.Storm.Fluent.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.nuspec")
             .WithPackageId("Cake.Storm.Fluent")
@@ -49,7 +49,7 @@ Configure()
     )
     .AddApplication("fluent-android", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Android/Cake.Storm.Fluent.Android.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Android")
@@ -59,7 +59,7 @@ Configure()
     )
     .AddApplication("fluent-dotnetcore", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.DotNetCore/Cake.Storm.Fluent.DotNetCore.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .WithPackageId("Cake.Storm.Fluent.DotNetCore")
@@ -69,7 +69,7 @@ Configure()
     )
     .AddApplication("fluent-ios", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.iOS/Cake.Storm.Fluent.iOS.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
             .WithPackageId("Cake.Storm.Fluent.iOS")
@@ -79,7 +79,7 @@ Configure()
     )
     .AddApplication("fluent-transformations", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Transformations/Cake.Storm.Fluent.Transformations.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Transformations")
@@ -89,7 +89,7 @@ Configure()
     )
     .AddApplication("fluent-nuget", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.NuGet/Cake.Storm.Fluent.NuGet.csproj")
-        .WithVersion("0.2.0")
+        .WithVersion("0.3.0")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
             .WithPackageId("Cake.Storm.Fluent.NuGet")

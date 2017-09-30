@@ -1,5 +1,6 @@
 Version 0.3.0
-    - Add tasks to copy files before build
+    - Add tasks to copy files 
+    - Add task to update file content 
 
 Version 0.2.0 : 
     - Update to Cake 0.22.0 dependencies
