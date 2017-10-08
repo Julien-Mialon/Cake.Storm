@@ -60,12 +60,15 @@ namespace Cake.Storm.Fluent.Extensions
 		public static TConfiguration WithVersionFromArguments<TConfiguration>(this TConfiguration configuration, string argumentName = "args.version")
 			where TConfiguration : IConfiguration
 		{
-			if (configuration.Context.CakeContext.HasArgument(argumentName))
+			return configuration.ExecuteCode(c =>
 			{
-				return configuration.WithVersion(configuration.Context.CakeContext.Argument<string>(argumentName));
-			}
-			configuration.LogAndThrow($"Missing parameter {argumentName} to get version from arguments");
-			return configuration;
+				if (c.Context.CakeContext.HasArgument(argumentName))
+				{
+					c.WithVersion(configuration.Context.CakeContext.Argument<string>(argumentName));
+					return;
+				}
+				c.LogAndThrow($"Missing parameter {argumentName} to get version from arguments");
+			}, StepType.PreClean);
 		}
 
 		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration) 
