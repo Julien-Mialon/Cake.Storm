@@ -17,6 +17,7 @@ namespace Cake.Storm.Fluent.Internals
 		    PlatformsConfiguration = platformsConfiguration;
 		    TargetsConfiguration = targetsConfiguration;
 		    ApplicationsConfiguration = applicationsConfiguration;
+		    Runner = new StepRunner();
 	    }
 
 	    public DirectoryPath RootPath { get; }
@@ -36,5 +37,7 @@ namespace Cake.Storm.Fluent.Internals
 		public IReadOnlyDictionary<string, ITargetConfiguration> TargetsConfiguration { get; }
 
 		public IReadOnlyDictionary<string, IApplicationConfiguration> ApplicationsConfiguration { get; }
+	    
+	    public IStepRunner Runner { get; }
     }
 }

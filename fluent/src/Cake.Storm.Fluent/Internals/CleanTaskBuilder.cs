@@ -24,20 +24,7 @@ namespace Cake.Storm.Fluent.Internals
 
 			_parameters.Context.Task(TASK_NAME).Does(() =>
 			{
-				foreach (IStep preCleanStep in preCleanSteps)
-				{
-					preCleanStep.Execute(_parameters.RootConfiguration, StepType.PreClean);
-				}
-
-				foreach (IStep cleanStep in cleanSteps)
-				{
-					cleanStep.Execute(_parameters.RootConfiguration, StepType.Clean);
-				}
-
-				foreach (IStep postCleanStep in postCleanSteps)
-				{
-					postCleanStep.Execute(_parameters.RootConfiguration, StepType.PostClean);
-				}
+				_parameters.Runner.ExecuteStepsOfTypes(_parameters.RootConfiguration, StepType.PreClean, StepType.Clean, StepType.PostClean);
 			});
 		}
 

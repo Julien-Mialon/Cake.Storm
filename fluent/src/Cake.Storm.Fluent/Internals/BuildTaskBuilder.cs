@@ -55,65 +55,18 @@ namespace Cake.Storm.Fluent.Internals
 			foreach (Target target in targets)
 			{
 				//generate application-target-platform
-				_parameters.Context.Task(target.BuildTaskName).Does(() =>
-				{
-					foreach (IStep preBuild in target.Configuration.StepsOf<PreBuildStepAttribute>())
-					{
-						preBuild.Execute(target.Configuration, StepType.PreBuild);
-					}
-
-					foreach (IStep build in target.Configuration.StepsOf<BuildStepAttribute>())
-					{
-						build.Execute(target.Configuration, StepType.Build);
-					}
-
-					foreach (IStep postBuild in target.Configuration.StepsOf<PostBuildStepAttribute>())
-					{
-						postBuild.Execute(target.Configuration, StepType.PostBuild);
-					}
-				});
+				_parameters.Context.Task(target.BuildTaskName)
+					.Does(() => _parameters.Runner.ExecuteStepsOfTypes(target.Configuration, StepType.PreBuild, StepType.Build, StepType.PostBuild));
 
 				_parameters.Context.Task(target.ReleaseTaskName)
 					.IsDependentOn(CleanTaskBuilder.TASK_NAME)
 					.IsDependentOn(target.BuildTaskName)
-					.Does(() =>
-					{
-						foreach (IStep preRelease in target.Configuration.StepsOf<PreReleaseStepAttribute>())
-						{
-							preRelease.Execute(target.Configuration, StepType.PreRelease);
-						}
-
-						foreach (IStep release in target.Configuration.StepsOf<ReleaseStepAttribute>())
-						{
-							release.Execute(target.Configuration, StepType.Release);
-						}
-
-						foreach (IStep postRelease in target.Configuration.StepsOf<PostReleaseStepAttribute>())
-						{
-							postRelease.Execute(target.Configuration, StepType.PostRelease);
-						}
-					});
+					.Does(() => _parameters.Runner.ExecuteStepsOfTypes(target.Configuration, StepType.PreRelease, StepType.Release, StepType.PostRelease));
 				
 				_parameters.Context.Task(target.DeployTaskName)
 					.IsDependentOn(CleanTaskBuilder.TASK_NAME)
 					.IsDependentOn(target.ReleaseTaskName)
-					.Does(() =>
-					{
-						foreach (IStep preDeploy in target.Configuration.StepsOf<PreDeployStepAttribute>())
-						{
-							preDeploy.Execute(target.Configuration, StepType.PreDeploy);
-						}
-
-						foreach (IStep deploy in target.Configuration.StepsOf<DeployStepAttribute>())
-						{
-							deploy.Execute(target.Configuration, StepType.Deploy);
-						}
-
-						foreach (IStep postDeploy in target.Configuration.StepsOf<PostDeployStepAttribute>())
-						{
-							postDeploy.Execute(target.Configuration, StepType.PostDeploy);
-						}
-					});
+					.Does(() => _parameters.Runner.ExecuteStepsOfTypes(target.Configuration, StepType.PreDeploy, StepType.Deploy, StepType.PostDeploy));
 			}
 
 			//generate application-target
