@@ -10,17 +10,45 @@ namespace Cake.Storm.Fluent.Internals
 		void ExecuteStepsOfTypes(IConfiguration configuration, params StepType[] types);
 	}
 
-	public class StepRunner : IStepRunner
+	internal class StepRunner : IStepRunner
 	{
+		private readonly Dictionary<Type, HashSet<string>> _cachedStepsInstructions = new Dictionary<Type, HashSet<string>>();
+		
 		public void ExecuteStepsOfTypes(IConfiguration configuration, params StepType[] types)
 		{
 			foreach (StepType type in types)
 			{
 				foreach (IStep step in GetStepsForType(configuration, type))
 				{
+					if (step is ICacheableStep cacheableStep)
+					{
+						string cacheId = cacheableStep.GetCacheId(configuration, type);
+						Type stepType = step.GetType();
+						if (ExistsInCache(stepType, cacheId))
+						{
+							continue;
+						}
+						AddToCache(stepType, cacheId);
+					}
 					step.Execute(configuration, type);
 				}
 			}
+		}
+
+		private bool ExistsInCache(Type stepType, string cacheId)
+		{
+			return _cachedStepsInstructions.ContainsKey(stepType) && _cachedStepsInstructions[stepType].Contains(cacheId);
+		}
+
+		private void AddToCache(Type stepType, string cacheId)
+		{
+			if (!_cachedStepsInstructions.TryGetValue(stepType, out HashSet<string> instructions))
+			{
+				instructions = new HashSet<string>();
+				_cachedStepsInstructions.Add(stepType, instructions);
+			}
+
+			instructions.Add(cacheId);
 		}
 
 		private IEnumerable<IStep> GetStepsForType(IConfiguration configuration, StepType type)
