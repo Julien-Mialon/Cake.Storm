@@ -7,7 +7,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.Common.Steps
 {
 	[PreBuildStep]
-	public class NugetRestoreStep : IStep
+	public class NugetRestoreStep : ICacheableStep
 	{
 		private readonly string _solutionOrProjectPath;
 
@@ -24,6 +24,11 @@ namespace Cake.Storm.Fluent.Common.Steps
 			}
 
 			configuration.Context.CakeContext.NuGetRestore(_solutionOrProjectPath);
+		}
+
+		public string GetCacheId(IConfiguration configuration, StepType currentStep)
+		{
+			return _solutionOrProjectPath;
 		}
 	}
 }

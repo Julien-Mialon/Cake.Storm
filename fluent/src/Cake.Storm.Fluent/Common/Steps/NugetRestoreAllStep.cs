@@ -11,7 +11,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.Common.Steps
 {
 	[PreBuildStep]
-	public class NugetRestoreAllStep : IStep
+	public class NugetRestoreAllStep : ICacheableStep
 	{
 		private readonly string _directoryPath;
 
@@ -21,6 +21,20 @@ namespace Cake.Storm.Fluent.Common.Steps
 		}
 
 		public void Execute(IConfiguration configuration, StepType currentStep)
+		{
+			List<FilePath> solutions = GetSolutionsPaths(configuration);
+
+			configuration.Context.CakeContext.NuGetRestore(solutions);
+		}
+
+		public string GetCacheId(IConfiguration configuration, StepType currentStep)
+		{
+			List<FilePath> solutions = GetSolutionsPaths(configuration);
+
+			return string.Join(";", solutions.Select(x => x.FullPath));
+		}
+
+		private List<FilePath> GetSolutionsPaths(IConfiguration configuration)
 		{
 			string directory = _directoryPath ?? configuration.AddRootDirectory(".");
 
@@ -36,7 +50,7 @@ namespace Cake.Storm.Fluent.Common.Steps
 				configuration.Context.CakeContext.LogAndThrow($"No solution file found in directory {directory}");
 			}
 
-			configuration.Context.CakeContext.NuGetRestore(solutions);
+			return solutions;
 		}
 	}
 }
