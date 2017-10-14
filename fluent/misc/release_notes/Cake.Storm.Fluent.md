@@ -1,3 +1,7 @@
+Version 0.3.1 : 
+    - Implement cache mechanism to avoid rerun unneeded step
+    - fix WithVersionFromArguments getting argument on parsing instead of execution
+
 Version 0.3.0 :
     - Implement configuration switch for more flexibility
     - Fix bugs when target/platform was used but does not exists
