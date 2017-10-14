@@ -2,7 +2,7 @@
 
 namespace Cake.Storm.Fluent.Steps
 {
-	public interface ICacheableStep
+	public interface ICacheableStep : IStep
 	{
 		string GetCacheId(IConfiguration configuration, StepType currentStep);
 	}
