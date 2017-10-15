@@ -59,7 +59,7 @@ Configure()
     )
     .AddApplication("fluent-dotnetcore", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.DotNetCore/Cake.Storm.Fluent.DotNetCore.csproj")
-        .WithVersion("0.3.0")
+        .WithVersion("0.3.1")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .WithPackageId("Cake.Storm.Fluent.DotNetCore")

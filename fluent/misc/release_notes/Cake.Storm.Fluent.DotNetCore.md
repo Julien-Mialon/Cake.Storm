@@ -1,3 +1,6 @@
+Version 0.3.1 : 
+    - Add cache for build & restore step
+
 Version 0.3.0 : 
     - dependencies update
 
