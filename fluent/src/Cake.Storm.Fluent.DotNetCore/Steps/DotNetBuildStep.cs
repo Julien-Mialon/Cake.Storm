@@ -1,4 +1,6 @@
-﻿using Cake.Common.IO;
+﻿using System.Linq;
+using System.Text;
+using Cake.Common.IO;
 using Cake.Common.Tools.DotNetCore;
 using Cake.Common.Tools.DotNetCore.Build;
 using Cake.Core;
@@ -10,7 +12,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.DotNetCore.Steps
 {
 	[BuildStep]
-    internal class DotNetBuildStep : IStep
+    internal class DotNetBuildStep : ICacheableStep
     {
 	    public void Execute(IConfiguration configuration, StepType currentStep)
 	    {
@@ -29,6 +31,29 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 			    configuration.ApplyBuildParameters(solutionPath, settings);
 			    configuration.Context.CakeContext.DotNetCoreBuild(solutionPath, settings);
 		    });
+	    }
+
+	    public string GetCacheId(IConfiguration configuration, StepType currentStep)
+	    {
+		    string solutionPath = configuration.GetSolutionPath();
+		    StringBuilder builder = new StringBuilder();
+
+		    builder.Append($"{solutionPath} ");
+		    
+		    configuration.RunOnConfiguredTargetFramework(framework =>
+		    {
+			    builder.Append($"{framework}=(");
+
+			    DotNetCoreBuildSettings settings = new DotNetCoreBuildSettings();
+			    configuration.ApplyBuildParameters(solutionPath, settings);
+			    
+			    builder.Append($"{settings.Configuration}_{settings.Runtime}_{settings.OutputDirectory?.FullPath}_{settings.ToolPath?.FullPath}_{settings.WorkingDirectory?.FullPath}"
+			           + $"{settings.MSBuildSettings.ToolVersion}_{string.Join(";", settings.MSBuildSettings.Targets)}_{string.Join(";", settings.MSBuildSettings.Properties.Select(x => $"{x.Key}={string.Join(",", x.Value)}"))}");
+			    
+			    builder.Append(")");
+		    });
+
+		    return builder.ToString();
 	    }
     }
 }
