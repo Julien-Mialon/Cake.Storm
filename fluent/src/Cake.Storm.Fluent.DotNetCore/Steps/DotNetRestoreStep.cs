@@ -8,7 +8,7 @@ using Cake.Storm.Fluent.Steps;
 namespace Cake.Storm.Fluent.DotNetCore.Steps
 {
 	[PreBuildStep]
-	internal class DotNetRestoreStep : IStep
+	internal class DotNetRestoreStep : ICacheableStep
 	{
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
@@ -19,6 +19,11 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 			}
 
 			configuration.Context.CakeContext.DotNetCoreRestore(solutionPath);
+		}
+
+		public string GetCacheId(IConfiguration configuration, StepType currentStep)
+		{
+			return configuration.GetSolutionPath();
 		}
 	}
 }
