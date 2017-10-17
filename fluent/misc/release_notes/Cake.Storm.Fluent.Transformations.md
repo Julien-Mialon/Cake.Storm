@@ -1,3 +1,6 @@
+Version 0.3.1
+    - update variable with boolean value in C# file
+
 Version 0.3.0
     - Add tasks to copy files 
     - Add task to update file content 
