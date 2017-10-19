@@ -1,7 +1,9 @@
-﻿namespace Cake.Storm.Fluent.Resolvers
+﻿using Cake.Storm.Fluent.Interfaces;
+
+namespace Cake.Storm.Fluent.Resolvers
 {
-	public interface IValueResolver<TValue>
+	public interface IValueResolver<out TValue>
 	{
-		TValue Resolve();
+		TValue Resolve(IConfiguration configuration);
 	}
 }

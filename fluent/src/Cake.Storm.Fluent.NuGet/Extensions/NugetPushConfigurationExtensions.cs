@@ -22,7 +22,7 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 
 		public static INugetPushConfiguration WithApiKeyFromArgument(this INugetPushConfiguration configuration, string argumentName)
 		{
-			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PUSH_APIKEY_KEY, ValueResolver.FromConstant(configuration.Configuration.Context.CakeContext.Argument<string>(argumentName)));
+			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PUSH_APIKEY_KEY, ValueResolver.FromArgument<string>(argumentName));
 			return configuration;
 		}
 		

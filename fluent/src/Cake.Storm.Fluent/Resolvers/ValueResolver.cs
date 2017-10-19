@@ -6,5 +6,10 @@
 		{
 			return new ConstantValueResolver<TValue>(value);
 		}
+
+		public static IValueResolver<TValue> FromArgument<TValue>(string argumentName)
+		{
+			return new ArgumentValueResolver<TValue>(argumentName);
+		}
 	}
 }

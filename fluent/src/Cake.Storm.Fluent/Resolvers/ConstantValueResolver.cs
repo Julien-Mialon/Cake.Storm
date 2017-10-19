@@ -1,4 +1,6 @@
-﻿namespace Cake.Storm.Fluent.Resolvers
+﻿using Cake.Storm.Fluent.Interfaces;
+
+namespace Cake.Storm.Fluent.Resolvers
 {
 	internal class ConstantValueResolver<TValue> : IValueResolver<TValue>
 	{
@@ -9,7 +11,7 @@
 			_value = value;
 		}
 
-		public TValue Resolve()
+		public TValue Resolve(IConfiguration _)
 		{
 			return _value;
 		}
