@@ -20,15 +20,15 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 			return configuration;
 		}
 
-		public static INugetPushConfiguration WithApiKeyFromArgument(this INugetPushConfiguration configuration, string argumentName)
+		public static INugetPushConfiguration WithApiKeyFromArgument(this INugetPushConfiguration configuration, string argumentName = "nugetApiKey")
 		{
 			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PUSH_APIKEY_KEY, ValueResolver.FromArgument<string>(argumentName));
 			return configuration;
 		}
 		
-		public static INugetPushConfiguration WithApiKeyFromEnvironment(this INugetPushConfiguration configuration)
+		public static INugetPushConfiguration WithApiKeyFromEnvironment(this INugetPushConfiguration configuration, string environmentVariable = "NUGET_API_KEY")
 		{
-			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PUSH_APIKEY_KEY, ValueResolver.FromConstant(NuGetConstants.ENVIRONMENT_PARAMETER));
+			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PUSH_APIKEY_KEY, ValueResolver.FromEnvironment<string>(environmentVariable));
 			return configuration;
 		}
 	}

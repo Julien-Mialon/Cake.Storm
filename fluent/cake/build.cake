@@ -34,7 +34,7 @@ Configure()
     .AddTarget("push", configuration => configuration
         .UseCsprojTransformation(transformations => transformations.UpdatePackageVersionFromParameter())
         .UseNugetPack(nugetConfiguration => nugetConfiguration.WithAuthor("Julien Mialon"))
-        .UseNugetPush()
+        .UseNugetPush(pushConfiguration => pushConfiguration.WithApiKeyFromEnvironment())
     )
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
