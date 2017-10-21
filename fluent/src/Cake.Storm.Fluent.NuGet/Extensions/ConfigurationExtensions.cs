@@ -8,11 +8,11 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 {
 	public static class ConfigurationExtensions
 	{
-		public static TConfiguration UseNugetPack<TConfiguration>(this TConfiguration configuration, Action<INugetPackConfiguration> configurator)
+		public static TConfiguration UseNugetPack<TConfiguration>(this TConfiguration configuration, Action<INugetPackConfiguration> configurator = null)
 			where TConfiguration : class, IConfiguration
 		{
 			INugetPackConfiguration packConfiguration = new NugetPackConfiguration(configuration);
-			configurator.Invoke(packConfiguration);
+			configurator?.Invoke(packConfiguration);
 			
 			configuration.AddStep(new NugetPackStep());
 			return configuration;

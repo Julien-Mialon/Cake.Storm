@@ -29,11 +29,17 @@ Configure()
 	//targets configuration
 	.AddTarget("pack", configuration => configuration
         .UseCsprojTransformation(transformations => transformations.UpdatePackageVersionFromParameter())
-        .UseNugetPack(nugetConfiguration => nugetConfiguration.WithAuthor("Julien Mialon"))
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithAuthor("Julien Mialon")
+            .AddAllFilesFromArtifacts("lib")
+        )
 	)
     .AddTarget("push", configuration => configuration
         .UseCsprojTransformation(transformations => transformations.UpdatePackageVersionFromParameter())
-        .UseNugetPack(nugetConfiguration => nugetConfiguration.WithAuthor("Julien Mialon"))
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithAuthor("Julien Mialon")
+            .AddAllFilesFromArtifacts("lib")
+        )
         .UseNugetPush(pushConfiguration => pushConfiguration.WithApiKeyFromEnvironment())
     )
     //applications configuration

@@ -1,6 +1,6 @@
 ﻿namespace Cake.Storm.Fluent.NuGet.Models
 {
-	internal class NugetFile
+	public class NugetFile
 	{
 		public NugetFile(string filePath, string nugetRelativePath)
 		{
