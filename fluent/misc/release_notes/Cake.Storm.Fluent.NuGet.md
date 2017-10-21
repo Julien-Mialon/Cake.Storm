@@ -1,3 +1,6 @@
+Version 0.3.1 :
+    - More flexibility to specify which files to pack in nuget packages (BREAKING CHANGE)
+
 Version 0.3.0 : 
     - dependencies update
 

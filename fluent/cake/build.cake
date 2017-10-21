@@ -21,7 +21,7 @@ Configure()
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
 
             .Replace("{cake}", "0.22.0")
-            .Replace("{cake.storm.fluent}", "0.3.1")
+            .Replace("{cake.storm.fluent}", "0.3.2")
         )
 	)
 	//platforms configuration
@@ -45,7 +45,7 @@ Configure()
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent/Cake.Storm.Fluent.csproj")
-        .WithVersion("0.3.1")
+        .WithVersion("0.3.2")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.nuspec")
             .WithPackageId("Cake.Storm.Fluent")
@@ -95,7 +95,7 @@ Configure()
     )
     .AddApplication("fluent-nuget", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.NuGet/Cake.Storm.Fluent.NuGet.csproj")
-        .WithVersion("0.3.0")
+        .WithVersion("0.3.1")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
             .WithPackageId("Cake.Storm.Fluent.NuGet")

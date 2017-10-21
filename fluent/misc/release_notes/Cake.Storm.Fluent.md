@@ -1,3 +1,6 @@
+Version 0.3.2 :
+    - Add value resolvers type to easily handle value coming from string, args or environment variables
+
 Version 0.3.1 : 
     - Implement cache mechanism to avoid rerun unneeded step
     - fix WithVersionFromArguments getting argument on parsing instead of execution
