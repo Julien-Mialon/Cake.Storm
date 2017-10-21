@@ -14,6 +14,7 @@ using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
 using Cake.Storm.Fluent.NuGet.Models;
+using Cake.Storm.Fluent.Resolvers;
 using Cake.Storm.Fluent.Steps;
 
 namespace Cake.Storm.Fluent.NuGet.Steps
@@ -26,18 +27,20 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 			//get artifacts output directory
 			DirectoryPath artifactsPath = configuration.GetArtifactsPath();
 
+			//find nuspec file
 			if (!configuration.TryGetSimple(NuGetConstants.NUGET_NUSPEC_FILE_KEY, out string nuspecPath))
 			{
-				configuration.Context.CakeContext.LogAndThrow("Can not determine nuget package id using either the PackageId configuration or the id in the Nuspec file");
+				configuration.Context.CakeContext.LogAndThrow("Missing nuspec file path in configuration");
 			}
 
-
+			// get package id
 			if (!configuration.TryGetSimple(NuGetConstants.NUGET_PACKAGE_ID_KEY, out string packageId))
 			{
 				packageId = ReadPackageIdFromNuspec(configuration, configuration.AddRootDirectory(nuspecPath));
 				configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_ID_KEY, packageId);
 			}
 
+			// get nuget package version
 			if (!configuration.TryGetSimple(NuGetConstants.NUGET_PACKAGE_VERSION_KEY, out string packageVersion))
 			{
 				if (!configuration.TryGetSimple(ConfigurationConstants.VERSION_KEY, out packageVersion))
@@ -47,33 +50,34 @@ namespace Cake.Storm.Fluent.NuGet.Steps
 				configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_VERSION_KEY, packageVersion);
 			}
 
+			List<NugetFile> nugetFiles = new List<NugetFile>();
+			if (configuration.TryGet(NuGetConstants.NUGET_FILES_KEY, out ListConfigurationItem<IValueResolver<IEnumerable<NugetFile>>> fileResolvers))
+			{
+				nugetFiles = fileResolvers.Values.SelectMany(x => x.Resolve(configuration)).ToList();
+			}
+			
 			IDirectory artifactsDirectory = configuration.Context.CakeContext.FileSystem.GetDirectory(artifactsPath);
-			List<FilePath> inputFiles = artifactsDirectory.GetFiles("*", SearchScope.Current).Select(x => x.Path).ToList();
-			List<DirectoryPath> inputDirectories = artifactsDirectory.GetDirectories("*", SearchScope.Current).Select(x => x.Path).ToList();
-
 			//create nuget output directory
 			DirectoryPath nugetContentPath = artifactsPath.Combine(packageId);
 			configuration.Context.CakeContext.EnsureDirectoryExists(nugetContentPath);
-
-			DirectoryPath nugetLibPath = nugetContentPath.Combine("lib");
-			configuration.Context.CakeContext.EnsureDirectoryExists(nugetLibPath);
-
-			//copy existing file in nuget content directory
-			foreach (DirectoryPath inputDirectory in inputDirectories)
+			
+			foreach (NugetFile nugetFile in nugetFiles)
 			{
-				DirectoryPath output = nugetLibPath.Combine(inputDirectory.GetDirectoryName());
-				configuration.Context.CakeContext.EnsureDirectoryExists(output);
-				configuration.Context.CakeContext.CopyDirectory(inputDirectory, output);
+				string file = nugetFile.FilePath;
+				configuration.FileExistsOrThrow(file);
+				DirectoryPath destinationPath = nugetContentPath;
+				if (!string.IsNullOrEmpty(nugetFile.NugetRelativePath))
+				{
+					destinationPath = destinationPath.Combine(nugetFile.NugetRelativePath);
+				}
+				configuration.Context.CakeContext.EnsureDirectoryExists(destinationPath);
+				configuration.Context.CakeContext.CopyFileToDirectory(file, destinationPath);
 			}
-			foreach (FilePath inputFile in inputFiles)
-			{
-				configuration.Context.CakeContext.CopyFileToDirectory(inputFile, nugetLibPath);
-			}
-
+			
 			//copy nuspec with parameters
 			string nuspecOutputPath = Nuspec(configuration, nugetContentPath);
 
-			if (configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<NugetFile> list))
+			if (configuration.TryGet(NuGetConstants.NUGET_FILES_KEY, out ListConfigurationItem<NugetFile> list))
 			{
 				foreach (NugetFile nugetFile in list.Values)
 				{

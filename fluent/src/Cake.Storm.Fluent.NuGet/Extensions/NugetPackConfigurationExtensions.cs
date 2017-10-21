@@ -1,8 +1,12 @@
-﻿using Cake.Storm.Fluent.InternalExtensions;
+﻿using System.Collections.Generic;
+using System.IO;
+using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 using Cake.Storm.Fluent.NuGet.Common;
 using Cake.Storm.Fluent.NuGet.Interfaces;
 using Cake.Storm.Fluent.NuGet.Models;
+using Cake.Storm.Fluent.NuGet.Resolvers;
+using Cake.Storm.Fluent.Resolvers;
 
 namespace Cake.Storm.Fluent.NuGet.Extensions
 {
@@ -38,15 +42,61 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 			return configuration;
 		}
 
+		public static INugetPackConfiguration AddAllFilesFromArtifacts(this INugetPackConfiguration configuration, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryNugetFileResolver(null, nugetRelativePath, (dir, c) => c.GetArtifactsPath().FullPath));
+		}
+
+		public static INugetPackConfiguration AddFilesFromArtifacts(this INugetPackConfiguration configuration, string filePattern, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryWithPatternNugetFileResolver(null, filePattern, nugetRelativePath, (dir, c) => c.GetArtifactsPath().FullPath));
+		}
+
+		public static INugetPackConfiguration AddFileFromArtifacts(this INugetPackConfiguration configuration, string artifactsRelativeFilePath, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new SimpleFileNugetFileResolver(artifactsRelativeFilePath, nugetRelativePath, (file, c) => Path.Combine(c.GetArtifactsPath().FullPath, file)));
+		}
+
+		public static INugetPackConfiguration AddAllFilesFromBuild(this INugetPackConfiguration configuration, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryNugetFileResolver(null, nugetRelativePath, (dir, c) => c.GetBuildPath().FullPath));
+		}
+
+		public static INugetPackConfiguration AddFilesFromBuild(this INugetPackConfiguration configuration, string filePattern, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryWithPatternNugetFileResolver(null, filePattern, nugetRelativePath, (dir, c) => c.GetBuildPath().FullPath));
+		}
+		
+		public static INugetPackConfiguration AddFileFromBuild(this INugetPackConfiguration configuration, string buildRelativeFilePath, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new SimpleFileNugetFileResolver(buildRelativeFilePath, nugetRelativePath, (file, c) =>  Path.Combine(c.GetBuildPath().FullPath, file)));
+		}
+
+		public static INugetPackConfiguration AddAllFiles(this INugetPackConfiguration configuration, string directory, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryNugetFileResolver(directory, nugetRelativePath, (dir, c) => c.AddRootDirectory(dir)));
+		}
+		
+		public static INugetPackConfiguration AddFiles(this INugetPackConfiguration configuration, string directory, string filePattern, string nugetRelativePath = null)
+		{
+			return configuration.AddFileResolver(new AllFilesFromDirectoryWithPatternNugetFileResolver(directory, filePattern, nugetRelativePath, (dir, c) => c.AddRootDirectory(dir)));
+		}
+		
 		public static INugetPackConfiguration AddFile(this INugetPackConfiguration configuration, string filePath, string nugetRelativePath = null)
 		{
-			if (configuration.Configuration.TryGet(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, out ListConfigurationItem<NugetFile> list))
+			return configuration.AddFileResolver(new SimpleFileNugetFileResolver(filePath, nugetRelativePath, (file, c) => c.AddRootDirectory(file)));
+		}
+
+		private static INugetPackConfiguration AddFileResolver(this INugetPackConfiguration configuration, IValueResolver<IEnumerable<NugetFile>> resolver)
+		{
+			if (configuration.Configuration.TryGet(NuGetConstants.NUGET_FILES_KEY, out ListConfigurationItem<IValueResolver<IEnumerable<NugetFile>>> list))
 			{
-				list.Values.Add(new NugetFile(filePath, nugetRelativePath));
+				list.Values.Add(resolver);
 			}
 			else
 			{
-				configuration.Configuration.Add(NuGetConstants.NUGET_ADDITIONAL_FILES_KEY, new ListConfigurationItem<NugetFile>(new NugetFile(filePath, nugetRelativePath)));
+				configuration.Configuration.Add(NuGetConstants.NUGET_FILES_KEY, 
+					new ListConfigurationItem<IValueResolver<IEnumerable<NugetFile>>>(resolver));
 			}
 			return configuration;
 		}
