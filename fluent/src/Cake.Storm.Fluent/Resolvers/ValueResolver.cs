@@ -14,7 +14,7 @@
 
 		public static IValueResolver<TValue> FromArgument<TValue>(string argumentName, TValue defaultValue)
 		{
-			return new ArgumentWithDefaultValueResolver<TValue>(argumentName, defaultValue);
+			return new ArgumentValueResolver<TValue>(argumentName, defaultValue);
 		}
 
 		public static IValueResolver<TValue> FromEnvironment<TValue>(string variableName)
@@ -24,7 +24,7 @@
 		
 		public static IValueResolver<TValue> FromEnvironment<TValue>(string variableName, TValue defaultValue)
 		{
-			return new EnvironmentWithDefaultValueResolver<TValue>(variableName, defaultValue);
+			return new EnvironmentValueResolver<TValue>(variableName, defaultValue);
 		}
 	}
 }

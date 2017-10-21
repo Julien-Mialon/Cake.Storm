@@ -7,10 +7,19 @@ namespace Cake.Storm.Fluent.Resolvers
 	internal class EnvironmentValueResolver<TValue> : IValueResolver<TValue>
 	{
 		private readonly string _variableName;
+		private readonly TValue _defaultValue;
+		private readonly bool _hasDefaultValue;
 
 		public EnvironmentValueResolver(string variableName)
 		{
 			_variableName = variableName;
+		}
+		
+		public EnvironmentValueResolver(string variableName, TValue defaultValue)
+		{
+			_variableName = variableName;
+			_defaultValue = defaultValue;
+			_hasDefaultValue = true;
 		}
 
 		public TValue Resolve(IConfiguration configuration)
@@ -19,6 +28,11 @@ namespace Cake.Storm.Fluent.Resolvers
 			string value = context.Environment.GetEnvironmentVariable(_variableName);
 			if (value == null)
 			{
+				if (_hasDefaultValue)
+				{
+					return _defaultValue;
+				}
+				
 				context.LogAndThrow($"Missing environment variable {_variableName}");
 			}
 
