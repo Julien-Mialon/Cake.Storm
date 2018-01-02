@@ -1,3 +1,6 @@
+Version 0.3.1 : 
+    - Fix fastlane command when do not have admin access to apple developer account
+
 Version 0.3.0 :
     - Fix fastlane command missing quote around team name
 
