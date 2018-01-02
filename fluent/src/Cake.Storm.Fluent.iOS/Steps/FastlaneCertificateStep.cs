@@ -38,10 +38,15 @@ namespace Cake.Storm.Fluent.iOS.Steps
 			{
 				certificateType = CertificateType.Development;
 			}
+
+			if (!configuration.TryGetSimple(iOSConstants.FASTLANE_RIGHTS, out string accessRights))
+			{
+				accessRights = iOSConstants.FASTLANE_RIGHTS_ADMIN;
+			}
 			
 			string certificateOutputFile = configuration.AddRootDirectory($"{Guid.NewGuid():N}.mobileprovision");
 			
-			if (!command.SynchronizeProvisionningProfile(userName, teamName, bundleId, certificateType, certificateOutputFile) 
+			if (!command.SynchronizeProvisionningProfile(userName, teamName, bundleId, certificateType, certificateOutputFile, accessRights == iOSConstants.FASTLANE_RIGHTS_ADMIN) 
 			    || !configuration.Context.CakeContext.FileExists(certificateOutputFile))
 			{
 				configuration.Context.CakeContext.LogAndThrow("Error happened with fastlane, unable to read downloaded provisioning profile");

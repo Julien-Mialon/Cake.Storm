@@ -12,5 +12,9 @@
 	    public const string FASTLANE_APPLE_TEAMNAME = nameof(FASTLANE_APPLE_TEAMNAME);
 	    public const string FASTLANE_SIGH_PROVISIONING_NAME = nameof(FASTLANE_SIGH_PROVISIONING_NAME);
 	    public const string FASTLANE_SIGH_CERTIFICATE_TYPE = nameof(FASTLANE_SIGH_CERTIFICATE_TYPE);
+
+	    public const string FASTLANE_RIGHTS = nameof(FASTLANE_RIGHTS);
+	    public const string FASTLANE_RIGHTS_MEMBER = "member";
+	    public const string FASTLANE_RIGHTS_ADMIN = "admin";
     }
 }

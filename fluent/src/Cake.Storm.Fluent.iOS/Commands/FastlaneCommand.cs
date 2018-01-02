@@ -35,7 +35,7 @@ namespace Cake.Storm.Fluent.iOS.Commands
 			throw new CakeException($"Environment {_context.Environment.Platform} not supported, only OSX is supported");
 		}
 
-		public bool SynchronizeProvisionningProfile(string userName, string teamName, string bundleId, CertificateType type, string outputFile)
+		public bool SynchronizeProvisionningProfile(string userName, string teamName, string bundleId, CertificateType type, string outputFile, bool isAdmin = true)
 		{
 			ProcessArgumentBuilder builder = new ProcessArgumentBuilder()
 				.Append("sigh")
@@ -52,6 +52,16 @@ namespace Cake.Storm.Fluent.iOS.Commands
 				builder.Append("--development");
 			}
 			//appstore provisioning profile type is default
+
+			if (isAdmin)
+			{
+				//nothing to add
+			}
+			else
+			{
+				builder.Append("--readonly");
+				builder.Append("--skip_certificate_verification");
+			}
 
 			return ExecuteProcess(builder);
 		}

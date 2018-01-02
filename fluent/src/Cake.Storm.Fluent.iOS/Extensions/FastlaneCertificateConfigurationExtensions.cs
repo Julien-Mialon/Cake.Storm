@@ -30,5 +30,17 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 			configuration.Configuration.AddSimple(iOSConstants.FASTLANE_SIGH_CERTIFICATE_TYPE, certificateType);
 			return configuration;
 		}
+
+		public static IFastlaneCertificateConfiguration WithMemberRights(this IFastlaneCertificateConfiguration configuration)
+		{
+			configuration.Configuration.AddSimple(iOSConstants.FASTLANE_RIGHTS, iOSConstants.FASTLANE_RIGHTS_MEMBER);
+			return configuration;
+		}
+		
+		public static IFastlaneCertificateConfiguration WithAdminRights(this IFastlaneCertificateConfiguration configuration)
+		{
+			configuration.Configuration.AddSimple(iOSConstants.FASTLANE_RIGHTS, iOSConstants.FASTLANE_RIGHTS_ADMIN);
+			return configuration;
+		}
 	}
 }
