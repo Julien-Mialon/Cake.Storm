@@ -21,10 +21,16 @@ namespace Cake.Storm.Fluent.iOS.Models
 		private const string VERSION_KEY = "CFBundleShortVersionString";
 		private const string BUILD_VERSION_KEY = "CFBundleVersion";
 
+		private const string DICT_URL_SCHEMES = "CFBundleURLTypes";
+		private const string URL_SCHEME = "CFBundleURLSchemes";
+		private const string URL_SCHEME_NAME = "CFBundleURLName";
+
 		//default to be used from parameter informations
 		private string _version = PARAMETER_KEY;
 
 		private string _bundleId = PARAMETER_KEY;
+
+		private readonly Dictionary<string, string> _urlSchemes = new Dictionary<string, string>();
 
 		public IPListTransformation WithVersion(string version)
 		{
@@ -47,6 +53,12 @@ namespace Cake.Storm.Fluent.iOS.Models
 		public IPListTransformation WithBundleIdFromParameter()
 		{
 			_bundleId = PARAMETER_KEY;
+			return this;
+		}
+
+		public IPListTransformation WithUrlSchemes(string name, string urlScheme)
+		{
+			_urlSchemes[name] = urlScheme;
 			return this;
 		}
 
@@ -77,13 +89,53 @@ namespace Cake.Storm.Fluent.iOS.Models
 			GetValueElementForKey(document, VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}");
 			GetValueElementForKey(document, BUILD_VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}.{(version.Build > 0 ? version.Build : 0)}");
 
+			var arrayScheme = GetValueElementForKey(document, DICT_URL_SCHEMES);
+			if (arrayScheme != null)
+			{
+				foreach (var keyValuePair in _urlSchemes)
+				{
+					var name = keyValuePair.Key;
+					var scheme = keyValuePair.Value;
+
+					FindUrlSchemeForUrlSchemeName(arrayScheme, name).SetValue(scheme);
+				}
+			}
+			else
+			{
+				configuration.Context.CakeContext.LogAndThrow("Missing UrlSchemes array");
+				throw new Exception();
+			}
+
 			using (Stream outputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenWrite())
 			{
 				document.Save(outputStream);
 			}
 		}
 
-		private XElement GetValueElementForKey(XDocument document, string key)
+		private static XElement FindUrlSchemeForUrlSchemeName(XContainer array, string name)
+		{
+			foreach (var dict in array.Elements())
+			{
+				var elements = dict.Elements().ToList();
+				var nameIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME_NAME);
+				if (nameIndex == -1)
+				{
+					continue;
+				}
+
+				nameIndex += 1;
+
+				if (elements[nameIndex].Value == name)
+				{
+					var urlSchemeIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME) + 1;
+					return elements[urlSchemeIndex].Elements().First();
+				}
+			}
+
+			return null;
+		}
+
+		private static XElement GetValueElementForKey(XDocument document, string key)
 		{
 			XElement dict = document.Root?.Elements().FirstOrDefault();
 			if (dict == null)

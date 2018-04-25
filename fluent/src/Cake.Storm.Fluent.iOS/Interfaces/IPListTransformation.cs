@@ -12,6 +12,8 @@ namespace Cake.Storm.Fluent.iOS.Interfaces
 		IPListTransformation WithBundleId(string bundleId);
 
 		IPListTransformation WithBundleIdFromParameter();
+
+		IPListTransformation WithUrlSchemes(string name, string urlScheme);
 	}
 
 	internal interface IPListTransformationAction : IPListTransformation
