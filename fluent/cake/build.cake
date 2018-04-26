@@ -75,7 +75,7 @@ Configure()
     )
     .AddApplication("fluent-ios", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.iOS/Cake.Storm.Fluent.iOS.csproj")
-        .WithVersion("0.3.1")
+        .WithVersion("0.3.2")
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
             .WithPackageId("Cake.Storm.Fluent.iOS")

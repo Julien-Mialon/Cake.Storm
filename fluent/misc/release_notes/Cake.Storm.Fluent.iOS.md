@@ -1,3 +1,6 @@
+Version 0.3.2 :
+    - Add plist transformation for url scheme array
+
 Version 0.3.1 : 
     - Fix fastlane command when do not have admin access to apple developer account
 
