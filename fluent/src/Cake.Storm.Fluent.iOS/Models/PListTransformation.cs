@@ -89,22 +89,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 			GetValueElementForKey(document, VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}");
 			GetValueElementForKey(document, BUILD_VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}.{(version.Build > 0 ? version.Build : 0)}");
 
-			var arrayScheme = GetValueElementForKey(document, DICT_URL_SCHEMES);
-			if (arrayScheme != null)
-			{
-				foreach (var keyValuePair in _urlSchemes)
-				{
-					var name = keyValuePair.Key;
-					var scheme = keyValuePair.Value;
-
-					FindUrlSchemeForUrlSchemeName(arrayScheme, name).SetValue(scheme);
-				}
-			}
-			else
-			{
-				configuration.Context.CakeContext.LogAndThrow("Missing UrlSchemes array");
-				throw new Exception();
-			}
+			UpdateUrlSchemes(configuration, document);
 
 			using (Stream outputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenWrite())
 			{
@@ -112,12 +97,35 @@ namespace Cake.Storm.Fluent.iOS.Models
 			}
 		}
 
-		private static XElement FindUrlSchemeForUrlSchemeName(XContainer array, string name)
+		private void UpdateUrlSchemes(IConfiguration configuration, XDocument document)
 		{
-			foreach (var dict in array.Elements())
+			if (_urlSchemes.Count == 0)
 			{
-				var elements = dict.Elements().ToList();
-				var nameIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME_NAME);
+				return;
+			}
+
+			XElement arrayScheme = GetValueElementForKey(document, DICT_URL_SCHEMES);
+			if (arrayScheme == null)
+			{
+				configuration.Context.CakeContext.LogAndThrow("Missing UrlSchemes array");
+				throw new Exception();
+			}
+
+			foreach (KeyValuePair<string, string> keyValuePair in _urlSchemes)
+			{
+				string name = keyValuePair.Key;
+				string scheme = keyValuePair.Value;
+
+				FindUrlSchemeElementForName(arrayScheme, name)?.SetValue(scheme);
+			}
+		}
+
+		private static XElement FindUrlSchemeElementForName(XContainer array, string name)
+		{
+			foreach (XElement dict in array.Elements())
+			{
+				List<XElement> elements = dict.Elements().ToList();
+				int nameIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME_NAME);
 				if (nameIndex == -1)
 				{
 					continue;
@@ -127,7 +135,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 				if (elements[nameIndex].Value == name)
 				{
-					var urlSchemeIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME) + 1;
+					int urlSchemeIndex = elements.FindIndex(item => item.Name.LocalName == "key" && item.Value == URL_SCHEME) + 1;
 					return elements[urlSchemeIndex].Elements().First();
 				}
 			}
