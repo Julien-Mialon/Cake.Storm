@@ -1,3 +1,5 @@
+<p align="center"><img src="logo/horizontalversion.png" alt="Cake.Storm" height="150px"></p>
+
 # Cake Fluent
 Cake is a wonderful tool to build .Net project (or others) using a DSL in C#.
 But most of the time, I copy/paste the same scripts on all project with minor changes for configuration (solution path, project path...).
