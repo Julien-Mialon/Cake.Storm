@@ -20,20 +20,24 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
-			string projectFile;
-			if (_projectFile == null)
+			if (_projectFile != null)
 			{
-				projectFile = configuration.GetProjectPath();
+				Transform(configuration.AddRootDirectory(_projectFile));
 			}
 			else
 			{
-				projectFile = configuration.AddRootDirectory(_projectFile);
+				foreach (string file in configuration.GetProjectsPath())
+				{
+					Transform(file);
+				}
 			}
-			
-			
-			configuration.FileExistsOrThrow(projectFile);
-			
-			_transformation.Execute(projectFile, configuration);
+
+			void Transform(string file)
+			{
+				configuration.FileExistsOrThrow(file);
+
+				_transformation.Execute(file, configuration);
+			}
 		}
 	}
 }

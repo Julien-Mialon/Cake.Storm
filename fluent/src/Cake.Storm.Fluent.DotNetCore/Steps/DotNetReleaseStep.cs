@@ -24,7 +24,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 		{
 			//default to Copy
 			OutputType outputType = OutputType.Copy;
-			
+
 			if (configuration.Has(DotNetCoreConstants.DOTNETCORE_OUTPUT_TYPE_KEY))
 			{
 				outputType = configuration.GetSimple<OutputType>(DotNetCoreConstants.DOTNETCORE_OUTPUT_TYPE_KEY);
@@ -48,84 +48,109 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 
 		private void ExecutePublish(IConfiguration configuration)
 		{
-			string projectPath = configuration.GetProjectPath();
-			configuration.FileExistsOrThrow(projectPath);
-
-			configuration.RunOnConfiguredTargetFramework(framework =>
+			foreach (string project in configuration.GetProjectsPath())
 			{
-				DotNetCorePublishSettings settings = new DotNetCorePublishSettings
+				Run(project);
+			}
+
+			void Run(string projectPath)
+			{
+				configuration.FileExistsOrThrow(projectPath);
+
+				configuration.RunOnConfiguredTargetFramework(framework =>
 				{
-					OutputDirectory = ArtifactsPath(configuration, framework),
-					Framework = framework
-				};
-				configuration.ApplyBuildParameters(projectPath, settings);
-				configuration.Context.CakeContext.DotNetCorePublish(projectPath, settings);
-			});
+					DotNetCorePublishSettings settings = new DotNetCorePublishSettings
+					{
+						OutputDirectory = ArtifactsPath(configuration, framework),
+						Framework = framework
+					};
+					configuration.ApplyBuildParameters(projectPath, settings);
+					configuration.Context.CakeContext.DotNetCorePublish(projectPath, settings);
+				});
+			}
 		}
 
 		private void ExecutePack(IConfiguration configuration)
 		{
-			string projectPath = configuration.GetProjectPath();
-			configuration.FileExistsOrThrow(projectPath);
-			
-			configuration.RunOnConfiguredTargetFramework(framework =>
+			foreach (string project in configuration.GetProjectsPath())
 			{
-				DotNetCorePackSettings settings = new DotNetCorePackSettings
+				Run(project);
+			}
+
+			void Run(string projectPath)
+			{
+				configuration.FileExistsOrThrow(projectPath);
+
+				configuration.RunOnConfiguredTargetFramework(framework =>
 				{
-					OutputDirectory = ArtifactsPath(configuration, framework)
-				};
-				configuration.ApplyBuildParameters(projectPath, settings);
-				configuration.Context.CakeContext.DotNetCorePack(projectPath, settings);
-			});
+					DotNetCorePackSettings settings = new DotNetCorePackSettings
+					{
+						OutputDirectory = ArtifactsPath(configuration, framework)
+					};
+					configuration.ApplyBuildParameters(projectPath, settings);
+					configuration.Context.CakeContext.DotNetCorePack(projectPath, settings);
+				});
+			}
 		}
 
 		private void ExecuteCopy(IConfiguration configuration)
 		{
-			string projectPath = configuration.GetProjectPath();
-			configuration.FileExistsOrThrow(projectPath);
-
-			var buildParameters = configuration.Get<DictionaryOfListConfigurationItem<string, string>>(ConfigurationConstants.BUILD_PARAMETERS_KEY);
-			string buildConfiguration = buildParameters.Values.Where(x => x.Key.ToLowerInvariant() == "configuration").Select(x => x.Value).FirstOrDefault()?.Single() ?? "Debug";
-
-			FilePath projectFilePath = projectPath;
-			DirectoryPath projectOutputPath = projectFilePath.GetDirectory().Combine("bin").Combine(buildConfiguration);
-
-			string copyPattern = projectFilePath.GetFilenameWithoutExtension() + ".*";
-			
-			configuration.RunOnConfiguredTargetFramework(framework =>
+			foreach (string project in configuration.GetProjectsPath())
 			{
-				DirectoryPath outputPathForFramework;
-				if (framework == null)
+				Run(project);
+			}
+
+			void Run(string projectPath)
+			{
+				configuration.FileExistsOrThrow(projectPath);
+
+				var buildParameters =
+					configuration.Get<DictionaryOfListConfigurationItem<string, string>>(
+						ConfigurationConstants.BUILD_PARAMETERS_KEY);
+				string buildConfiguration = buildParameters.Values.Where(x => x.Key.ToLowerInvariant() == "configuration")
+					                            .Select(x => x.Value).FirstOrDefault()?.Single() ?? "Debug";
+
+				FilePath projectFilePath = projectPath;
+				DirectoryPath projectOutputPath = projectFilePath.GetDirectory().Combine("bin").Combine(buildConfiguration);
+
+				string copyPattern = projectFilePath.GetFilenameWithoutExtension() + ".*";
+
+				configuration.RunOnConfiguredTargetFramework(framework =>
 				{
-					outputPathForFramework = configuration.Context.CakeContext.FileSystem.GetDirectory(projectOutputPath).GetDirectories("*", SearchScope.Current).FirstOrDefault()?.Path;
-					if (outputPathForFramework == null)
+					DirectoryPath outputPathForFramework;
+					if (framework == null)
 					{
-						configuration.Context.CakeContext.LogAndThrow($"Cannot determine framework to use for project {projectPath}");
+						outputPathForFramework = configuration.Context.CakeContext.FileSystem.GetDirectory(projectOutputPath)
+							.GetDirectories("*", SearchScope.Current).FirstOrDefault()?.Path;
+						if (outputPathForFramework == null)
+						{
+							configuration.Context.CakeContext.LogAndThrow($"Cannot determine framework to use for project {projectPath}");
+						}
 					}
-				}
-				else
-				{
-					outputPathForFramework = projectOutputPath.Combine(framework);
-				}
-				
-				configuration.Context.CakeContext.CopyFiles(
-					configuration.Context.CakeContext.FileSystem
-						.GetDirectory(outputPathForFramework)
-						.GetFiles(copyPattern, SearchScope.Recursive)
-						.Select(x => x.Path)
-						.Where(x => x.GetExtension() == ".dll" || x.GetExtension() == ".pdb" || x.GetExtension() == ".xml"), 
-					ArtifactsPath(configuration, framework), 
-					preserveFolderStructure: true);
-			});
+					else
+					{
+						outputPathForFramework = projectOutputPath.Combine(framework);
+					}
+
+					configuration.Context.CakeContext.CopyFiles(
+						configuration.Context.CakeContext.FileSystem
+							.GetDirectory(outputPathForFramework)
+							.GetFiles(copyPattern, SearchScope.Recursive)
+							.Select(x => x.Path)
+							.Where(x => x.GetExtension() == ".dll" || x.GetExtension() == ".pdb" || x.GetExtension() == ".xml"),
+						ArtifactsPath(configuration, framework),
+						preserveFolderStructure: true);
+				});
+			}
 		}
-		
+
 		private DirectoryPath ArtifactsPath(IConfiguration configuration, string framework)
 		{
 			if (framework == null)
 			{
 				return configuration.GetArtifactsPath();
 			}
-				
+
 			DirectoryPath resultPath = configuration.GetArtifactsPath().Combine(framework);
 			configuration.Context.CakeContext.EnsureDirectoryExists(resultPath);
 			return resultPath;

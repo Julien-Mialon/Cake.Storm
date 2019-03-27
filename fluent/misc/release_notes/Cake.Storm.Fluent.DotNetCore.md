@@ -1,3 +1,6 @@
+Version 0.3.3 : 
+    - Handle multiple projects build
+
 Version 0.3.1 : 
     - Add cache for build & restore step
 

@@ -1,3 +1,6 @@
+Version 0.3.3 : 
+    - Add possibilities to handle multiple projects at the same time
+
 Version 0.3.2 :
     - Add value resolvers type to easily handle value coming from string, args or environment variables
 

@@ -13,7 +13,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 	    {
 		    configuration.Add(key, new SimpleConfigurationItem<TValue>(value));
 	    }
-	    
+
 	    public static TValue GetSimple<TValue>(this IConfiguration configuration, string key)
 	    {
 		    if(configuration.TryGet<SimpleConfigurationItem<TValue>>(key, out var configurationItem))
@@ -22,6 +22,16 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    }
 		    configuration.Context.CakeContext.LogAndThrow($"Key {key} does not exists");
 		    return default(TValue);
+	    }
+
+	    public static TValue[] GetList<TValue>(this IConfiguration configuration, string key)
+	    {
+		    if (configuration.TryGet<ListConfigurationItem<TValue>>(key, out var configurationItem))
+		    {
+			    return configurationItem.Values.ToArray();
+		    }
+		    configuration.Context.CakeContext.LogAndThrow($"Key {key} does not exists");
+		    return default(TValue[]);
 	    }
 
 	    public static bool TryGetSimple<TValue>(this IConfiguration configuration, string key, out TValue value)
@@ -43,7 +53,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    }
 
 		    DirectoryPath rootDirectory = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY);
-		    
+
 		    return rootDirectory.Combine(path).FullPath;
 	    }
 
@@ -52,11 +62,31 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    return configuration.AddRootDirectory(configuration.GetSimple<string>(ConfigurationConstants.SOLUTION_KEY));
 	    }
 
-	    public static string GetProjectPath(this IConfiguration configuration)
+	    private static string GetProjectPath(this IConfiguration configuration)
 	    {
 			return configuration.AddRootDirectory(configuration.GetSimple<string>(ConfigurationConstants.PROJECT_KEY));
 		}
-		
+
+	    public static string[] GetProjectsPath(this IConfiguration configuration)
+	    {
+		    if (configuration.Has(ConfigurationConstants.PROJECT_KEY))
+		    {
+			    return new []
+			    {
+				    configuration.GetProjectPath()
+			    };
+		    }
+
+		    string[] projects = configuration.GetList<string>(ConfigurationConstants.PROJECTS_KEY);
+
+		    for (var i = 0; i < projects.Length; i++)
+		    {
+			    projects[i] = configuration.AddRootDirectory(projects[i]);
+		    }
+
+		    return projects;
+	    }
+
 		public static string GetApplicationName(this IConfiguration configuration) => configuration.GetSimple<string>(ConfigurationConstants.APPLICATION_NAME_KEY);
 
 	    public static string GetTargetName(this IConfiguration configuration) => configuration.GetSimple<string>(ConfigurationConstants.TARGET_NAME_KEY);
@@ -72,7 +102,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    configuration.Context.CakeContext.EnsureDirectoryExists(result);
 		    return result;
 	    }
-	    
+
 		public static DirectoryPath GetArtifactsPath(this IConfiguration configuration)
 	    {
 		    DirectoryPath artifactsRoot = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ARTIFACTS_PATH_KEY);

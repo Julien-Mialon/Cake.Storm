@@ -21,7 +21,14 @@ namespace Cake.Storm.Fluent.Android.Steps
 		{
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
 
-			FilePath projectFile = configuration.GetProjectPath();
+			string[] projectsPath = configuration.GetProjectsPath();
+
+			if (projectsPath.Length > 1)
+			{
+				configuration.Context.CakeContext.LogAndThrow($"Only one project supported");
+			}
+
+			FilePath projectFile = projectsPath[0];
 			configuration.FileExistsOrThrow(projectFile);
 
 			//Create apk package
@@ -29,17 +36,17 @@ namespace Cake.Storm.Fluent.Android.Steps
 			{
 				settings.SetConfiguration("Release");
 				settings.WithTarget("PackageForAndroid");
-				
+
 				configuration.ApplyBuildParameters(settings);
 			});
-			
+
 			//find apk package
-			string searchPattern = Path.Combine(projectFile.GetDirectory().FullPath, "**", "*.apk"); 
+			string searchPattern = Path.Combine(projectFile.GetDirectory().FullPath, "**", "*.apk");
 			FilePath apkPath =  configuration.Context.CakeContext.Globber
 				.GetFiles(searchPattern)
 				.OrderBy(f => new FileInfo(f.FullPath).LastWriteTimeUtc)
 				.FirstOrDefault();
-			
+
 			if (apkPath == null)
 			{
 				configuration.Context.CakeContext.LogAndThrow("Can not find generated apk file");
@@ -48,7 +55,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 
 			string artifactsApkPath = Path.Combine(outputDirectory.FullPath, apkPath.GetFilename().ToString());
 			configuration.Context.CakeContext.CopyFile(apkPath, artifactsApkPath);
-			
+
 			configuration.Add(AndroidConstants.GENERATED_ANDROID_PACKAGE_PATH_KEY, new SimpleConfigurationItem<string>(artifactsApkPath));
 		}
 	}
