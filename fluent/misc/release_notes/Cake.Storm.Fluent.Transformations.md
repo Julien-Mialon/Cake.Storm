@@ -1,3 +1,6 @@
+Version 0.3.4
+    - Fix dependency issue with Microsoft.CodeAnalysis.CSharp
+
 Version 0.3.1
     - update variable with boolean value in C# file
 
