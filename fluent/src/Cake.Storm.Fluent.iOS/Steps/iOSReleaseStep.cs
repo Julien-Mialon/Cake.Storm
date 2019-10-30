@@ -21,7 +21,15 @@ namespace Cake.Storm.Fluent.iOS.Steps
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
 
 			string solutionFile = configuration.GetSolutionPath();
-			string projectFile = configuration.GetProjectPath();
+
+			string[] projectsPath = configuration.GetProjectsPath();
+
+			if (projectsPath.Length > 1)
+			{
+				configuration.Context.CakeContext.LogAndThrow($"Only one project supported");
+			}
+
+			string projectFile = projectsPath[0];
 			configuration.FileExistsOrThrow(solutionFile);
 
 			//Create iPA package
@@ -47,7 +55,7 @@ namespace Cake.Storm.Fluent.iOS.Steps
 
 				settings.WithProperty("CodesignKey", MSBuildHelper.PropertyValue(codeSignKey))
 					.WithProperty("CodesignProvision", MSBuildHelper.PropertyValue(codeSignProvision));
-				
+
 				configuration.ApplyBuildParameters(settings);
 			});
 
@@ -63,7 +71,15 @@ namespace Cake.Storm.Fluent.iOS.Steps
 				configuration.Context.CakeContext.LogAndThrow("Can not find dSYM file");
 			}
 
-			configuration.Context.CakeContext.Zip(symDirectory, $"{outputDirectory}/{System.IO.Path.GetFileName(symDirectory)}.zip");
+			if (configuration.Context.CakeContext.GetFiles($"{outputDirectory}/*.ipa").FirstOrDefault() is FilePath ipaFilePath)
+			{
+				string ipaFile = $"{outputDirectory}/{ipaFilePath.GetFilename()}";
+				configuration.AddSimple(iOSConstants.IOS_ARTIFACT_PACKAGE_FILEPATH, ipaFile);
+			}
+
+			string dsymPath = $"{outputDirectory}/{System.IO.Path.GetFileName(symDirectory)}.zip";
+			configuration.Context.CakeContext.Zip(symDirectory, dsymPath);
+			configuration.AddSimple(iOSConstants.IOS_ARTIFACT_SYMBOLS_FILEPATH, dsymPath);
 		}
 	}
 }

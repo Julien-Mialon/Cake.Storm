@@ -1,12 +1,15 @@
 #l "../src/scripts/bootstrapper.csx"
 
+const string CAKE_DEPENDENCY_VERSION = "0.32.1";
+const string MODULE_VERSION = "0.4.0";
+
 Configure()
 	.UseRootDirectory("..")
 	.UseBuildDirectory("build")
 	.UseArtifactsDirectory("artifacts")
 	.AddConfiguration(configuration => configuration
 		.WithSolution("Cake.Storm.Fluent.sln")
-        .WithTargetFrameworks("net46", "netstandard1.6")
+        .WithTargetFrameworks("net46", "netstandard2.0")
 		.WithBuildParameter("Configuration", "Release")
 		.WithBuildParameter("Platform", "Any CPU")
 		.UseDefaultTooling()
@@ -14,14 +17,15 @@ Configure()
         .WithDotNetCoreOutputType(OutputType.Copy)
         .UseFilesTransformation(transformation => transformation
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.AppCenter.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
 
-            .Replace("{cake}", "0.22.0")
-            .Replace("{cake.storm.fluent}", "0.3.2")
+            .Replace("{cake}", CAKE_DEPENDENCY_VERSION)
+            .Replace("{cake.storm.fluent}", MODULE_VERSION)
         )
 	)
 	//platforms configuration
@@ -45,7 +49,7 @@ Configure()
     //applications configuration
 	.AddApplication("fluent-core", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent/Cake.Storm.Fluent.csproj")
-        .WithVersion("0.3.2")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.nuspec")
             .WithPackageId("Cake.Storm.Fluent")
@@ -55,7 +59,7 @@ Configure()
     )
     .AddApplication("fluent-android", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Android/Cake.Storm.Fluent.Android.csproj")
-        .WithVersion("0.3.0")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Android")
@@ -65,7 +69,7 @@ Configure()
     )
     .AddApplication("fluent-dotnetcore", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.DotNetCore/Cake.Storm.Fluent.DotNetCore.csproj")
-        .WithVersion("0.3.1")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .WithPackageId("Cake.Storm.Fluent.DotNetCore")
@@ -75,7 +79,7 @@ Configure()
     )
     .AddApplication("fluent-ios", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.iOS/Cake.Storm.Fluent.iOS.csproj")
-        .WithVersion("0.3.2")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
             .WithPackageId("Cake.Storm.Fluent.iOS")
@@ -85,7 +89,7 @@ Configure()
     )
     .AddApplication("fluent-transformations", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.Transformations/Cake.Storm.Fluent.Transformations.csproj")
-        .WithVersion("0.3.1")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
             .WithPackageId("Cake.Storm.Fluent.Transformations")
@@ -95,12 +99,22 @@ Configure()
     )
     .AddApplication("fluent-nuget", configuration => configuration
         .WithProject("src/Cake.Storm.Fluent.NuGet/Cake.Storm.Fluent.NuGet.csproj")
-        .WithVersion("0.3.1")
+        .WithVersion(MODULE_VERSION)
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
             .WithPackageId("Cake.Storm.Fluent.NuGet")
             .WithReleaseNotesFile("misc/release_notes/Cake.Storm.Fluent.NuGet.md")
             .AddFile("misc/scripts/Cake.Storm.Fluent.NuGet.cake", "scripts")
+        )
+    )
+    .AddApplication("fluent-appcenter", configuration => configuration
+        .WithProject("src/Cake.Storm.Fluent.AppCenter/Cake.Storm.Fluent.AppCenter.csproj")
+        .WithVersion(MODULE_VERSION)
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.AppCenter.nuspec")
+            .WithPackageId("Cake.Storm.Fluent.AppCenter")
+            .WithReleaseNotesFile("misc/release_notes/Cake.Storm.Fluent.AppCenter.md")
+            .AddFile("misc/scripts/Cake.Storm.Fluent.AppCenter.cake", "scripts")
         )
     )
 	.Build();

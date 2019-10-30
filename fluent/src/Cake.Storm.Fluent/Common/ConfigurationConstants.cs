@@ -4,6 +4,7 @@
     {
 		public const string SOLUTION_KEY = nameof(SOLUTION_KEY);
 		public const string PROJECT_KEY = nameof(PROJECT_KEY);
+		public const string PROJECTS_KEY = nameof(PROJECTS_KEY);
 		public const string BUILD_PARAMETERS_KEY = nameof(BUILD_PARAMETERS_KEY);
 
 	    public const string ROOT_PATH_KEY = nameof(ROOT_PATH_KEY);

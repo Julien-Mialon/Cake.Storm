@@ -16,5 +16,8 @@
 	    public const string FASTLANE_RIGHTS = nameof(FASTLANE_RIGHTS);
 	    public const string FASTLANE_RIGHTS_MEMBER = "member";
 	    public const string FASTLANE_RIGHTS_ADMIN = "admin";
+
+	    public const string IOS_ARTIFACT_PACKAGE_FILEPATH = nameof(IOS_ARTIFACT_PACKAGE_FILEPATH);
+	    public const string IOS_ARTIFACT_SYMBOLS_FILEPATH = nameof(IOS_ARTIFACT_SYMBOLS_FILEPATH);
     }
 }

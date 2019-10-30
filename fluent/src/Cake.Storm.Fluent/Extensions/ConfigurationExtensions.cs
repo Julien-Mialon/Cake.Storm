@@ -50,6 +50,13 @@ namespace Cake.Storm.Fluent.Extensions
 		    return configuration;
 	    }
 
+	    public static TConfiguration WithProjects<TConfiguration>(this TConfiguration configuration, params string[] projectsPath)
+			where TConfiguration : IConfiguration
+	    {
+		    configuration.Add(ConfigurationConstants.PROJECTS_KEY, new ListConfigurationItem<string>(projectsPath));
+		    return configuration;
+	    }
+
 	    public static TConfiguration WithVersion<TConfiguration>(this TConfiguration configuration, string version)
 		    where TConfiguration : IConfiguration
 	    {

@@ -6,9 +6,9 @@
 		<title>Cake Fluent - Core</title>
 		<authors>{author}</authors>
 		<owners>Storm</owners>
-		<licenseUrl>https://github.com/Julien-Mialon/cake/blob/master/LICENSE</licenseUrl>
-		<projectUrl>https://github.com/Julien-Mialon/cake</projectUrl>
-		<iconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</iconUrl>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/Julien-Mialon/Cake.Storm</projectUrl>
+		<iconUrl>https://github.com/Julien-Mialon/Cake.Storm/blob/747b7d694868a37a1eedd2039f047c489903e92e/logo/icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Cake addin for fluent description of build tasks.</description>
 		<releaseNotes>{release_notes}</releaseNotes>

@@ -19,6 +19,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.Android",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.NuGet", "src\Cake.Storm.Fluent.NuGet\Cake.Storm.Fluent.NuGet.csproj", "{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cake", "cake", "{5184E7DC-D17E-48B0-9D48-F888B5B898D1}"
+ProjectSection(SolutionItems) = preProject
+	cake\build.cake = cake\build.cake
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspecs", "nuspecs", "{45372E76-08CA-4A25-87D5-A8C4578F763A}"
+ProjectSection(SolutionItems) = preProject
+	misc\nuspecs\Cake.Storm.Fluent.Android.nuspec = misc\nuspecs\Cake.Storm.Fluent.Android.nuspec
+	misc\nuspecs\Cake.Storm.Fluent.DotNetCore.nuspec = misc\nuspecs\Cake.Storm.Fluent.DotNetCore.nuspec
+	misc\nuspecs\Cake.Storm.Fluent.iOS.nuspec = misc\nuspecs\Cake.Storm.Fluent.iOS.nuspec
+	misc\nuspecs\Cake.Storm.Fluent.NuGet.nuspec = misc\nuspecs\Cake.Storm.Fluent.NuGet.nuspec
+	misc\nuspecs\Cake.Storm.Fluent.nuspec = misc\nuspecs\Cake.Storm.Fluent.nuspec
+	misc\nuspecs\Cake.Storm.Fluent.Transformations.nuspec = misc\nuspecs\Cake.Storm.Fluent.Transformations.nuspec
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release_notes", "release_notes", "{ACA440F5-C30E-44DB-BF1A-E284203007C8}"
+ProjectSection(SolutionItems) = preProject
+	misc\release_notes\Cake.Storm.Fluent.Android.md = misc\release_notes\Cake.Storm.Fluent.Android.md
+	misc\release_notes\Cake.Storm.Fluent.DotNetCore.md = misc\release_notes\Cake.Storm.Fluent.DotNetCore.md
+	misc\release_notes\Cake.Storm.Fluent.iOS.md = misc\release_notes\Cake.Storm.Fluent.iOS.md
+	misc\release_notes\Cake.Storm.Fluent.md = misc\release_notes\Cake.Storm.Fluent.md
+	misc\release_notes\Cake.Storm.Fluent.NuGet.md = misc\release_notes\Cake.Storm.Fluent.NuGet.md
+	misc\release_notes\Cake.Storm.Fluent.Transformations.md = misc\release_notes\Cake.Storm.Fluent.Transformations.md
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.AppCenter", "src\Cake.Storm.Fluent.AppCenter\Cake.Storm.Fluent.AppCenter.csproj", "{8CF861E9-E5B2-4230-8702-F48B53E6A85F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +76,10 @@ Global
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +91,6 @@ Global
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{C89E2AF3-A418-4008-8353-E75C687C3E8D} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 	EndGlobalSection
 EndGlobal

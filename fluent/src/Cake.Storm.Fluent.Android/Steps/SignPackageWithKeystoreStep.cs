@@ -27,7 +27,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			configuration.Context.CakeContext.CopyFile(apkPath, sourceApkPath);
 
 			string signedApkPath = Path.Combine(buildPath, $"{apkNameWithoutExtension}-Signed{apkExtension}");
-			
+
 			JarsignerCommand jarSignerCommand = new JarsignerCommand(configuration.Context.CakeContext);
 			Sign(jarSignerCommand, configuration, sourceApkPath, signedApkPath);
 			jarSignerCommand.VerifyApk(signedApkPath);
@@ -41,8 +41,9 @@ namespace Cake.Storm.Fluent.Android.Steps
 			{
 				configuration.Context.CakeContext.DeleteFile(resultApkPath);
 			}
-			
+
 			configuration.Context.CakeContext.CopyFile(alignedApkPath, resultApkPath);
+			configuration.AddSimple(AndroidConstants.ANDROID_ARTIFACT_FILEPATH, resultApkPath);
 		}
 
 		private void Sign(JarsignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
@@ -51,7 +52,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			string password = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_PASSWORD);
 			string keyAlias = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYALIAS);
 			string keyPassword = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYPASSWORD);
-			
+
 			command.SignApk(sourceApk, destinationApk, keyStoreFile, password, keyAlias, keyPassword);
 		}
 	}

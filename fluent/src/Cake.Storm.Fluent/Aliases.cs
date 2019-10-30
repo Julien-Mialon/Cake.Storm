@@ -9,7 +9,7 @@ using Cake.Storm.Fluent.Interfaces;
 
 namespace Cake.Storm.Fluent
 {
-	public delegate CakeTaskBuilder<ActionTask> TaskDelegate(string name);
+	public delegate CakeTaskBuilder TaskDelegate(string name);
 
 	public delegate void SetupDelegate(Action<ICakeContext> action);
 

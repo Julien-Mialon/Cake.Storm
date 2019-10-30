@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cake.Common;
 using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.Models;
@@ -44,6 +45,21 @@ namespace Cake.Storm.Fluent
 
 			_selectedValueDefined = true;
 			_selectedValueName = name;
+			return this;
+		}
+
+		public ISwitchBuilder UseFromArgument(string argumentName, string defaultValue = null)
+		{
+			if (_context.CakeContext.HasArgument(argumentName))
+			{
+				return Use(_context.CakeContext.Argument<string>(argumentName));
+			}
+
+			if (defaultValue != null)
+			{
+				return Use(defaultValue);
+			}
+
 			return this;
 		}
 
