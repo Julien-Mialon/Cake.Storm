@@ -31,7 +31,9 @@ namespace Cake.Storm.Fluent.Android.Commands
 			    return new[] {
 					    new FilePath("jarsigner.exe")
 				    }.Concat(_context.Globber.GetFiles($"{programFiles}/Java/*/bin/jarsigner.exe"))
-				    .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/bin/jarsigner.exe"));
+				    .Concat(_context.Globber.GetFiles($"{programFilesX86}/Java/*/bin/jarsigner.exe"))
+				    .Concat(_context.Globber.GetFiles($"{programFiles}/Android/jdk/*/bin/jarsigner.exe"))//Microsoft openjdk location
+				    .Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/jdk/*/bin/jarsigner.exe"));
 		    }
 		    if (IsOSX)
 		    {
@@ -39,7 +41,8 @@ namespace Cake.Storm.Fluent.Android.Commands
 				    new FilePath("jarsigner"),
 				    new FilePath("/usr/bin/jarsigner"),
 				    new FilePath("/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/jarsigner"),
-			    }.Concat(_context.Globber.GetFiles("/Library/Java/JavaVirtualMachines/*/Contents/Home/bin/jarsigner"));
+			    }.Concat(_context.Globber.GetFiles("/Library/Java/JavaVirtualMachines/*/Contents/Home/bin/jarsigner"))
+				.Concat(_context.Globber.GetFiles("/Users/*/Library/Developer/Xamarin/jdk/*/bin/jarsigner"));
 		    }
 
 		    throw new CakeException($"Environment {_context.Environment.Platform} not supported, only Windows and OSX are supported");

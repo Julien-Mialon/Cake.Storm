@@ -1,7 +1,7 @@
 #l "../src/scripts/bootstrapper.csx"
 
 const string CAKE_DEPENDENCY_VERSION = "0.32.1";
-const string MODULE_VERSION = "0.3.4";
+const string MODULE_VERSION = "0.4.0";
 
 Configure()
 	.UseRootDirectory("..")
@@ -17,6 +17,7 @@ Configure()
         .WithDotNetCoreOutputType(OutputType.Copy)
         .UseFilesTransformation(transformation => transformation
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.Android.nuspec")
+            .OnFile("misc/nuspecs/Cake.Storm.Fluent.AppCenter.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.DotNetCore.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.iOS.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.NuGet.nuspec")
@@ -104,6 +105,16 @@ Configure()
             .WithPackageId("Cake.Storm.Fluent.NuGet")
             .WithReleaseNotesFile("misc/release_notes/Cake.Storm.Fluent.NuGet.md")
             .AddFile("misc/scripts/Cake.Storm.Fluent.NuGet.cake", "scripts")
+        )
+    )
+    .AddApplication("fluent-appcenter", configuration => configuration
+        .WithProject("src/Cake.Storm.Fluent.AppCenter/Cake.Storm.Fluent.AppCenter.csproj")
+        .WithVersion(MODULE_VERSION)
+        .UseNugetPack(nugetConfiguration => nugetConfiguration
+            .WithNuspec("misc/nuspecs/Cake.Storm.Fluent.AppCenter.nuspec")
+            .WithPackageId("Cake.Storm.Fluent.AppCenter")
+            .WithReleaseNotesFile("misc/release_notes/Cake.Storm.Fluent.AppCenter.md")
+            .AddFile("misc/scripts/Cake.Storm.Fluent.AppCenter.cake", "scripts")
         )
     )
 	.Build();

@@ -44,6 +44,8 @@ ProjectSection(SolutionItems) = preProject
 	misc\release_notes\Cake.Storm.Fluent.Transformations.md = misc\release_notes\Cake.Storm.Fluent.Transformations.md
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Storm.Fluent.AppCenter", "src\Cake.Storm.Fluent.AppCenter\Cake.Storm.Fluent.AppCenter.csproj", "{8CF861E9-E5B2-4230-8702-F48B53E6A85F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{9393462F-0727-4203-B1F8-6BBB1A92ED22} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{C89E2AF3-A418-4008-8353-E75C687C3E8D} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 		{6DDA55BB-FD1A-4A4B-B154-B36F688B0C8D} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
+		{8CF861E9-E5B2-4230-8702-F48B53E6A85F} = {3A7166A7-5617-462E-BF54-8E096CA2B0BF}
 	EndGlobalSection
 EndGlobal

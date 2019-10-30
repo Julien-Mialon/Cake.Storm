@@ -71,7 +71,15 @@ namespace Cake.Storm.Fluent.iOS.Steps
 				configuration.Context.CakeContext.LogAndThrow("Can not find dSYM file");
 			}
 
-			configuration.Context.CakeContext.Zip(symDirectory, $"{outputDirectory}/{System.IO.Path.GetFileName(symDirectory)}.zip");
+			if (configuration.Context.CakeContext.GetFiles($"{outputDirectory}/*.ipa").FirstOrDefault() is FilePath ipaFilePath)
+			{
+				string ipaFile = $"{outputDirectory}/{ipaFilePath.GetFilename()}";
+				configuration.AddSimple(iOSConstants.IOS_ARTIFACT_PACKAGE_FILEPATH, ipaFile);
+			}
+
+			string dsymPath = $"{outputDirectory}/{System.IO.Path.GetFileName(symDirectory)}.zip";
+			configuration.Context.CakeContext.Zip(symDirectory, dsymPath);
+			configuration.AddSimple(iOSConstants.IOS_ARTIFACT_SYMBOLS_FILEPATH, dsymPath);
 		}
 	}
 }
