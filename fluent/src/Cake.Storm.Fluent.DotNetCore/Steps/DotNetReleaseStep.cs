@@ -113,7 +113,8 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 				FilePath projectFilePath = projectPath;
 				DirectoryPath projectOutputPath = projectFilePath.GetDirectory().Combine("bin").Combine(buildConfiguration);
 
-				string copyPattern = projectFilePath.GetFilenameWithoutExtension() + ".*";
+				string copyFileName = projectFilePath.GetFilenameWithoutExtension().ToString();
+				string copyPattern = copyFileName + ".*";
 
 				configuration.RunOnConfiguredTargetFramework(framework =>
 				{
@@ -125,6 +126,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 						if (outputPathForFramework == null)
 						{
 							configuration.Context.CakeContext.LogAndThrow($"Cannot determine framework to use for project {projectPath}");
+							throw new Exception();
 						}
 					}
 					else
@@ -137,8 +139,8 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 							.GetDirectory(outputPathForFramework)
 							.GetFiles(copyPattern, SearchScope.Recursive)
 							.Select(x => x.Path)
-							.Where(x => x.GetExtension() == ".dll" || x.GetExtension() == ".pdb" || x.GetExtension() == ".xml"),
-						ArtifactsPath(configuration, framework),
+							.Where(x => x.GetFilenameWithoutExtension().ToString() == copyFileName && (x.GetExtension() == ".dll" || x.GetExtension() == ".pdb" || x.GetExtension() == ".xml")),
+						ArtifactsPath(configuration, framework ?? outputPathForFramework.GetDirectoryName()),
 						preserveFolderStructure: true);
 				});
 			}
