@@ -176,7 +176,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 			}
 
 			List<XElement> values = dict.Elements().ToList();
-			for (int i = 0 ; i < values.Count ; ++i)
+			for (int i = 0; i < values.Count; ++i)
 			{
 				XElement item = values[i];
 				if (item.Name.LocalName == "key" && item.Value == key)
@@ -187,6 +187,5 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 			return null;
 		}
-
 	}
 }
