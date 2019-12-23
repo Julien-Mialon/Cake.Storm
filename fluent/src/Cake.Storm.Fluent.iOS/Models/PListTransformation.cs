@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,10 +25,15 @@ namespace Cake.Storm.Fluent.iOS.Models
 		private const string URL_SCHEME = "CFBundleURLSchemes";
 		private const string URL_SCHEME_NAME = "CFBundleURLName";
 
+		private const string BUNDLE_DISPLAY_NAME = "CFBundleDisplayName";
+		private const string DISPLAY_NAME = "CFBundleName";
+
 		//default to be used from parameter informations
 		private string _version = PARAMETER_KEY;
 
 		private string _bundleId = PARAMETER_KEY;
+
+		private string _bundleName = null;
 
 		private readonly Dictionary<string, string> _urlSchemes = new Dictionary<string, string>();
 
@@ -62,6 +67,13 @@ namespace Cake.Storm.Fluent.iOS.Models
 			return this;
 		}
 
+		public IPListTransformation WithBundleName(string name)
+		{
+			//if name is null, we set the bundle name to string.Empty to keep null value as "no modification required" special value
+			_bundleName = name ?? string.Empty;
+			return this;
+		}
+
 		public void Execute(FilePath filePath, IConfiguration configuration)
 		{
 			XDocument document;
@@ -90,6 +102,18 @@ namespace Cake.Storm.Fluent.iOS.Models
 			GetValueElementForKey(document, BUILD_VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}.{(version.Build > 0 ? version.Build : 0)}");
 
 			UpdateUrlSchemes(configuration, document);
+
+			//if bundle name is null we do not modify plist value
+			if (_bundleName != null)
+			{
+				if (_bundleName == string.Empty)
+				{
+					configuration.Context.CakeContext.LogAndThrow("Invalid empty bundle name for iOS PlistTransformation");
+				}
+
+				GetValueElementForKey(document, BUNDLE_DISPLAY_NAME)?.SetValue(_bundleName);
+				GetValueElementForKey(document, DISPLAY_NAME)?.SetValue(_bundleName);
+			}
 
 			using (Stream outputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenWrite())
 			{
@@ -152,7 +176,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 			}
 
 			List<XElement> values = dict.Elements().ToList();
-			for (int i = 0; i < values.Count; ++i)
+			for (int i = 0 ; i < values.Count ; ++i)
 			{
 				XElement item = values[i];
 				if (item.Name.LocalName == "key" && item.Value == key)
@@ -163,5 +187,6 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 			return null;
 		}
+
 	}
 }

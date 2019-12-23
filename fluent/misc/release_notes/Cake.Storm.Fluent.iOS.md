@@ -1,3 +1,6 @@
+Version 0.4.2 :
+    - Add display name transformation
+
 Version 0.3.2 :
     - Add plist transformation for url scheme array
 
