@@ -2,11 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.Storm.Fluent.Transformations</PackageId>
-    <PackageVersion>0.3.3</PackageVersion>
+    <PackageVersion>0.4.2</PackageVersion>
     <Authors>Julien Mialon</Authors>
     <Company>Julien Mialon</Company>
     <Description>A set of aliases for Cake to help with fluent replacement of things in file</Description>

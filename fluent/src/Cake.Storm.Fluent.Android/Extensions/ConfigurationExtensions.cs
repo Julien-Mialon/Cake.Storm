@@ -16,7 +16,7 @@ namespace Cake.Storm.Fluent.Android.Extensions
 		{
 			IAndroidManifestTransformationAction transformation = new AndroidManifestTransformation();
 			transformerAction?.Invoke(transformation);
-			
+
 			configuration.AddStep(new AndroidManifestTransformationStep(manifestFile, transformation));
 			return configuration;
 		}
@@ -30,15 +30,16 @@ namespace Cake.Storm.Fluent.Android.Extensions
 				configurator?.Invoke(keystoreConfiguration);
 			});
 		}
-		
+
 		public static TConfiguration UseKeystore<TConfiguration>(this TConfiguration configuration, Action<IKeystoreConfiguration> configurator)
 			where TConfiguration : IConfiguration
 		{
 			IKeystoreConfiguration keystoreConfiguration = new KeystoreConfiguration(configuration);
 			configurator(keystoreConfiguration);
-			
+
 			configuration.AddStep(new KeystoreValidationStep());
-			configuration.AddStep(new SignPackageWithKeystoreStep());
+			configuration.AddStep(new SignApkWithKeystoreStep());
+			configuration.AddStep(new SignAabWithKeystoreStep());
 
 			return configuration;
 		}
@@ -56,7 +57,21 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			configuration.AddStep(new NugetRestoreAllStep());
 			configuration.AddStep(new MSBuildSolutionStep());
 			configuration.AddStep(new AndroidReleaseStep());
-			
+
+			return configuration;
+		}
+
+		public static TConfiguration UseAppBundle<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
+			configuration.Add(AndroidConstants.ANDROID_USE_AAB, new SimpleConfigurationItem<bool>(true));
+			return configuration;
+		}
+
+		public static TConfiguration UseApk<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
+			configuration.Add(AndroidConstants.ANDROID_USE_APK, new SimpleConfigurationItem<bool>(true));
 			return configuration;
 		}
 	}
