@@ -1,4 +1,4 @@
-﻿using Cake.Core.IO;
+using Cake.Core.IO;
 using Cake.Storm.Fluent.Interfaces;
 
 namespace Cake.Storm.Fluent.iOS.Interfaces
@@ -14,6 +14,8 @@ namespace Cake.Storm.Fluent.iOS.Interfaces
 		IPListTransformation WithBundleIdFromParameter();
 
 		IPListTransformation WithUrlSchemes(string name, string urlScheme);
+
+		IPListTransformation WithBundleName(string name);
 	}
 
 	internal interface IPListTransformationAction : IPListTransformation
