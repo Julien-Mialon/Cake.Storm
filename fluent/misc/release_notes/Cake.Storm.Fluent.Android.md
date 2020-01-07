@@ -1,3 +1,6 @@
+Version 0.4.2 : 
+    - add support for Android App Bundle
+
 Version 0.3.0 : 
     - dependencies update
 

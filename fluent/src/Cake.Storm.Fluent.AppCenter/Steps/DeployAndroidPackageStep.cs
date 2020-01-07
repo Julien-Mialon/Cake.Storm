@@ -16,7 +16,7 @@ namespace Cake.Storm.Fluent.AppCenter.Steps
 		{
 			AppCenterUploader uploader = CreateUploader(configuration);
 
-			if (!configuration.TryGetSimple(AndroidConstants.ANDROID_ARTIFACT_FILEPATH, out string apkPath))
+			if (!configuration.TryGetSimple(AndroidConstants.GENERATED_ANDROID_PACKAGE_ARTIFACT_FILEPATH, out string apkPath))
 			{
 				configuration.LogAndThrow($"Missing path for apk from signing task");
 			}
