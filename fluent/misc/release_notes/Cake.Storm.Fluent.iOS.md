@@ -1,4 +1,4 @@
-Version 0.4.2 :
+Version 0.4.3 :
     - Add display name transformation
 
 Version 0.3.2 :

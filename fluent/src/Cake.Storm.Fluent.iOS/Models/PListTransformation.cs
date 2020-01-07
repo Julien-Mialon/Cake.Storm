@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 {
 	internal class PListTransformation : IPListTransformationAction
 	{
+		private readonly IFluentContext _configurationContext;
 		private const string PARAMETER_KEY = "$PARAMETER$";
 
 		private const string BUNDLE_KEY = "CFBundleIdentifier";
@@ -33,9 +34,15 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 		private string _bundleId = PARAMETER_KEY;
 
-		private string _bundleName = null;
+		private bool _isBundleNameSet;
+		private string _bundleName;
 
 		private readonly Dictionary<string, string> _urlSchemes = new Dictionary<string, string>();
+
+		public PListTransformation(IFluentContext configurationContext)
+		{
+			_configurationContext = configurationContext;
+		}
 
 		public IPListTransformation WithVersion(string version)
 		{
@@ -69,8 +76,13 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 		public IPListTransformation WithBundleName(string name)
 		{
-			//if name is null, we set the bundle name to string.Empty to keep null value as "no modification required" special value
-			_bundleName = name ?? string.Empty;
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				_configurationContext.CakeContext.LogAndThrow("Invalid empty bundle name for iOS PlistTransformation");
+			}
+
+			_bundleName = name;
+			_isBundleNameSet = true;
 			return this;
 		}
 
@@ -104,13 +116,8 @@ namespace Cake.Storm.Fluent.iOS.Models
 			UpdateUrlSchemes(configuration, document);
 
 			//if bundle name is null we do not modify plist value
-			if (_bundleName != null)
+			if (_isBundleNameSet)
 			{
-				if (_bundleName == string.Empty)
-				{
-					configuration.Context.CakeContext.LogAndThrow("Invalid empty bundle name for iOS PlistTransformation");
-				}
-
 				GetValueElementForKey(document, BUNDLE_DISPLAY_NAME)?.SetValue(_bundleName);
 				GetValueElementForKey(document, DISPLAY_NAME)?.SetValue(_bundleName);
 			}
