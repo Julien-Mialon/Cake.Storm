@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.Storm.Fluent.NuGet</PackageId>
-    <PackageVersion>0.4.2</PackageVersion>
+    <PackageVersion>0.4.3</PackageVersion>
     <Authors>Julien Mialon</Authors>
     <Company>Julien Mialon</Company>
     <Description>A set of aliases for Cake to help create build configuration with fluent syntax</Description>

@@ -1,7 +1,7 @@
 #l "../src/scripts/bootstrapper.csx"
 
 const string CAKE_DEPENDENCY_VERSION = "0.32.1";
-const string MODULE_VERSION = "0.4.2";
+const string MODULE_VERSION = "0.4.3";
 
 Configure()
 	.UseRootDirectory("..")
