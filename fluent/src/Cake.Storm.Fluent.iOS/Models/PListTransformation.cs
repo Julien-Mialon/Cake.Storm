@@ -115,7 +115,6 @@ namespace Cake.Storm.Fluent.iOS.Models
 
 			UpdateUrlSchemes(configuration, document);
 
-			//if bundle name is null we do not modify plist value
 			if (_isBundleNameSet)
 			{
 				GetValueElementForKey(document, BUNDLE_DISPLAY_NAME)?.SetValue(_bundleName);
