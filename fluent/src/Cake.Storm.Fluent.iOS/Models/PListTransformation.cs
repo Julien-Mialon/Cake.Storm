@@ -15,6 +15,7 @@ namespace Cake.Storm.Fluent.iOS.Models
 {
 	internal class PListTransformation : IPListTransformationAction
 	{
+		private readonly IFluentContext _configurationContext;
 		private const string PARAMETER_KEY = "$PARAMETER$";
 
 		private const string BUNDLE_KEY = "CFBundleIdentifier";
@@ -25,12 +26,23 @@ namespace Cake.Storm.Fluent.iOS.Models
 		private const string URL_SCHEME = "CFBundleURLSchemes";
 		private const string URL_SCHEME_NAME = "CFBundleURLName";
 
+		private const string BUNDLE_DISPLAY_NAME = "CFBundleDisplayName";
+		private const string DISPLAY_NAME = "CFBundleName";
+
 		//default to be used from parameter informations
 		private string _version = PARAMETER_KEY;
 
 		private string _bundleId = PARAMETER_KEY;
 
+		private bool _isBundleNameSet;
+		private string _bundleName;
+
 		private readonly Dictionary<string, string> _urlSchemes = new Dictionary<string, string>();
+
+		public PListTransformation(IFluentContext configurationContext)
+		{
+			_configurationContext = configurationContext;
+		}
 
 		public IPListTransformation WithVersion(string version)
 		{
@@ -62,6 +74,18 @@ namespace Cake.Storm.Fluent.iOS.Models
 			return this;
 		}
 
+		public IPListTransformation WithBundleName(string name)
+		{
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				_configurationContext.CakeContext.LogAndThrow("Invalid empty bundle name for iOS PlistTransformation");
+			}
+
+			_bundleName = name;
+			_isBundleNameSet = true;
+			return this;
+		}
+
 		public void Execute(FilePath filePath, IConfiguration configuration)
 		{
 			XDocument document;
@@ -90,6 +114,12 @@ namespace Cake.Storm.Fluent.iOS.Models
 			GetValueElementForKey(document, BUILD_VERSION_KEY)?.SetValue($"{version.Major}.{version.Minor}.{(version.Build > 0 ? version.Build : 0)}");
 
 			UpdateUrlSchemes(configuration, document);
+
+			if (_isBundleNameSet)
+			{
+				GetValueElementForKey(document, BUNDLE_DISPLAY_NAME)?.SetValue(_bundleName);
+				GetValueElementForKey(document, DISPLAY_NAME)?.SetValue(_bundleName);
+			}
 
 			using (Stream outputStream = configuration.Context.CakeContext.FileSystem.GetFile(filePath).OpenWrite())
 			{

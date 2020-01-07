@@ -14,7 +14,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 	    public static TConfiguration UsePListTransformation<TConfiguration>(this TConfiguration configuration, string sourceFile, Action<IPListTransformation> transformerAction = null)
 			where TConfiguration : IConfiguration
 	    {
-		    IPListTransformationAction transformation = new PListTransformation();
+		    IPListTransformationAction transformation = new PListTransformation(configuration.Context);
 		    transformerAction?.Invoke(transformation);
 			configuration.AddStep(new PListTransformationStep(sourceFile, transformation));
 		    return configuration;
