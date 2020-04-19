@@ -1,3 +1,6 @@
+Version 0.4.4 : 
+    - Add RestoreType enum on DotNetCoreTooling to precise how the restore must be done
+
 Version 0.3.3 : 
     - Handle multiple projects build
 

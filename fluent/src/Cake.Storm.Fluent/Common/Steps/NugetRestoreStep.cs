@@ -2,6 +2,7 @@
 using Cake.Common.Tools.NuGet;
 using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
+using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
 
 namespace Cake.Storm.Fluent.Common.Steps
@@ -11,19 +12,26 @@ namespace Cake.Storm.Fluent.Common.Steps
 	{
 		private readonly string _solutionOrProjectPath;
 
-		public NugetRestoreStep(string solutionOrProjectPath)
+		public NugetRestoreStep(string solutionOrProjectPath = null)
 		{
 			_solutionOrProjectPath = solutionOrProjectPath;
 		}
 
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
-			if (!configuration.Context.CakeContext.FileExists(_solutionOrProjectPath))
+			string toRestorePath = _solutionOrProjectPath;
+
+			if (string.IsNullOrEmpty(toRestorePath))
 			{
-				configuration.Context.CakeContext.LogAndThrow($"Solution or project file {_solutionOrProjectPath} does not exists");
+				toRestorePath = configuration.GetSolutionPath();
 			}
 
-			configuration.Context.CakeContext.NuGetRestore(_solutionOrProjectPath);
+			if (!configuration.Context.CakeContext.FileExists(toRestorePath))
+			{
+				configuration.Context.CakeContext.LogAndThrow($"Solution or project file {toRestorePath} does not exists");
+			}
+
+			configuration.Context.CakeContext.NuGetRestore(toRestorePath);
 		}
 
 		public string GetCacheId(IConfiguration configuration, StepType currentStep)
