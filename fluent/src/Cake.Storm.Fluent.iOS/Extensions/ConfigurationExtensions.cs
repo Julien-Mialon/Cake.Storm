@@ -51,18 +51,9 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 		    return configuration;
 	    }
 
-		public static TConfiguration UseiOSTooling<TConfiguration>(this TConfiguration configuration, RestoreType restoreType = RestoreType.FullRepository)
+		public static TConfiguration UseiOSTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 	    {
-			switch (restoreType)
-			{
-				case RestoreType.OnlySolution:
-					configuration.AddStep(new NugetRestoreStep());
-					break;
-				case RestoreType.FullRepository:
-					configuration.AddStep(new NugetRestoreAllStep());
-					break;
-			}
 			configuration.AddStep(new MSBuildSolutionStep());
 			configuration.AddStep(new iOSReleaseStep());
 

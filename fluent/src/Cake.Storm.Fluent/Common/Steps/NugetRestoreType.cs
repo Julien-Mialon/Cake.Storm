@@ -1,8 +1,7 @@
 namespace Cake.Storm.Fluent.Common.Steps
 {
-	public enum RestoreType
+	public enum NugetRestoreType
 	{
-		NoRestore,
 		OnlySolution,
 		FullRepository
 	}

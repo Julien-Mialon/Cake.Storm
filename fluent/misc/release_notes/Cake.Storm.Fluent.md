@@ -1,3 +1,6 @@
+Version 0.4.4 :
+    - Add UseNugetRestore extension to configure how nuget must restore package
+
 Version 0.3.3 : 
     - Add possibilities to handle multiple projects at the same time
 

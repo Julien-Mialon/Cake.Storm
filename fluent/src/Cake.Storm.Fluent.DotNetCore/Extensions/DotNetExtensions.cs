@@ -10,20 +10,16 @@ namespace Cake.Storm.Fluent.DotNetCore.Extensions
 {
 	public static class DotNetExtensions
 	{
-		public static TConfiguration UseDotNetCoreTooling<TConfiguration>(this TConfiguration configuration, RestoreType restoreType = RestoreType.OnlySolution)
+		public static TConfiguration UseDotNetRestore<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
-			switch (restoreType)
-			{
-				case RestoreType.NoRestore:
-					break;
-				case RestoreType.OnlySolution:
-					configuration.AddStep(new DotNetRestoreStep());
-					break;
-				default:
-					throw new NotSupportedException($"RestoreType : {restoreType} not supported on DotNetCore");
-			}
+			configuration.AddStep(new DotNetRestoreStep());
+			return configuration;
+		}
 
+		public static TConfiguration UseDotNetCoreTooling<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
 			configuration.AddStep(new DotNetBuildStep());
 			configuration.AddStep(new DotNetReleaseStep());
 			return configuration;

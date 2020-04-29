@@ -51,19 +51,9 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			return configuration;
 		}
 
-		public static TConfiguration UseAndroidTooling<TConfiguration>(this TConfiguration configuration, RestoreType restoreType = RestoreType.FullRepository)
+		public static TConfiguration UseAndroidTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
-			switch (restoreType)
-			{
-				case RestoreType.OnlySolution:
-					configuration.AddStep(new NugetRestoreStep());
-					break;
-				case RestoreType.FullRepository:
-					configuration.AddStep(new NugetRestoreAllStep());
-					break;
-			}
-
 			configuration.AddStep(new MSBuildSolutionStep());
 			configuration.AddStep(new AndroidReleaseStep());
 

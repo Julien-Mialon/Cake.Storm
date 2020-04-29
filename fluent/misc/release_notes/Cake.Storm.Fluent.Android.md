@@ -1,5 +1,5 @@
 Version 0.4.4 : 
-    - Add RestoreType enum on AndroidTooling to precise how the restore must be done
+    - Remove Nuget restore on full solution when using "UseAndroidTooling" method. If you still need it, you can use the new method "UseNugetRestore" from Cake.Storm.Fluent package
 
 Version 0.4.2 : 
     - add support for Android App Bundle
