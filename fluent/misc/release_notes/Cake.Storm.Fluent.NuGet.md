@@ -1,3 +1,6 @@
+Version 0.5.0 : 
+    - Cake dependency update to 0.38.2
+
 Version 0.3.1 :
     - More flexibility to specify which files to pack in nuget packages (BREAKING CHANGE)
 
