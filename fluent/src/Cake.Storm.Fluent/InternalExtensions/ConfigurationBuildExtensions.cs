@@ -22,8 +22,9 @@ namespace Cake.Storm.Fluent.InternalExtensions
 			{
 				return;
 			}
-			
+
 			var buildParameters = configuration.Get<DictionaryOfListConfigurationItem<string, string>>(ConfigurationConstants.BUILD_PARAMETERS_KEY);
+			settings.ToolVersion = MSBuildToolVersion.VS2019;
 			foreach (KeyValuePair<string, List<string>> buildParameter in buildParameters.Values)
 			{
 				if (buildParameter.Key.ToLowerInvariant() == "configuration")
@@ -66,6 +67,10 @@ namespace Cake.Storm.Fluent.InternalExtensions
 							break;
 					}
 				}
+				else if (buildParameter.Key.ToLowerInvariant() == "toolversion")
+				{
+					settings.ToolVersion = (MSBuildToolVersion)Enum.Parse(typeof(MSBuildToolVersion), buildParameter.Value.Single(), true);
+				}
 				else
 				{
 					settings.WithProperty(buildParameter.Key, MSBuildHelper.PropertyValue(buildParameter.Value));
@@ -103,7 +108,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 			{
 				return;
 			}
-			
+
 			DotNetCoreMSBuildSettings settings = getSettings() ?? new DotNetCoreMSBuildSettings();
 
 			var buildParameters = configuration.Get<DictionaryOfListConfigurationItem<string, string>>(ConfigurationConstants.BUILD_PARAMETERS_KEY);
@@ -138,6 +143,7 @@ namespace Cake.Storm.Fluent.InternalExtensions
 							{
 								settings.WithProperty("Platform", MSBuildHelper.PropertyValue("AnyCPU"));
 							}
+
 							break;
 						default:
 							settings.WithProperty("Platform", MSBuildHelper.PropertyValue(platform));

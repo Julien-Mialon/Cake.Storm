@@ -1,7 +1,7 @@
 #l "../src/scripts/bootstrapper.csx"
 
-const string CAKE_DEPENDENCY_VERSION = "0.32.1";
-const string MODULE_VERSION = "0.4.4";
+const string CAKE_DEPENDENCY_VERSION = "0.38.2";
+const string MODULE_VERSION = "0.5.1";
 
 Configure()
 	.UseRootDirectory("..")
@@ -9,7 +9,7 @@ Configure()
 	.UseArtifactsDirectory("artifacts")
 	.AddConfiguration(configuration => configuration
 		.WithSolution("Cake.Storm.Fluent.sln")
-        .WithTargetFrameworks("net46", "netstandard2.0")
+        .WithTargetFrameworks("netstandard2.0")
 		.WithBuildParameter("Configuration", "Release")
 		.WithBuildParameter("Platform", "Any CPU")
 		.UseDefaultTooling()

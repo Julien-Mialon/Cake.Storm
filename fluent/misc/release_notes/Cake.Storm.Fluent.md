@@ -1,5 +1,8 @@
-Version 0.4.4 :
+Version 0.5.1 :
     - Add UseNugetRestore extension to configure how nuget must restore package
+
+Version 0.5.0 : 
+    - Cake dependency update to 0.38.2
 
 Version 0.3.3 : 
     - Add possibilities to handle multiple projects at the same time
