@@ -12,9 +12,9 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 {
 	internal class CopyFilesStep : BaseMultipleStep
 	{
-		private string _source;
+		private readonly string _source;
 		private readonly PathItemType _sourceType;
-		private string _target;
+		private readonly string _target;
 		private readonly PathItemType _targetType;
 
 		public CopyFilesStep(string source, PathItemType sourceType, string target, PathItemType targetType, StepType onStep) : base(onStep)
@@ -27,22 +27,22 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 
 		protected override void Execute(IConfiguration configuration)
 		{
-			_source = configuration.AddRootDirectory(_source);
-			_target = configuration.AddRootDirectory(_target);
-			
-			ValidateParameters(configuration);
-			
+			string sourcePath = configuration.AddRootDirectory(_source);
+			string targetPath = configuration.AddRootDirectory(_target);
+
+			ValidateParameters(configuration, sourcePath, targetPath);
+
 			if (_sourceType == PathItemType.File)
 			{
-				FilePath source = new FilePath(_source);
+				FilePath source = new FilePath(sourcePath);
 				if (_targetType == PathItemType.Directory)
 				{
-					DirectoryPath target = new DirectoryPath(_target);
+					DirectoryPath target = new DirectoryPath(targetPath);
 					configuration.Context.CakeContext.CopyFileToDirectory(source, target);
 				}
 				else if (_targetType == PathItemType.File)
 				{
-					FilePath target = new FilePath(_target);
+					FilePath target = new FilePath(targetPath);
 					configuration.Context.CakeContext.CopyFile(source, target);
 				}
 				else
@@ -52,10 +52,10 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 			}
 			else if (_sourceType == PathItemType.Directory)
 			{
-				DirectoryPath source = new DirectoryPath(_source);
+				DirectoryPath source = new DirectoryPath(sourcePath);
 				if (_targetType == PathItemType.Directory)
 				{
-					DirectoryPath target = new DirectoryPath(_target);
+					DirectoryPath target = new DirectoryPath(targetPath);
 					configuration.Context.CakeContext.CopyDirectory(source, target);
 				}
 				else
@@ -65,10 +65,10 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 			}
 			else if (_sourceType == PathItemType.Pattern)
 			{
-				IEnumerable<FilePath> sources = configuration.Context.CakeContext.Globber.GetFiles(_source);
+				IEnumerable<FilePath> sources = configuration.Context.CakeContext.Globber.GetFiles(sourcePath);
 				if (_targetType == PathItemType.Directory)
 				{
-					DirectoryPath target = new DirectoryPath(_target);
+					DirectoryPath target = new DirectoryPath(targetPath);
 					configuration.Context.CakeContext.CopyFiles(sources, target);
 				}
 				else
@@ -82,20 +82,20 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 			}
 		}
 
-		private void ValidateParameters(IConfiguration configuration)
+		private void ValidateParameters(IConfiguration configuration, string sourcePath, string targetPath)
 		{
 			switch (_sourceType)
 			{
 				case PathItemType.File:
-					if (!configuration.Context.CakeContext.FileExists(_source))
+					if (!configuration.Context.CakeContext.FileExists(sourcePath))
 					{
-						configuration.LogAndThrow($"File {_source} does not exists");
+						configuration.LogAndThrow($"File {sourcePath} does not exists");
 					}
 					break;
 				case PathItemType.Directory:
-					if (!configuration.Context.CakeContext.DirectoryExists(_source))
+					if (!configuration.Context.CakeContext.DirectoryExists(sourcePath))
 					{
-						configuration.LogAndThrow($"Directory {_source} does not exists");
+						configuration.LogAndThrow($"Directory {sourcePath} does not exists");
 					}
 					break;
 				case PathItemType.Pattern:
@@ -103,15 +103,15 @@ namespace Cake.Storm.Fluent.Transformations.Steps
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			
+
 			switch (_targetType)
 			{
 				case PathItemType.File:
 					break;
 				case PathItemType.Directory:
-					if (!configuration.Context.CakeContext.DirectoryExists(_target))
+					if (!configuration.Context.CakeContext.DirectoryExists(targetPath))
 					{
-						configuration.LogAndThrow($"Directory {_target} does not exists");
+						configuration.LogAndThrow($"Directory {targetPath} does not exists");
 					}
 					break;
 				case PathItemType.Pattern:
