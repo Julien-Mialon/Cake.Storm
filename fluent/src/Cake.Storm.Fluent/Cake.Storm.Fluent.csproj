@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cake.Common" Version="0.38.2" />
-    <PackageReference Include="Cake.Core" Version="0.38.2" />
+    <PackageReference Include="Cake.Common" Version="0.38.5" />
+    <PackageReference Include="Cake.Core" Version="0.38.5" />
   </ItemGroup>
 </Project>
