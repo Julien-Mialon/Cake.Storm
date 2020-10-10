@@ -87,19 +87,10 @@ namespace Cake.Storm.Fluent.Extensions
 		    return configuration;
 	    }
 
-		public static TConfiguration UseNugetRestore<TConfiguration>(this TConfiguration configuration, NugetRestoreType nugetRestoreType = NugetRestoreType.OnlySolution)
-		where TConfiguration:IConfiguration
+		public static TConfiguration WithNugetRestoreStrategy<TConfiguration>(this TConfiguration configuration, NugetRestoreStrategy nugetRestoreStrategy)
+			where TConfiguration : IConfiguration
 		{
-			switch (nugetRestoreType)
-			{
-				case NugetRestoreType.OnlySolution:
-					configuration.AddStep(new NugetRestoreStep());
-					break;
-				case NugetRestoreType.FullRepository:
-					configuration.AddStep(new NugetRestoreAllStep());
-					break;
-			}
-
+			configuration.Add(ConfigurationConstants.NUGET_RESTORE_STRATEGY_KEY, new SimpleConfigurationItem<NugetRestoreStrategy>(nugetRestoreStrategy));
 			return configuration;
 		}
 

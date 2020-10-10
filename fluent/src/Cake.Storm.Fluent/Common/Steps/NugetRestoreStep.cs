@@ -1,6 +1,9 @@
-﻿using Cake.Common.IO;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cake.Common.IO;
 using Cake.Common.Tools.NuGet;
 using Cake.Core;
+using Cake.Core.IO;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
@@ -10,33 +13,74 @@ namespace Cake.Storm.Fluent.Common.Steps
 	[PreBuildStep]
 	public class NugetRestoreStep : ICacheableStep
 	{
-		private readonly string _solutionOrProjectPath;
-
-		public NugetRestoreStep(string solutionOrProjectPath = null)
-		{
-			_solutionOrProjectPath = solutionOrProjectPath;
-		}
-
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
-			string toRestorePath = _solutionOrProjectPath;
+			NugetRestoreStrategy restoreStrategy = RestoreStrategy(configuration);
 
-			if (string.IsNullOrEmpty(toRestorePath))
+			switch (restoreStrategy)
 			{
-				toRestorePath = configuration.GetSolutionPath();
+				case NugetRestoreStrategy.Solution:
+					configuration.Context.CakeContext.NuGetRestore(GetSolutionPath(configuration));
+					break;
+				case NugetRestoreStrategy.AllSolutions:
+					configuration.Context.CakeContext.NuGetRestore(GetSolutionsPaths(configuration));
+					break;
+				case NugetRestoreStrategy.None:
+				default:
+					break;
 			}
+		}
+
+		public string GetCacheId(IConfiguration configuration, StepType currentStep)
+		{
+			return RestoreStrategy(configuration) switch
+			{
+				NugetRestoreStrategy.None => "<none>",
+				NugetRestoreStrategy.Solution => configuration.GetSolutionPath(),
+				NugetRestoreStrategy.AllSolutions => "<all>",
+				_ => "<undefined>"
+			};
+		}
+
+		private NugetRestoreStrategy RestoreStrategy(IConfiguration configuration)
+		{
+			if (configuration.TryGetSimple(ConfigurationConstants.NUGET_RESTORE_STRATEGY_KEY, out NugetRestoreStrategy target))
+			{
+				return target;
+			}
+
+			return NugetRestoreStrategy.AllSolutions;
+		}
+
+		private FilePath GetSolutionPath(IConfiguration configuration)
+		{
+			string toRestorePath = configuration.GetSolutionPath();
 
 			if (!configuration.Context.CakeContext.FileExists(toRestorePath))
 			{
 				configuration.Context.CakeContext.LogAndThrow($"Solution or project file {toRestorePath} does not exists");
 			}
 
-			configuration.Context.CakeContext.NuGetRestore(toRestorePath);
+			return toRestorePath;
 		}
 
-		public string GetCacheId(IConfiguration configuration, StepType currentStep)
+		private List<FilePath> GetSolutionsPaths(IConfiguration configuration)
 		{
-			return _solutionOrProjectPath;
+			string directory = configuration.AddRootDirectory(".");
+
+			if (!configuration.Context.CakeContext.DirectoryExists(directory))
+			{
+				configuration.Context.CakeContext.LogAndThrow($"Directory {directory} does not exists");
+			}
+
+			List<FilePath> solutions = configuration.Context.CakeContext.Globber.GetFiles(System.IO.Path.Combine(directory, "**", "*.sln")).ToList();
+
+			if (solutions.Count == 0)
+			{
+				configuration.Context.CakeContext.LogAndThrow($"No solution file found in directory {directory}");
+			}
+
+			return solutions;
 		}
 	}
 }

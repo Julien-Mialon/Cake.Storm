@@ -54,6 +54,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 		public static TConfiguration UseiOSTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 	    {
+		    configuration.AddStep(new NugetRestoreStep());
 			configuration.AddStep(new MSBuildSolutionStep());
 			configuration.AddStep(new iOSReleaseStep());
 
