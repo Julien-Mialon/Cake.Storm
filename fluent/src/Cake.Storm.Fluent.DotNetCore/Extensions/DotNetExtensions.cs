@@ -4,24 +4,26 @@ using Cake.Storm.Fluent.DotNetCore.Common;
 using Cake.Storm.Fluent.DotNetCore.Models;
 using Cake.Storm.Fluent.DotNetCore.Steps;
 using Cake.Storm.Fluent.Interfaces;
+using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Models;
 
 namespace Cake.Storm.Fluent.DotNetCore.Extensions
 {
 	public static class DotNetExtensions
 	{
-		public static TConfiguration UseDotNetRestore<TConfiguration>(this TConfiguration configuration)
-			where TConfiguration : IConfiguration
-		{
-			configuration.AddStep(new DotNetRestoreStep());
-			return configuration;
-		}
-
 		public static TConfiguration UseDotNetCoreTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
+			configuration.AddStep(new DotNetRestoreStep());
 			configuration.AddStep(new DotNetBuildStep());
 			configuration.AddStep(new DotNetReleaseStep());
+			return configuration;
+		}
+
+		public static TConfiguration WithDotNetCoreRestoreStrategy<TConfiguration>(this TConfiguration configuration, DotNetRestoreStrategy strategy)
+			where TConfiguration : IConfiguration
+		{
+			configuration.AddSimple(DotNetCoreConstants.DOTNETCORE_RESTORE_STRATEGY_KEY, strategy);
 			return configuration;
 		}
 

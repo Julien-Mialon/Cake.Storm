@@ -45,6 +45,18 @@ namespace Cake.Storm.Fluent.InternalExtensions
 		    return false;
 	    }
 
+	    public static string RootDirectory(this IConfiguration configuration)
+	    {
+		    if (!configuration.Has(ConfigurationConstants.ROOT_PATH_KEY))
+		    {
+			    return ".";
+		    }
+
+		    DirectoryPath rootDirectory = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY);
+
+		    return rootDirectory.FullPath;
+	    }
+
 	    public static string AddRootDirectory(this IConfiguration configuration, string path)
 	    {
 		    if (!configuration.Has(ConfigurationConstants.ROOT_PATH_KEY))
