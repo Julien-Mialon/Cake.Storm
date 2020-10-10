@@ -1,6 +1,3 @@
-Version 0.5.1 : 
-    - Remove Nuget restore on full solution when using "UseiOSTooling" method. If you still need it, you can use the new method "UseNugetRestore" from Cake.Storm.Fluent package
-
 Version 0.5.0 : 
     - Cake dependency update to 0.38.2
 
