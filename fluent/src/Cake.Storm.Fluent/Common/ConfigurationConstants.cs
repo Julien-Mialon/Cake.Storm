@@ -16,5 +16,7 @@
 		public const string APPLICATION_NAME_KEY = nameof(APPLICATION_NAME_KEY);
 
 		public const string VERSION_KEY = nameof(VERSION_KEY);
+
+		public const string NUGET_RESTORE_STRATEGY_KEY = nameof(NUGET_RESTORE_STRATEGY_KEY);
     }
 }

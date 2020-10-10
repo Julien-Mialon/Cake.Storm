@@ -78,7 +78,7 @@ namespace Cake.Storm.Fluent.Extensions
 			}, StepType.PreClean);
 		}
 
-		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration) 
+		public static TConfiguration UseDefaultTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 	    {
 		    configuration.AddStep(new CleanStep());
@@ -86,15 +86,22 @@ namespace Cake.Storm.Fluent.Extensions
 			configuration.AddStep(new CreateArtifactsDirectoryStep());
 		    return configuration;
 	    }
-	    
-	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action<IConfiguration> code, StepType onStep = StepType.PreBuild) 
+
+		public static TConfiguration WithNugetRestoreStrategy<TConfiguration>(this TConfiguration configuration, NugetRestoreStrategy nugetRestoreStrategy)
+			where TConfiguration : IConfiguration
+		{
+			configuration.Add(ConfigurationConstants.NUGET_RESTORE_STRATEGY_KEY, new SimpleConfigurationItem<NugetRestoreStrategy>(nugetRestoreStrategy));
+			return configuration;
+		}
+
+	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action<IConfiguration> code, StepType onStep = StepType.PreBuild)
 		    where TConfiguration : IConfiguration
 	    {
 		    configuration.AddStep(new CodeStep(code, onStep));
 		    return configuration;
 	    }
-	    
-	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action code, StepType onStep = StepType.PreBuild) 
+
+	    public static TConfiguration ExecuteCode<TConfiguration>(this TConfiguration configuration, Action code, StepType onStep = StepType.PreBuild)
 		    where TConfiguration : IConfiguration
 	    {
 		    configuration.AddStep(new CodeStep(_ => code(), onStep));
