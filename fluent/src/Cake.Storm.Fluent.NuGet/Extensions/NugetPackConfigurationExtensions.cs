@@ -23,22 +23,51 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_ID_KEY, packageId);
 			return configuration;
 		}
-		
+
 		public static INugetPackConfiguration WithAuthor(this INugetPackConfiguration configuration, string author)
 		{
 			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_AUTHOR_KEY, author);
 			return configuration;
 		}
-		
+
 		public static INugetPackConfiguration WithReleaseNotesFile(this INugetPackConfiguration configuration, string releaseNoteFile)
 		{
 			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_RELEASE_NOTES_FILE_KEY, releaseNoteFile);
 			return configuration;
 		}
-		
+
 		public static INugetPackConfiguration WithVersion(this INugetPackConfiguration configuration, string version)
 		{
 			configuration.Configuration.AddSimple(NuGetConstants.NUGET_PACKAGE_VERSION_KEY, version);
+			return configuration;
+		}
+
+		public static INugetPackConfiguration WithDependenciesFromProjectFile(this INugetPackConfiguration configuration, string csprojFile)
+		{
+			if (configuration.Configuration.TryGet(NuGetConstants.NUGET_DEPENDENCIES_KEY, out ListConfigurationItem<string> files))
+			{
+				files.Values.Add(csprojFile);
+			}
+			else
+			{
+				configuration.Configuration.Add(NuGetConstants.NUGET_DEPENDENCIES_KEY,
+					new ListConfigurationItem<string>(csprojFile));
+			}
+			return configuration;
+		}
+
+		public static INugetPackConfiguration WithDependenciesFromProject(this INugetPackConfiguration configuration)
+		{
+			return configuration.WithDependenciesFromProjectFile(NuGetConstants.NUGET_DEPENDENCIES_FROM_PROJECT_VALUE);
+		}
+
+		public static INugetPackConfiguration WithDependenciesFromProjectFiles(this INugetPackConfiguration configuration, params string[] csprojFiles)
+		{
+			foreach (string csprojFile in csprojFiles)
+			{
+				configuration = configuration.WithDependenciesFromProjectFile(csprojFile);
+			}
+
 			return configuration;
 		}
 
@@ -66,7 +95,7 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 		{
 			return configuration.AddFileResolver(new AllFilesFromDirectoryWithPatternNugetFileResolver(null, filePattern, nugetRelativePath, (dir, c) => c.GetBuildPath().FullPath));
 		}
-		
+
 		public static INugetPackConfiguration AddFileFromBuild(this INugetPackConfiguration configuration, string buildRelativeFilePath, string nugetRelativePath = null)
 		{
 			return configuration.AddFileResolver(new SimpleFileNugetFileResolver(buildRelativeFilePath, nugetRelativePath, (file, c) =>  Path.Combine(c.GetBuildPath().FullPath, file)));
@@ -76,12 +105,12 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 		{
 			return configuration.AddFileResolver(new AllFilesFromDirectoryNugetFileResolver(directory, nugetRelativePath, (dir, c) => c.AddRootDirectory(dir)));
 		}
-		
+
 		public static INugetPackConfiguration AddFiles(this INugetPackConfiguration configuration, string directory, string filePattern, string nugetRelativePath = null)
 		{
 			return configuration.AddFileResolver(new AllFilesFromDirectoryWithPatternNugetFileResolver(directory, filePattern, nugetRelativePath, (dir, c) => c.AddRootDirectory(dir)));
 		}
-		
+
 		public static INugetPackConfiguration AddFile(this INugetPackConfiguration configuration, string filePath, string nugetRelativePath = null)
 		{
 			return configuration.AddFileResolver(new SimpleFileNugetFileResolver(filePath, nugetRelativePath, (file, c) => c.AddRootDirectory(file)));
@@ -95,7 +124,7 @@ namespace Cake.Storm.Fluent.NuGet.Extensions
 			}
 			else
 			{
-				configuration.Configuration.Add(NuGetConstants.NUGET_FILES_KEY, 
+				configuration.Configuration.Add(NuGetConstants.NUGET_FILES_KEY,
 					new ListConfigurationItem<IValueResolver<IEnumerable<NugetFile>>>(resolver));
 			}
 			return configuration;

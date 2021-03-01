@@ -8,16 +8,16 @@
 		<owners>Storm</owners>
 		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/Julien-Mialon/Cake.Storm</projectUrl>
-		<iconUrl>https://github.com/Julien-Mialon/Cake.Storm/blob/747b7d694868a37a1eedd2039f047c489903e92e/logo/icon.png</iconUrl>
+		<icon>icon.png</icon>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Cake addin for fluent description for dotnetcore tooling relative tasks.</description>
 		<releaseNotes>{release_notes}</releaseNotes>
 		<copyright>Copyright 2017</copyright>
 		<tags>cake cake-build cake-contrib fluent dotnetcore vs2017 netstandard</tags>
-        <dependencies>
-            <dependency id="Cake.Common" version="{cake}" />
-            <dependency id="Cake.Core" version="{cake}" />
-			<dependency id="Cake.Storm.Fluent" version="{cake.storm.fluent}" />
-        </dependencies>
+		<dependencies>
+			<group targetFramework="netstandard2.0">
+				<dependency id="Cake.Storm.Fluent" version="{cake.storm.fluent}" />
+			</group>
+		</dependencies>
 	</metadata>
 </package>

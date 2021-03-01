@@ -1,3 +1,6 @@
+Version 0.5.2 : 
+    - Add nuspec dependency update from project files
+
 Version 0.5.0 : 
     - Cake dependency update to 0.38.2
 

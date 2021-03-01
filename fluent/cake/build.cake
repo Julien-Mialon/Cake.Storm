@@ -1,7 +1,6 @@
 #l "../src/scripts/bootstrapper.csx"
 
-const string CAKE_DEPENDENCY_VERSION = "0.38.5";
-const string MODULE_VERSION = "0.5.1";
+const string MODULE_VERSION = "0.5.2";
 
 Configure()
 	.UseRootDirectory("..")
@@ -24,7 +23,6 @@ Configure()
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.nuspec")
             .OnFile("misc/nuspecs/Cake.Storm.Fluent.Transformations.nuspec")
 
-            .Replace("{cake}", CAKE_DEPENDENCY_VERSION)
             .Replace("{cake.storm.fluent}", MODULE_VERSION)
         )
 	)
@@ -36,6 +34,8 @@ Configure()
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithAuthor("Julien Mialon")
             .AddAllFilesFromArtifacts("lib")
+			.AddFile("../logo/icon.png")
+			.WithDependenciesFromProject()
         )
 	)
     .AddTarget("push", configuration => configuration
@@ -43,6 +43,8 @@ Configure()
         .UseNugetPack(nugetConfiguration => nugetConfiguration
             .WithAuthor("Julien Mialon")
             .AddAllFilesFromArtifacts("lib")
+			.AddFile("../logo/icon.png")
+			.WithDependenciesFromProject()
         )
         .UseNugetPush(pushConfiguration => pushConfiguration.WithApiKeyFromEnvironment())
     )
