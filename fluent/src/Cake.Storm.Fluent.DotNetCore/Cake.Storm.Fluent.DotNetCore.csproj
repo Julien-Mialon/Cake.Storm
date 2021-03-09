@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.38.5" />
+    <PackageReference Include="Cake.Core" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cake.Storm.Fluent\Cake.Storm.Fluent.csproj" />
