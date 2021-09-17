@@ -24,21 +24,22 @@ namespace Cake.Storm.Fluent.Android.Steps
 			string sourcePackagePath = Path.Combine(buildPath, packageName);
 			configuration.Context.CakeContext.CopyFile(packagePath, sourcePackagePath);
 
-			string signedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Signed{packageExtension}");
-
-			JarsignerCommand jarSignerCommand = new JarsignerCommand(configuration.Context.CakeContext);
-			Sign(jarSignerCommand, configuration, sourcePackagePath, signedPackagePath);
-			jarSignerCommand.VerifyApk(signedPackagePath);
-
-			string buildOutputPackagePath = signedPackagePath;
+			string buildOutputPackagePath = sourcePackagePath;
 			if (align)
 			{
 				string alignedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Aligned{packageExtension}");
 				ZipAlignCommand zipAlignCommand = new ZipAlignCommand(configuration.Context.CakeContext);
-				zipAlignCommand.Align(signedPackagePath, alignedPackagePath);
+				zipAlignCommand.Align(sourcePackagePath, alignedPackagePath);
 
 				buildOutputPackagePath = alignedPackagePath;
 			}
+			string signedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Signed{packageExtension}");
+
+			ApksignerCommand apkSignerCommand = new ApksignerCommand(configuration.Context.CakeContext);
+			Sign(apkSignerCommand, configuration, buildOutputPackagePath, signedPackagePath);
+			apkSignerCommand.VerifyApk(signedPackagePath);
+
+			buildOutputPackagePath = signedPackagePath;
 
 			string resultPackagePath = Path.Combine(artifactsPath, packageName);
 			if (configuration.Context.CakeContext.FileExists(resultPackagePath))
@@ -49,7 +50,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			configuration.Context.CakeContext.CopyFile(buildOutputPackagePath, resultPackagePath);
 			return resultPackagePath;
 
-			void Sign(JarsignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
+			void Sign(ApksignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
 			{
 				string keyStoreFile = configuration.AddRootDirectory(configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_FILE));
 				string password = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_PASSWORD);

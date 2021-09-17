@@ -1,3 +1,6 @@
+Version 0.7.0 :
+    - Add Apksigner support
+
 Version 0.6.0 :
     - Cake dependency update to 1.1.0
 
