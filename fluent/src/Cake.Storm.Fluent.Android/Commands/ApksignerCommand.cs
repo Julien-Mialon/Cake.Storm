@@ -29,12 +29,12 @@ namespace Cake.Storm.Fluent.Android.Commands
 				string programFilesX86 = _context.Environment.GetSpecialPath(SpecialPath.ProgramFilesX86).FullPath;
 
 				return new[] {
-						new FilePath("apksigner.exe")
+						new FilePath("apksigner.bat")
 					}.Concat(
-						_context.Globber.GetFiles($"{programFiles}/Android/android-sdk/build-tools/*/apksigner.exe")
-							.Concat(_context.Globber.GetFiles($"{programFiles}/Android/build-tools/*/apksigner.exe"))
-							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/android-sdk/build-tools/*/apksigner.exe"))
-							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/build-tools/*/apksigner.exe"))
+						_context.Globber.GetFiles($"{programFiles}/Android/android-sdk/build-tools/*/apksigner.bat")
+							.Concat(_context.Globber.GetFiles($"{programFiles}/Android/build-tools/*/apksigner.bat"))
+							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/android-sdk/build-tools/*/apksigner.bat"))
+							.Concat(_context.Globber.GetFiles($"{programFilesX86}/Android/build-tools/*/apksigner.bat"))
 							.Reverse() //Reverse to take the most recent version of build-tools if more than one is installed
 					);
 			}
