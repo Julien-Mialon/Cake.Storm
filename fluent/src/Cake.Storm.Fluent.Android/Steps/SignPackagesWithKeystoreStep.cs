@@ -24,22 +24,10 @@ namespace Cake.Storm.Fluent.Android.Steps
 			string sourcePackagePath = Path.Combine(buildPath, packageName);
 			configuration.Context.CakeContext.CopyFile(packagePath, sourcePackagePath);
 
-			string buildOutputPackagePath = sourcePackagePath;
-			if (align)
-			{
-				string alignedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Aligned{packageExtension}");
-				ZipAlignCommand zipAlignCommand = new ZipAlignCommand(configuration.Context.CakeContext);
-				zipAlignCommand.Align(sourcePackagePath, alignedPackagePath);
-
-				buildOutputPackagePath = alignedPackagePath;
-			}
-			string signedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Signed{packageExtension}");
-
-			ApksignerCommand apkSignerCommand = new ApksignerCommand(configuration.Context.CakeContext);
-			Sign(apkSignerCommand, configuration, buildOutputPackagePath, signedPackagePath);
-			apkSignerCommand.VerifyApk(signedPackagePath);
-
-			buildOutputPackagePath = signedPackagePath;
+			bool forceUseJarsigner = configuration.IsJarsignerForced();
+			string buildOutputPackagePath = forceUseJarsigner
+				? SignWithJarSigner(configuration, align, sourcePackagePath, buildPath, packageNameWithoutExtension, packageExtension)
+				: SignWithApkSigner(configuration, align, sourcePackagePath, buildPath, packageNameWithoutExtension, packageExtension);
 
 			string resultPackagePath = Path.Combine(artifactsPath, packageName);
 			if (configuration.Context.CakeContext.FileExists(resultPackagePath))
@@ -49,8 +37,61 @@ namespace Cake.Storm.Fluent.Android.Steps
 
 			configuration.Context.CakeContext.CopyFile(buildOutputPackagePath, resultPackagePath);
 			return resultPackagePath;
+		}
 
-			void Sign(ApksignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
+		private static string SignWithJarSigner(IConfiguration configuration, bool align, string sourcePackagePath, string buildPath, string packageNameWithoutExtension, string packageExtension)
+		{
+			string signedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Signed{packageExtension}");
+
+			JarsignerCommand jarSignerCommand = new JarsignerCommand(configuration.Context.CakeContext);
+			Sign(jarSignerCommand, configuration, sourcePackagePath, signedPackagePath);
+			jarSignerCommand.VerifyApk(signedPackagePath);
+
+			string buildOutputPackagePath = signedPackagePath;
+			if (align)
+			{
+				string alignedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Aligned{packageExtension}");
+				ZipAlignCommand zipAlignCommand = new ZipAlignCommand(configuration.Context.CakeContext);
+				zipAlignCommand.Align(signedPackagePath, alignedPackagePath);
+
+				buildOutputPackagePath = alignedPackagePath;
+			}
+
+			return buildOutputPackagePath;
+
+			static void Sign(JarsignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
+			{
+				string keyStoreFile = configuration.AddRootDirectory(configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_FILE));
+				string password = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_PASSWORD);
+				string keyAlias = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYALIAS);
+				string keyPassword = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_KEYPASSWORD);
+
+				command.SignApk(sourceApk, destinationApk, keyStoreFile, password, keyAlias, keyPassword);
+			}
+		}
+
+		private static string SignWithApkSigner(IConfiguration configuration, bool align, string sourcePackagePath, string buildPath, string packageNameWithoutExtension, string packageExtension)
+		{
+			string buildOutputPackagePath = sourcePackagePath;
+			if (align)
+			{
+				string alignedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Aligned{packageExtension}");
+				ZipAlignCommand zipAlignCommand = new ZipAlignCommand(configuration.Context.CakeContext);
+				zipAlignCommand.Align(sourcePackagePath, alignedPackagePath);
+
+				buildOutputPackagePath = alignedPackagePath;
+			}
+
+			string signedPackagePath = Path.Combine(buildPath, $"{packageNameWithoutExtension}-Signed{packageExtension}");
+
+			ApksignerCommand apkSignerCommand = new ApksignerCommand(configuration.Context.CakeContext);
+			Sign(apkSignerCommand, configuration, buildOutputPackagePath, signedPackagePath);
+			apkSignerCommand.VerifyApk(signedPackagePath);
+
+			buildOutputPackagePath = signedPackagePath;
+			return buildOutputPackagePath;
+
+			static void Sign(ApksignerCommand command, IConfiguration configuration, string sourceApk, string destinationApk)
 			{
 				string keyStoreFile = configuration.AddRootDirectory(configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_FILE));
 				string password = configuration.GetSimple<string>(AndroidConstants.ANDROID_KEYSTORE_PASSWORD);
@@ -94,7 +135,5 @@ namespace Cake.Storm.Fluent.Android.Steps
 			string resultPath = SignPackage(configuration, packagePath, align: false);
 			configuration.AddSimple(AndroidConstants.GENERATED_ANDROID_APP_BUNDLE_ARTIFACT_FILEPATH, resultPath);
 		}
-
-
 	}
 }

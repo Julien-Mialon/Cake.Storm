@@ -74,5 +74,12 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			configuration.Add(AndroidConstants.ANDROID_USE_APK, new SimpleConfigurationItem<bool>(true));
 			return configuration;
 		}
+
+		public static TConfiguration UseJarsigner<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
+			configuration.Add(AndroidConstants.ANDROID_FORCE_USE_JARSIGNER, new SimpleConfigurationItem<bool>(true));
+			return configuration;
+		}
 	}
 }

@@ -6,6 +6,8 @@
 		public const string ANDROID_USE_APK = nameof(ANDROID_USE_APK);
 		public const string ANDROID_PACKAGE_KEY = nameof(ANDROID_PACKAGE_KEY);
 
+		public const string ANDROID_FORCE_USE_JARSIGNER = nameof(ANDROID_FORCE_USE_JARSIGNER);
+
 		public const string ANDROID_KEYSTORE_FILE = nameof(ANDROID_KEYSTORE_FILE);
 		public const string ANDROID_KEYSTORE_AUTHORITY = nameof(ANDROID_KEYSTORE_AUTHORITY);
 		public const string ANDROID_KEYSTORE_PASSWORD = nameof(ANDROID_KEYSTORE_PASSWORD);
