@@ -16,5 +16,10 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			return (configuration.TryGetSimple(AndroidConstants.ANDROID_USE_APK, out bool apkEnabled) && apkEnabled)
 			       || !configuration.Has(AndroidConstants.ANDROID_USE_AAB);
 		}
+
+		public static bool IsJarsignerForced(this IConfiguration configuration)
+		{
+			return configuration.TryGetSimple(AndroidConstants.ANDROID_FORCE_USE_JARSIGNER, out bool forceUseJarsigner) && forceUseJarsigner;
+		}
 	}
 }
