@@ -12,7 +12,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 {
 	internal class BaseSignWithKeystoreStep
 	{
-		protected string SignPackage(IConfiguration configuration, FilePath packagePath, bool align)
+		protected string SignPackage(IConfiguration configuration, FilePath packagePath, bool align, bool androidBundle)
 		{
 			string buildPath = configuration.GetBuildPath().FullPath;
 			string artifactsPath = configuration.GetArtifactsPath().FullPath;
@@ -24,7 +24,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 			string sourcePackagePath = Path.Combine(buildPath, packageName);
 			configuration.Context.CakeContext.CopyFile(packagePath, sourcePackagePath);
 
-			bool forceUseJarsigner = configuration.IsJarsignerForced();
+			bool forceUseJarsigner = androidBundle || configuration.IsJarsignerForced();
 			string buildOutputPackagePath = forceUseJarsigner
 				? SignWithJarSigner(configuration, align, sourcePackagePath, buildPath, packageNameWithoutExtension, packageExtension)
 				: SignWithApkSigner(configuration, align, sourcePackagePath, buildPath, packageNameWithoutExtension, packageExtension);
@@ -115,7 +115,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 
 			FilePath apkPath = configuration.GetSimple<string>(AndroidConstants.GENERATED_ANDROID_PACKAGE_PATH_KEY);
 
-			string resultApkPath = SignPackage(configuration, apkPath, align: true);
+			string resultApkPath = SignPackage(configuration, apkPath, align: true, androidBundle: false);
 			configuration.AddSimple(AndroidConstants.GENERATED_ANDROID_PACKAGE_ARTIFACT_FILEPATH, resultApkPath);
 		}
 	}
@@ -132,7 +132,7 @@ namespace Cake.Storm.Fluent.Android.Steps
 
 			FilePath packagePath = configuration.GetSimple<string>(AndroidConstants.GENERATED_ANDROID_APP_BUNDLE_PATH_KEY);
 
-			string resultPath = SignPackage(configuration, packagePath, align: false);
+			string resultPath = SignPackage(configuration, packagePath, align: false, androidBundle: true);
 			configuration.AddSimple(AndroidConstants.GENERATED_ANDROID_APP_BUNDLE_ARTIFACT_FILEPATH, resultPath);
 		}
 	}
