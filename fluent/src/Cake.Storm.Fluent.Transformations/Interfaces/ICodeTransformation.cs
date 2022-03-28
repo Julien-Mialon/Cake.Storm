@@ -7,6 +7,8 @@ namespace Cake.Storm.Fluent.Transformations.Interfaces
 	    ICodeTransformation UpdateVariable(string variableName, string newValue);
 
 	    ICodeTransformation UpdateVariable(string variableName, int newValue);
+
+	    ICodeTransformation UpdateVariable(string variableName, bool newValue);
     }
 
 	internal interface ICodeTransformationAction : ICodeTransformation
