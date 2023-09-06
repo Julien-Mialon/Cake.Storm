@@ -12,6 +12,11 @@ namespace Cake.Storm.Fluent.DotNetCore.Steps
 	{
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
+			if (configuration.DisableNugetRestore())
+			{
+				return;
+			}
+
 			string solutionPath = configuration.GetSolutionPath();
 			if (!configuration.Context.CakeContext.FileExists(solutionPath))
 			{

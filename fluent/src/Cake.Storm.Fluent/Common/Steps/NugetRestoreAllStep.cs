@@ -22,6 +22,11 @@ namespace Cake.Storm.Fluent.Common.Steps
 
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
+			if (configuration.DisableNugetRestore())
+			{
+				return;
+			}
+
 			List<FilePath> solutions = GetSolutionsPaths(configuration);
 
 			configuration.Context.CakeContext.NuGetRestore(solutions);

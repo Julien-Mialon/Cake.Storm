@@ -120,5 +120,10 @@ namespace Cake.Storm.Fluent.InternalExtensions
 			    configuration.Context.CakeContext.LogAndThrow($"File {filePath} does not exists");
 		    }
 	    }
+
+	    public static bool DisableNugetRestore(this IConfiguration configuration)
+	    {
+		    return configuration.TryGetSimple(ConfigurationConstants.DISABLE_NUGET_RESTORE, out bool disableNugetRestore) && disableNugetRestore;
+	    }
     }
 }

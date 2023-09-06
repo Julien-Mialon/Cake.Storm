@@ -16,5 +16,7 @@
 		public const string APPLICATION_NAME_KEY = nameof(APPLICATION_NAME_KEY);
 
 		public const string VERSION_KEY = nameof(VERSION_KEY);
+
+		public const string DISABLE_NUGET_RESTORE = nameof(DISABLE_NUGET_RESTORE);
     }
 }

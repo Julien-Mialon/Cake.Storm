@@ -100,5 +100,12 @@ namespace Cake.Storm.Fluent.Extensions
 		    configuration.AddStep(new CodeStep(_ => code(), onStep));
 		    return configuration;
 	    }
+
+	    public static TConfiguration WithoutNugetRestore<TConfiguration>(this TConfiguration configuration)
+		    where TConfiguration : IConfiguration
+	    {
+		    configuration.Add(ConfigurationConstants.DISABLE_NUGET_RESTORE, new SimpleConfigurationItem<bool>(true));
+		    return configuration;
+	    }
     }
 }
