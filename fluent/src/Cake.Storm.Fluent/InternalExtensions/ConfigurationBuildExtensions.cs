@@ -78,6 +78,63 @@ namespace Cake.Storm.Fluent.InternalExtensions
 			}
 		}
 
+		public static void ApplyBuildParameters(this IConfiguration configuration, DotNetCoreMSBuildSettings settings)
+		{
+			if (!configuration.Has(ConfigurationConstants.BUILD_PARAMETERS_KEY))
+			{
+				return;
+			}
+
+			var buildParameters = configuration.Get<DictionaryOfListConfigurationItem<string, string>>(ConfigurationConstants.BUILD_PARAMETERS_KEY);
+			foreach (KeyValuePair<string, List<string>> buildParameter in buildParameters.Values)
+			{
+				if (buildParameter.Key.ToLowerInvariant() == "configuration")
+				{
+					if (buildParameter.Value.Count > 1)
+					{
+						configuration.Context.CakeContext.LogAndThrow($"BuildParameter Configuration can only contains one value (currently: {string.Join(" ; ", buildParameter.Value)})");
+					}
+
+					settings.SetConfiguration(MSBuildHelper.PropertyValue(buildParameter.Value.Single()));
+				}
+				else if (buildParameter.Key.ToLowerInvariant() == "platform")
+				{
+					if (buildParameter.Value.Count > 1)
+					{
+						configuration.Context.CakeContext.LogAndThrow($"BuildParameter Platform can only contains one value (currently: {string.Join(" ; ", buildParameter.Value)})");
+					}
+
+					string platform = buildParameter.Value.Single();
+					switch (platform.ToLowerInvariant())
+					{
+						case "any cpu":
+						case "anycpu":
+							settings.WithProperty("Platform", "Any CPU");
+							break;
+						case "x86":
+							settings.WithProperty("Platform", "x86");
+							break;
+						case "x64":
+							settings.WithProperty("Platform", "x64");
+							break;
+						case "arm":
+							settings.WithProperty("Platform", "ARM");
+							break;
+						case "win32":
+							settings.WithProperty("Platform", "Win32");
+							break;
+						default:
+							settings.WithProperty("Platform", MSBuildHelper.PropertyValue(platform));
+							break;
+					}
+				}
+				else
+				{
+					settings.WithProperty(buildParameter.Key, MSBuildHelper.PropertyValue(buildParameter.Value));
+				}
+			}
+		}
+
 		public static void ApplyBuildParameters(this IConfiguration configuration, string projectOrSolutionFile, DotNetCoreBuildSettings settings)
 		{
 			configuration.ApplyBuildParametersForDotNetCore(projectOrSolutionFile,

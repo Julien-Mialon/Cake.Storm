@@ -20,7 +20,7 @@ namespace Cake.Storm.Fluent.Common.Steps
 		public string GetCacheId(IConfiguration configuration, StepType currentStep)
 		{
 			string solutionPath = configuration.GetSolutionPath();
-			
+
 			MSBuildSettings settings = new MSBuildSettings();
 			configuration.ApplyBuildParameters(settings);
 

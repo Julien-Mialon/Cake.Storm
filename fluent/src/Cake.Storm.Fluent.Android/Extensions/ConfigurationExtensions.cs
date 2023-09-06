@@ -61,6 +61,16 @@ namespace Cake.Storm.Fluent.Android.Extensions
 			return configuration;
 		}
 
+		public static TConfiguration UseNetAndroidTooling<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
+			configuration.AddStep(new NugetRestoreAllStep());
+			configuration.AddStep(new DotNetMSBuildSolutionStep());
+			configuration.AddStep(new DotNetAndroidReleaseStep());
+
+			return configuration;
+		}
+
 		public static TConfiguration UseAppBundle<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
