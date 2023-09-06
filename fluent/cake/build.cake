@@ -1,6 +1,6 @@
 #l "../src/scripts/bootstrapper.csx"
 
-const string MODULE_VERSION = "0.7.3";
+const string MODULE_VERSION = "1.0.0";
 
 Configure()
 	.UseRootDirectory("..")
