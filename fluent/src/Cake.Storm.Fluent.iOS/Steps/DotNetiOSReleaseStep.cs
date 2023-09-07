@@ -3,7 +3,6 @@ using System.Linq;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNetCore;
 using Cake.Common.Tools.DotNetCore.MSBuild;
-using Cake.Common.Tools.MSBuild;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Storm.Fluent.Helpers;
@@ -21,8 +20,6 @@ namespace Cake.Storm.Fluent.iOS.Steps
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{
 			DirectoryPath outputDirectory = configuration.GetArtifactsPath();
-
-			string solutionFile = configuration.GetSolutionPath();
 
 			string[] projectsPath = configuration.GetProjectsPath();
 

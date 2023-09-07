@@ -2,6 +2,7 @@
 using Cake.Storm.Fluent.Common.Steps;
 using Cake.Storm.Fluent.iOS.Common;
 using Cake.Storm.Fluent.Interfaces;
+using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.iOS.Interfaces;
 using Cake.Storm.Fluent.iOS.Models;
 using Cake.Storm.Fluent.iOS.Steps;
@@ -65,9 +66,17 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 			where TConfiguration : IConfiguration
 		{
 			configuration.AddStep(new NugetRestoreAllStep());
+			configuration.AddStep(new DotNetiOSRestoreProject());
 			configuration.AddStep(new DotNetMSBuildSolutionStep());
 			configuration.AddStep(new DotNetiOSReleaseStep());
 
+			return configuration;
+		}
+
+		public static TConfiguration DisableNetiOSRestore<TConfiguration>(this TConfiguration configuration)
+			where TConfiguration : IConfiguration
+		{
+			configuration.AddSimple(iOSConstants.DISABLE_NET_IOS_DOTNET_RESTORE, new SimpleConfigurationItem<bool>(true));
 			return configuration;
 		}
     }

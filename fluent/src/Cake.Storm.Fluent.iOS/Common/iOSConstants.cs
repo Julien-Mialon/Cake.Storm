@@ -19,5 +19,7 @@
 
 	    public const string IOS_ARTIFACT_PACKAGE_FILEPATH = nameof(IOS_ARTIFACT_PACKAGE_FILEPATH);
 	    public const string IOS_ARTIFACT_SYMBOLS_FILEPATH = nameof(IOS_ARTIFACT_SYMBOLS_FILEPATH);
+
+	    public const string DISABLE_NET_IOS_DOTNET_RESTORE = nameof(DISABLE_NET_IOS_DOTNET_RESTORE);
     }
 }
