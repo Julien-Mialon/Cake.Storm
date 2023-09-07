@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.Storm.Fluent.DotNetCore</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.0.4</PackageVersion>
     <Authors>Julien Mialon</Authors>
     <Company>Julien Mialon</Company>
     <Description>A set of aliases for Cake to help create build configuration with fluent syntax for dotnetcore</Description>

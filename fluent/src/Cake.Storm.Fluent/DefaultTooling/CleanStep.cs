@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Cake.Common;
 using Cake.Common.IO;
 using Cake.Core;
@@ -79,12 +80,12 @@ namespace Cake.Storm.Fluent.DefaultTooling
 		    {
 				DirectoryPath rootPath = configuration.GetSimple<DirectoryPath>(ConfigurationConstants.ROOT_PATH_KEY);
 			    cake.Log.Information($"Clean bin and obj in {rootPath.FullPath}");
-				cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/bin")), new DeleteDirectorySettings
+				cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/bin")).OrderByDescending(x => x.FullPath.Length), new DeleteDirectorySettings
 				{
 					Force = true,
 					Recursive = true
 				});
-			    cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/obj")), new DeleteDirectorySettings
+			    cake.DeleteDirectories(cake.GetDirectories(Path.Combine(rootPath.FullPath, "**/obj")).OrderByDescending(x => x.FullPath.Length), new DeleteDirectorySettings
 				{
 					Force = true,
 					Recursive = true
