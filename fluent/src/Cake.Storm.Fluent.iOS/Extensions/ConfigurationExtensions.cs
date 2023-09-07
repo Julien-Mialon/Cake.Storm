@@ -65,7 +65,7 @@ namespace Cake.Storm.Fluent.iOS.Extensions
 		public static TConfiguration UseNetiOSTooling<TConfiguration>(this TConfiguration configuration)
 			where TConfiguration : IConfiguration
 		{
-			configuration.AddStep(new NugetRestoreAllStep());
+			configuration.AddStep(new DotNetRestoreStep());
 			configuration.AddStep(new DotNetiOSRestoreProject());
 			configuration.AddStep(new DotNetMSBuildSolutionStep());
 			configuration.AddStep(new DotNetiOSReleaseStep());

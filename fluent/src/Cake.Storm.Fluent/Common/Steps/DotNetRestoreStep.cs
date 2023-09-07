@@ -1,14 +1,15 @@
 ﻿using Cake.Common.IO;
 using Cake.Common.Tools.DotNetCore;
+using Cake.Common.Tools.NuGet;
 using Cake.Core;
 using Cake.Storm.Fluent.Interfaces;
 using Cake.Storm.Fluent.InternalExtensions;
 using Cake.Storm.Fluent.Steps;
 
-namespace Cake.Storm.Fluent.DotNetCore.Steps
+namespace Cake.Storm.Fluent.Common.Steps
 {
 	[PreBuildStep]
-	internal class DotNetRestoreStep : ICacheableStep
+	public class DotNetRestoreStep : ICacheableStep
 	{
 		public void Execute(IConfiguration configuration, StepType currentStep)
 		{

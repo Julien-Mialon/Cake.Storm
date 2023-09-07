@@ -1,4 +1,5 @@
-﻿using Cake.Storm.Fluent.DotNetCore.Common;
+﻿using Cake.Storm.Fluent.Common.Steps;
+using Cake.Storm.Fluent.DotNetCore.Common;
 using Cake.Storm.Fluent.DotNetCore.Models;
 using Cake.Storm.Fluent.DotNetCore.Steps;
 using Cake.Storm.Fluent.Interfaces;
@@ -24,7 +25,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Extensions
 		    configuration.Add(DotNetCoreConstants.DOTNETCORE_OUTPUT_TYPE_KEY, new SimpleConfigurationItem<OutputType>(outputType));
 		    return configuration;
 	    }
-	    
+
 	    public static TConfiguration WithTargetFramework<TConfiguration>(this TConfiguration configuration, string targetFramework)
 	    	where TConfiguration : IConfiguration
 	    {
@@ -37,10 +38,10 @@ namespace Cake.Storm.Fluent.DotNetCore.Extensions
 		    {
 			    configuration.Add(DotNetCoreConstants.TARGET_FRAMEWORK_KEY, new ListConfigurationItem<string>(targetFramework));
 		    }
-		    
+
 		    return configuration;
 	    }
-	    
+
 	    public static TConfiguration WithTargetFrameworks<TConfiguration>(this TConfiguration configuration, params string[] targetFrameworks)
 		    where TConfiguration : IConfiguration
 	    {
@@ -53,7 +54,7 @@ namespace Cake.Storm.Fluent.DotNetCore.Extensions
 		    {
 			    configuration.Add(DotNetCoreConstants.TARGET_FRAMEWORK_KEY, new ListConfigurationItem<string>(targetFrameworks));
 		    }
-		    
+
 		    return configuration;
 	    }
     }
