@@ -7,7 +7,7 @@
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Cake.Storm.Fluent.Transformations</PackageId>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <Authors>Julien Mialon</Authors>
     <Company>Julien Mialon</Company>
     <Description>A set of aliases for Cake to help with fluent replacement of things in file</Description>
