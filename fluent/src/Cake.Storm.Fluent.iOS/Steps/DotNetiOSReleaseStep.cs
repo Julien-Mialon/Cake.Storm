@@ -32,10 +32,10 @@ namespace Cake.Storm.Fluent.iOS.Steps
 			}
 
 			string projectFile = projectsPath[0];
-			configuration.FileExistsOrThrow(solutionFile);
+			configuration.FileExistsOrThrow(projectFile);
 
 			//Create iPA package
-			BuildIpa(configuration, solutionFile, outputDirectory);
+			BuildIpa(configuration, projectFile, outputDirectory);
 
 			//Copy dSYM to output
 			string searchPattern = new FilePath(projectFile).GetDirectory() + "/**/*.dSYM";
@@ -60,14 +60,18 @@ namespace Cake.Storm.Fluent.iOS.Steps
 			configuration.AddSimple(iOSConstants.IOS_ARTIFACT_SYMBOLS_FILEPATH, dsymPath);
 		}
 
-		private void BuildIpa(IConfiguration configuration, string solutionFile, DirectoryPath outputDirectory)
+		private void BuildIpa(IConfiguration configuration, string projectFile, DirectoryPath outputDirectory)
 		{
 			DotNetCoreMSBuildSettings settings = new DotNetCoreMSBuildSettings();
 			settings.SetConfiguration("Release");
+			settings.WithTarget("Publish");
 			settings.WithProperty("BuildIpa", "true")
 				.WithProperty("IpaIncludeArtwork", "false")
 				.WithProperty("IpaPackageDir", MSBuildHelper.PropertyValue(outputDirectory.MakeAbsolute(configuration.Context.CakeContext.Environment).FullPath))
-				.WithProperty("Platform", "iPhone");
+				.WithProperty("Platform", "iPhone")
+				.WithProperty("RuntimeIdentifier", "ios-arm64")
+				;
+
 
 			string codeSignKey = configuration.Has(iOSConstants.IOS_CODESIGN_KEY) ? configuration.GetSimple<string>(iOSConstants.IOS_CODESIGN_KEY) : null;
 			if (string.IsNullOrEmpty(codeSignKey))
@@ -85,7 +89,7 @@ namespace Cake.Storm.Fluent.iOS.Steps
 				.WithProperty("CodesignProvision", MSBuildHelper.PropertyValue(codeSignProvision));
 
 			configuration.ApplyBuildParameters(settings);
-			configuration.Context.CakeContext.DotNetCoreMSBuild(solutionFile, settings);
+			configuration.Context.CakeContext.DotNetCoreMSBuild(projectFile, settings);
 		}
 	}
 }
